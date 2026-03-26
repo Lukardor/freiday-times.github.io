@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>freiday Times – Schülerzeitung für Nachhaltigkeit</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a14;
+    --paper: #f5f0e8;
+    --leaf: #2d5a27;
+    --moss: #4a7c42;
+    --sprout: #8ab87a;
+    --sun: #d4a843;
+    --cream: #ede8d8;
+    --rust: #b85c30;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.5;
+  }
+
+  /* TOP TICKER */
+  .ticker-wrap {
+    background: var(--leaf);
+    color: #fff;
+    padding: 8px 0;
+    overflow: hidden;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+  .ticker {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker span { padding: 0 3rem; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* MASTHEAD */
+  header {
+    border-bottom: 3px double var(--ink);
+    padding: 0 2rem;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #ccc8b8;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #666;
+  }
+  .masthead-title {
+    text-align: center;
+    padding: 1.5rem 0 1rem;
+  }
+  .masthead-title h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .masthead-title h1 span {
+    color: var(--leaf);
+  }
+  .masthead-tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #666;
+    margin-top: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+  .header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-top: 1px solid #ccc8b8;
+    margin-top: 0.5rem;
+  }
+  nav {
+    display: flex;
+    gap: 1.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--leaf); }
+  .header-leaf {
+    font-size: 1.4rem;
+  }
+
+  /* HERO SECTION */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 0;
+    border-bottom: 2px solid var(--ink);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+  }
+  .hero-main {
+    padding-right: 2rem;
+    border-right: 1px solid #ccc8b8;
+  }
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: var(--leaf);
+    color: #fff;
+    display: inline-block;
+    padding: 3px 8px;
+    margin-bottom: 1rem;
+  }
+  .hero-main h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+  .hero-main p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #444;
+    max-width: 580px;
+  }
+  .hero-image {
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(135deg, var(--leaf) 0%, var(--moss) 40%, var(--sprout) 100%);
+    margin: 1.2rem 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-image-inner {
+    text-align: center;
+    color: rgba(255,255,255,0.9);
+  }
+  .hero-image-inner .big-leaf {
+    font-size: 5rem;
+    display: block;
+    animation: sway 4s ease-in-out infinite;
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  .hero-image-inner p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: 0.5rem;
+  }
+  .hero-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--leaf);
+    text-decoration: none;
+    border-bottom: 1px solid var(--leaf);
+    padding-bottom: 2px;
+    transition: gap 0.2s;
+  }
+  .hero-read-more:hover { gap: 1rem; }
+
+  .hero-sidebar {
+    padding-left: 1.5rem;
+  }
+  .sidebar-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #888;
+    border-bottom: 1px solid #ccc8b8;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .sidebar-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #e8e4d8;
+    cursor: pointer;
+  }
+  .sidebar-item:hover .sidebar-item-title { color: var(--leaf); }
+  .sidebar-item-cat {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--rust);
+    margin-bottom: 0.3rem;
+  }
+  .sidebar-item-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    transition: color 0.2s;
+  }
+  .sidebar-item-meta {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 0.3rem;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* DIVIDER */
+  .section-rule {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+  .section-rule h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    white-space: nowrap;
+  }
+  .section-rule::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: repeating-linear-gradient(to right, var(--ink) 0, var(--ink) 4px, transparent 4px, transparent 8px);
+  }
+
+  /* CARD GRID */
+  .cards {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .card {
+    border: 1px solid #ccc8b8;
+    background: var(--cream);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 4px 4px 0 var(--leaf);
+  }
+  .card-img {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+  }
+  .card-img-1 { background: linear-gradient(135deg, #2d5a27, #8ab87a); }
+  .card-img-2 { background: linear-gradient(135deg, #1a5276, #5dade2); }
+  .card-img-3 { background: linear-gradient(135deg, #b7950b, #f4d03f); }
+  .card-img-4 { background: linear-gradient(135deg, #6e2f1a, #e59866); }
+  .card-img-5 { background: linear-gradient(135deg, #1b4f72, #76b7f7); }
+  .card-img-6 { background: linear-gradient(135deg, #145a32, #a9dfbf); }
+  .card-body { padding: 1.2rem; }
+  .card-cat {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--leaf);
+    margin-bottom: 0.4rem;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .card-excerpt {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #555;
+  }
+  .card-footer {
+    padding: 0.8rem 1.2rem;
+    border-top: 1px solid #ddd8c8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* QUOTE BANNER */
+  .quote-banner {
+    background: var(--leaf);
+    padding: 3rem 2rem;
+    text-align: center;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-banner::before {
+    content: '❝';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10rem;
+    color: rgba(255,255,255,0.06);
+    font-family: 'Playfair Display', serif;
+  }
+  .quote-banner blockquote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    color: #fff;
+    max-width: 800px;
+    margin: 0 auto 1rem;
+    line-height: 1.4;
+  }
+  .quote-banner cite {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-style: normal;
+  }
+
+  /* MITMACHEN SECTION */
+  .join-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 0;
+  }
+  .join-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .join-text p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 1.5rem;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--leaf);
+    color: #fff;
+    padding: 0.9rem 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    border: 2px solid var(--leaf);
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--ink); border-color: var(--ink); }
+  .join-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .stat-box {
+    border: 2px solid var(--ink);
+    padding: 1.5rem;
+    text-align: center;
+    background: var(--cream);
+  }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--leaf);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666;
+    margin-top: 0.3rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.7);
+    padding: 3rem 2rem 1.5rem;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 1.5rem;
+  }
+  .footer-brand h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  .footer-brand h3 span { color: var(--sprout); }
+  .footer-brand p { font-size: 0.88rem; line-height: 1.7; }
+  .footer-col h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.5rem; }
+  .footer-col ul li a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--sprout); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-bottom .eco-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--sprout);
+    font-size: 11px;
+  }
+
+  /* NEUE AUSGABE SECTION */
+  .neue-ausgabe {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* COVER */
+  .cover-paper {
+    background: #f5f0e8;
+    border: 1.5px solid #aaa89a;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 5px 5px 0 #ccc8b8;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cover-paper:hover {
+    transform: translateY(-4px) rotate(0.5deg);
+    box-shadow: 8px 8px 0 #b8b4a4;
+  }
+  .cover-ticker-bar {
+    background: var(--leaf);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 4px 10px;
+    letter-spacing: 0.08em;
+  }
+  .cover-head {
+    text-align: center;
+    padding: 10px 8px 6px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .cover-head-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .cover-head-name span { color: var(--leaf); }
+  .cover-head-sub {
+    font-size: 9px;
+    color: #777;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-top: 3px;
+  }
+  .cover-hero-img {
+    height: 140px;
+    background: linear-gradient(160deg, #1a5276 0%, #2471a3 50%, #5dade2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-hero-icon { font-size: 52px; }
+  .cover-sun {
+    position: absolute;
+    top: 10px; right: 14px;
+    font-size: 28px;
+    opacity: 0.85;
+    animation: coverspin 12s linear infinite;
+  }
+  @keyframes coverspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .cover-hero-caption {
+    font-size: 10px;
+    color: rgba(255,255,255,0.8);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+  }
+  .cover-body { padding: 10px 12px 6px; }
+  .cover-label-badge {
+    display: inline-block;
+    background: var(--leaf);
+    color: #fff;
+    font-size: 8px;
+    padding: 2px 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .cover-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 5px;
+  }
+  .cover-teaser {
+    font-size: 10px;
+    color: #555;
+    line-height: 1.55;
+  }
+  .cover-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 8px 12px 10px;
+  }
+  .mini-item { border-top: 1px solid #ccc8b8; padding-top: 5px; }
+  .mini-cat { font-size: 8px; color: var(--rust); font-family: 'Space Mono', monospace; letter-spacing: 0.08em; margin-bottom: 2px; }
+  .mini-title { font-size: 10px; color: var(--ink); line-height: 1.3; }
+  .cover-foot {
+    border-top: 1px solid #ccc8b8;
+    padding: 5px 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: #888;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* TIMER */
+  .timer-container { display: flex; flex-direction: column; gap: 1.5rem; }
+  .timer-intro h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .timer-intro p { font-size: 0.95rem; color: #555; line-height: 1.6; }
+  .countdown-box {
+    border: 2px solid var(--ink);
+    background: var(--cream);
+    padding: 1.5rem;
+  }
+  .countdown-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  .countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 1.2rem;
+  }
+  .count-unit {
+    text-align: center;
+    background: var(--paper);
+    border: 1px solid #ccc8b8;
+    padding: 14px 4px 10px;
+  }
+  .count-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--leaf);
+    line-height: 1;
+    display: block;
+  }
+  .count-lbl {
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-top: 4px;
+    display: block;
+  }
+  .progress-wrap { margin-bottom: 0.8rem; }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 5px;
+    background: #ddd8c8;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--leaf);
+    transition: width 1s linear;
+  }
+  .countdown-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #666;
+    text-align: center;
+    letter-spacing: 0.06em;
+  }
+  .done-msg-main {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--leaf);
+    padding: 1rem 0;
+  }
+
+  /* SPIEL */
+  .game-outer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+  .game-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    padding: 2rem;
+  }
+  .game-header { text-align: center; margin-bottom: 1.5rem; }
+  .game-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--ink);
+  }
+  .game-sub { font-size: 0.88rem; color: #666; margin-top: 4px; }
+  .score-bar { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .score-item { text-align: center; background: var(--paper); border: 1px solid #ccc8b8; padding: 10px 20px; }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--leaf); display: block; line-height: 1; }
+  .score-lbl { font-size: 10px; color: #888; margin-top: 3px; font-family: 'Space Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; }
+  .g-item-area { min-height: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+  .trash-card {
+    background: var(--paper);
+    border: 1.5px solid #aaa89a;
+    padding: 1.5rem 2.5rem;
+    text-align: center;
+    min-width: 200px;
+    animation: gpopin 0.3s ease;
+  }
+  @keyframes gpopin { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .trash-icon { font-size: 56px; display: block; margin-bottom: 10px; }
+  .trash-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+  .g-bins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
+  .bin-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 5px; padding: 12px 4px 10px;
+    border: 2px solid transparent;
+    cursor: pointer; font-size: 11px; font-weight: 700;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.04em;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .bin-btn:hover { transform: translateY(-3px); box-shadow: 3px 3px 0 rgba(0,0,0,0.15); }
+  .bin-btn:active { transform: scale(0.96); }
+  .bin-btn .bin-icon { font-size: 26px; }
+  .bin-gelb    { background: #fef9c3; border-color: #ca8a04; color: #854f0b; }
+  .bin-blau    { background: #dbeafe; border-color: #2563eb; color: #1e3a8a; }
+  .bin-altglas { background: #dcfce7; border-color: #16a34a; color: #14532d; }
+  .bin-grau    { background: #f3f4f6; border-color: #6b7280; color: #1f2937; }
+  .bin-braun   { background: #fef3c7; border-color: #92400e; color: #451a03; }
+  .bin-sonder  { background: #fee2e2; border-color: #dc2626; color: #7f1d1d; }
+  .g-feedback { text-align: center; font-size: 1rem; font-weight: 700; min-height: 28px; margin-bottom: 1rem; font-family: 'Space Mono', monospace; }
+  .g-feedback.correct { color: var(--leaf); }
+  .g-feedback.wrong   { color: #dc2626; }
+  .g-progress-row { display: flex; align-items: center; gap: 10px; }
+  .g-progress-bg { flex: 1; height: 5px; background: #ddd8c8; }
+  .g-progress-fg { height: 100%; background: var(--leaf); transition: width 0.4s ease; }
+  .g-progress-txt { font-size: 10px; color: #888; font-family: 'Space Mono', monospace; min-width: 36px; text-align: right; }
+  .g-end { text-align: center; padding: 1.5rem 1rem; animation: gpopin 0.4s ease; }
+  .g-end-emoji { font-size: 52px; display: block; margin-bottom: 10px; }
+  .g-end-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
+  .g-end-sub { font-size: 0.9rem; color: #555; margin-bottom: 1.5rem; }
+  .g-restart-btn {
+    display: inline-block; background: var(--leaf); color: #fff;
+    padding: 0.9rem 2rem; font-family: 'Space Mono', monospace;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+    border: none; cursor: pointer; transition: background 0.2s;
+  }
+  .g-restart-btn:hover { background: var(--ink); }
+  .g-shake { animation: gshake 0.35s ease; }
+  @keyframes gshake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+
+  html { scroll-behavior: smooth; }
+
+  /* INFO SECTION */
+  .info-section {
+    max-width: 1200px; margin: 0 auto; padding: 0 2rem 3rem;
+  }
+  .info-intro { max-width: 700px; margin-bottom: 2rem; }
+  .info-label {
+    font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.12em; background: var(--leaf); color: #fff;
+    display: inline-block; padding: 3px 8px; margin-bottom: 0.8rem;
+  }
+  .info-intro h2 {
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900;
+    line-height: 1.15; margin-bottom: 1rem; color: var(--ink);
+  }
+  .info-intro p { font-size: 1rem; line-height: 1.75; color: #444; margin-bottom: 0.8rem; }
+  .info-pillars { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-bottom: 2rem; }
+  .info-pillar { padding: 1.5rem; border: 2px solid var(--ink); }
+  .pillar-green { background: #f0fdf4; border-color: var(--leaf); }
+  .pillar-blue  { background: #eff6ff; border-color: #2563eb; }
+  .pillar-amber { background: #fffbeb; border-color: #d97706; }
+  .pillar-icon  { font-size: 2rem; margin-bottom: 0.6rem; }
+  .pillar-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 900; margin-bottom: 0.5rem; color: var(--ink); }
+  .pillar-text  { font-size: 0.88rem; line-height: 1.7; color: #444; }
+  .info-quote { border-left: 4px solid var(--leaf); padding: 1rem 1.5rem; margin-bottom: 2rem; background: var(--cream); }
+  .info-quote blockquote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.15rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.4rem; }
+  .info-quote cite { font-family: 'Space Mono', monospace; font-size: 10px; color: #888; letter-spacing: 0.06em; }
+  .info-facts { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+  .info-fact { border: 2px solid var(--ink); padding: 1.2rem; text-align: center; background: var(--cream); }
+  .fact-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--leaf); display: block; line-height: 1; margin-bottom: 0.4rem; }
+  .fact-lbl { font-size: 0.8rem; color: #555; line-height: 1.4; }
+
+  /* NAV active style */
+  nav a { position: relative; }
+  nav a::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:var(--leaf); transition:width 0.2s; }
+  nav a:hover::after { width:100%; }
+
+  /* WELTKARTE */
+  .karte-filters { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+  .kb { padding:4px 12px; border-radius:20px; border:1.5px solid; background:transparent; font-size:11px; cursor:pointer; font-family:'Space Mono',monospace; transition:all 0.15s; }
+  .kb:hover { opacity:0.8; }
+  .kb.on { color:#fff !important; }
+  .khs { cursor:pointer; }
+  .khs circle { transition:r 0.2s; }
+  .khs:hover circle { r:14 !important; }
+
+  /* OZEAN SPIEL */
+  .oz-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px; }
+  .oz-hud { display:flex; gap:8px; }
+  .oz-stat { background:var(--cream); border:1px solid #ccc8b8; padding:4px 12px; font-size:12px; font-family:'Space Mono',monospace; color:var(--ink); }
+
+  /* STADTPLANER */
+  .sp-stats { display: grid; grid-template-columns: repeat(5,1fr); gap:6px; margin-bottom:1rem; }
+  .sp-stat { background:var(--cream); border:1px solid #ccc8b8; padding:8px 6px; text-align:center; }
+  .sp-stat-val { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:900; display:block; line-height:1; }
+  .sp-stat-lbl { font-size:9px; color:#888; margin-top:3px; font-family:'Space Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; }
+  .val-yellow { color:#b45309; }
+  .sp-bars { display:flex; flex-direction:column; gap:5px; margin-bottom:1rem; }
+  .sp-bar-row { display:flex; align-items:center; gap:8px; }
+  .sp-bar-lbl { font-size:10px; color:#666; width:75px; text-align:right; font-family:'Space Mono',monospace; }
+  .sp-bar-bg { flex:1; height:6px; background:#ddd8c8; }
+  .sp-bar-fg { height:100%; transition:width 0.5s ease; }
+  .bar-pow { background:#b45309; }
+  .sp-bar-num { font-size:10px; font-family:'Space Mono',monospace; color:#888; width:55px; }
+  .power-warn { text-align:center; font-size:11px; font-family:'Space Mono',monospace; padding:5px 10px; margin-bottom:8px; min-height:22px; }
+  .power-ok { background:#d1fae5; color:#065f46; }
+  .power-warn-red { background:#fee2e2; color:#991b1b; }
+  .sp-turns { text-align:center; font-size:10px; color:#888; font-family:'Space Mono',monospace; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.06em; }
+  .sp-main { display:grid; grid-template-columns:1fr 220px; gap:1rem; margin-bottom:1rem; }
+  .sp-grid-wrap { background:var(--cream); border:1px solid #ccc8b8; padding:10px; }
+  .sp-grid { display:grid; gap:3px; }
+  .sp-cell {
+    aspect-ratio:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    border:1.5px solid transparent; user-select:none; transition:transform 0.1s, box-shadow 0.1s;
+  }
+  .sp-cell:hover { transform:scale(1.1); box-shadow:2px 2px 0 rgba(0,0,0,0.15); z-index:2; }
+  .sp-cell.empty { background:#d4edda; border-color:#a8d5b5; }
+  .sp-cell.empty:hover { background:#c1e4cb; }
+  .sp-cell.filled { background:var(--paper); border-color:#ccc8b8; }
+  .sp-cell.no-power { background:#fee2e2 !important; border-color:#fca5a5 !important; }
+  .sp-panel { display:flex; flex-direction:column; gap:5px; max-height:400px; overflow-y:auto; }
+  .sp-panel-title { font-family:'Space Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#888; margin-bottom:3px; }
+  .sp-btn {
+    display:flex; align-items:center; gap:7px; padding:6px 8px;
+    border:1.5px solid #ccc8b8; background:var(--paper);
+    cursor:pointer; font-size:11px; font-family:'DM Sans',sans-serif;
+    color:var(--ink); transition:background 0.15s; text-align:left;
+  }
+  .sp-btn:hover { background:var(--cream); }
+  .sp-btn.selected { border-color:var(--leaf); background:#e8f5e4; color:var(--leaf); }
+  .sp-btn .btn-icon { font-size:18px; flex-shrink:0; }
+  .sp-btn .btn-info { display:flex; flex-direction:column; }
+  .sp-btn .btn-name { font-weight:500; font-size:11px; }
+  .sp-btn .btn-cost { font-size:9px; color:#888; font-family:'Space Mono',monospace; }
+  .sp-actions { display:flex; gap:8px; }
+  .sp-action-btn { flex:1; padding:8px; border:1.5px solid #ccc8b8; background:var(--paper); cursor:pointer; font-size:10px; font-family:'Space Mono',monospace; color:var(--ink); transition:background 0.15s; text-transform:uppercase; letter-spacing:0.06em; }
+  .sp-action-btn:hover { background:var(--cream); }
+  .sp-action-btn.danger { border-color:#fca5a5; color:#dc2626; }
+  .sp-action-btn.danger:hover { background:#fef2f2; }
+  .sp-log { background:var(--cream); border:1px solid #ccc8b8; padding:8px 12px; font-size:11px; color:#555; font-family:'Space Mono',monospace; min-height:38px; line-height:1.5; margin-top:8px; }
+  .sp-end { text-align:center; padding:1.5rem 1rem; }
+  .sp-end-emoji { font-size:48px; display:block; margin-bottom:10px; }
+  .sp-end-title { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; color:var(--ink); margin-bottom:6px; }
+  .sp-end-sub { font-size:0.9rem; color:#555; margin-bottom:1.2rem; line-height:1.7; }
+  .sp-end-btn { display:inline-block; background:var(--leaf); color:#fff; border:none; padding:0.9rem 2rem; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.1em; cursor:pointer; transition:background 0.2s; }
+  .sp-end-btn:hover { background:var(--ink); }
+
+  /* SDG ZIELE */
+  .sdg-intro { margin-top: 0; }
+  .sdg-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin: 1rem 0;
+  }
+  .sdg-card {
+    border-radius: 4px;
+    padding: 10px 6px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .sdg-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+  .sdg-card.active { outline: 3px solid var(--ink); outline-offset: 2px; transform: translateY(-3px); }
+  .sdg-num { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: #fff; line-height: 1; }
+  .sdg-name { font-size: 9px; font-family: 'Space Mono', monospace; color: rgba(255,255,255,0.92); line-height: 1.3; letter-spacing: 0.02em; }
+  .sdg-detail {
+    border: 2px solid var(--ink);
+    padding: 1.5rem;
+    background: var(--cream);
+    margin-top: 0.5rem;
+    animation: fadeSlide 0.3s ease;
+  }
+  @keyframes fadeSlide { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+  .sdg-detail-inner { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; }
+  .sdg-detail-badge {
+    width: 60px; height: 60px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: #fff;
+    flex-shrink: 0;
+  }
+  .sdg-detail-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900; margin-bottom: 0.4rem; color: var(--ink); }
+  .sdg-detail-text { font-size: 0.9rem; line-height: 1.7; color: #444; }
+  .sdg-detail-tip { margin-top: 0.6rem; font-size: 0.85rem; color: var(--leaf); font-family: 'Space Mono', monospace; }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-main { padding-right: 0; border-right: none; border-bottom: 1px solid #ccc8b8; padding-bottom: 1.5rem; }
+    .hero-sidebar { padding-left: 0; padding-top: 1.5rem; }
+    .cards { grid-template-columns: 1fr; }
+    .sdg-grid { grid-template-columns: repeat(4, 1fr); }
+    .info-pillars { grid-template-columns: 1fr; }
+    .info-facts { grid-template-columns: repeat(2,1fr); }
+    .sp-main { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>🌱 Klimaschutz beginnt in der Schule</span>
+    <span>♻️ Mülltrennung – so geht's richtig</span>
+    <span>🌍 Fridays for Future: Nächste Demo am 22. April</span>
+    <span>🌿 Unser Schulgarten wächst</span>
+    <span>☀️ Neue Solaranlage auf dem Schuldach geplant</span>
+    <span>🚲 Fahrradfreundliche Schule – Abstimmung läuft</span>
+    <span>🌱 Klimaschutz beginnt in der Schule</span>
+    <span>♻️ Mülltrennung – so geht's richtig</span>
+    <span>🌍 Fridays for Future: Nächste Demo am 22. April</span>
+    <span>🌿 Unser Schulgarten wächst</span>
+    <span>☀️ Neue Solaranlage auf dem Schuldach geplant</span>
+    <span>🚲 Fahrradfreundliche Schule – Abstimmung läuft</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <span>Ausgabe Nr. 7 · März 2026</span>
+    <span>Die Schülerzeitung für Nachhaltigkeit</span>
+    <span>Berlin, Deutschland</span>
+  </div>
+  <div class="masthead-title">
+    <h1>freiday <span>Times</span></h1>
+    <p class="masthead-tagline">Wir schreiben für eine bessere Welt — eine Seite nach der anderen.</p>
+  </div>
+  <div class="header-bar">
+    <nav>
+      <a href="#section-was-ist">Nachhaltigkeit</a>
+      <a href="#section-ausgabe">Ausgabe</a>
+      <a href="#section-karte">Weltkarte</a>
+      <a href="#section-muell">Mülltrennung</a>
+      <a href="#section-stadt">Stadtplaner</a>
+      <a href="#section-ozean">Ozean</a>
+    </nav>
+    <div class="header-leaf">🌿</div>
+  </div>
+</header>
+
+<!-- WAS IST NACHHALTIGKEIT -->
+<div class="section-rule" id="section-was-ist">
+  <h3>Was ist Nachhaltigkeit?</h3>
+</div>
+
+<div class="info-section fade-in">
+  <div class="info-intro">
+    <div class="info-label">Erklärt von der Redaktion</div>
+    <h2>Nachhaltigkeit – was steckt dahinter?</h2>
+    <p>Nachhaltigkeit bedeutet, so zu leben und zu wirtschaften, dass auch zukünftige Generationen noch eine lebenswerte Welt vorfinden. Der Begriff stammt ursprünglich aus der Forstwirtschaft: Man sollte nie mehr Bäume fällen, als nachwachsen können.</p>
+    <p>Heute umfasst Nachhaltigkeit drei große Bereiche, die alle zusammenhängen:</p>
+  </div>
+  <div class="info-pillars">
+    <div class="info-pillar pillar-green">
+      <div class="pillar-icon">🌍</div>
+      <div class="pillar-title">Ökologie</div>
+      <div class="pillar-text">Natur schützen, Ressourcen schonen, Artenvielfalt erhalten und den Klimawandel bremsen. Weniger CO₂, mehr erneuerbare Energie, sauberes Wasser und gesunde Böden.</div>
+    </div>
+    <div class="info-pillar pillar-blue">
+      <div class="pillar-icon">👥</div>
+      <div class="pillar-title">Soziales</div>
+      <div class="pillar-text">Faire Lebensbedingungen für alle Menschen weltweit. Bildung, Gesundheit, Gleichberechtigung und das Recht auf ein gutes Leben – egal wo man geboren wurde.</div>
+    </div>
+    <div class="info-pillar pillar-amber">
+      <div class="pillar-icon">💡</div>
+      <div class="pillar-title">Wirtschaft</div>
+      <div class="pillar-text">Wirtschaften ohne die Natur zu zerstören. Produkte fair herstellen, Kreislaufwirtschaft statt Wegwerfmentalität und nachhaltiges Wachstum statt unbegrenztem Konsum.</div>
+    </div>
+  </div>
+  <div class="info-quote">
+    <blockquote>„Wir haben die Erde nicht von unseren Eltern geerbt – wir leihen sie uns von unseren Kindern."</blockquote>
+    <cite>— Indianisches Sprichwort</cite>
+  </div>
+  <div class="info-facts">
+    <div class="info-fact"><span class="fact-num">1,5°C</span><span class="fact-lbl">Maximale Erwärmung, die wir uns leisten können</span></div>
+    <div class="info-fact"><span class="fact-num">8 Mrd.</span><span class="fact-lbl">Menschen teilen sich unseren Planeten</span></div>
+    <div class="info-fact"><span class="fact-num">17</span><span class="fact-lbl">UN-Nachhaltigkeitsziele bis 2030</span></div>
+    <div class="info-fact"><span class="fact-num">2050</span><span class="fact-lbl">Ziel: Klimaneutralität in der EU</span></div>
+  </div>
+
+  <!-- UN ZIELE -->
+  <div class="sdg-intro">
+    <div class="info-label" style="margin-top:2.5rem; display:inline-block;">Die 17 UN-Nachhaltigkeitsziele (SDGs)</div>
+    <p style="margin-top:0.6rem; font-size:0.95rem; color:#444; line-height:1.7;">Die Vereinten Nationen haben 2015 die <strong>Agenda 2030</strong> verabschiedet – mit 17 Zielen für eine bessere Welt. Klicke auf ein Ziel, um mehr zu erfahren.</p>
+  </div>
+  <div class="sdg-grid">
+    <div class="sdg-card" style="background:#e5243b" onclick="sdgToggle(1)"><span class="sdg-num">1</span><span class="sdg-name">Keine Armut</span></div>
+    <div class="sdg-card" style="background:#dda63a" onclick="sdgToggle(2)"><span class="sdg-num">2</span><span class="sdg-name">Kein Hunger</span></div>
+    <div class="sdg-card" style="background:#4c9f38" onclick="sdgToggle(3)"><span class="sdg-num">3</span><span class="sdg-name">Gesundheit</span></div>
+    <div class="sdg-card" style="background:#c5192d" onclick="sdgToggle(4)"><span class="sdg-num">4</span><span class="sdg-name">Bildung</span></div>
+    <div class="sdg-card" style="background:#ff3a21" onclick="sdgToggle(5)"><span class="sdg-num">5</span><span class="sdg-name">Gleichstellung</span></div>
+    <div class="sdg-card" style="background:#26bde2" onclick="sdgToggle(6)"><span class="sdg-num">6</span><span class="sdg-name">Sauberes Wasser</span></div>
+    <div class="sdg-card" style="background:#fcc30b" onclick="sdgToggle(7)"><span class="sdg-num">7</span><span class="sdg-name">Saubere Energie</span></div>
+    <div class="sdg-card" style="background:#a21942" onclick="sdgToggle(8)"><span class="sdg-num">8</span><span class="sdg-name">Gute Arbeit</span></div>
+    <div class="sdg-card" style="background:#fd6925" onclick="sdgToggle(9)"><span class="sdg-num">9</span><span class="sdg-name">Innovation</span></div>
+    <div class="sdg-card" style="background:#dd1367" onclick="sdgToggle(10)"><span class="sdg-num">10</span><span class="sdg-name">Weniger Ungleichheit</span></div>
+    <div class="sdg-card" style="background:#fd9d24" onclick="sdgToggle(11)"><span class="sdg-num">11</span><span class="sdg-name">Nachhaltige Städte</span></div>
+    <div class="sdg-card" style="background:#bf8b2e" onclick="sdgToggle(12)"><span class="sdg-num">12</span><span class="sdg-name">Nachhaltiger Konsum</span></div>
+    <div class="sdg-card" style="background:#3f7e44" onclick="sdgToggle(13)"><span class="sdg-num">13</span><span class="sdg-name">Klimaschutz</span></div>
+    <div class="sdg-card" style="background:#0a97d9" onclick="sdgToggle(14)"><span class="sdg-num">14</span><span class="sdg-name">Leben unter Wasser</span></div>
+    <div class="sdg-card" style="background:#56c02b" onclick="sdgToggle(15)"><span class="sdg-num">15</span><span class="sdg-name">Leben an Land</span></div>
+    <div class="sdg-card" style="background:#00689d" onclick="sdgToggle(16)"><span class="sdg-num">16</span><span class="sdg-name">Frieden & Gerechtigkeit</span></div>
+    <div class="sdg-card" style="background:#19486a" onclick="sdgToggle(17)"><span class="sdg-num">17</span><span class="sdg-name">Partnerschaften</span></div>
+  </div>
+  <div class="sdg-detail" id="sdg-detail" style="display:none"></div>
+</div>
+
+<!-- NEUE AUSGABE -->
+<div class="section-rule" id="section-ausgabe">
+  <h3>Nächste Ausgabe</h3>
+</div>
+
+<div class="neue-ausgabe">
+  <!-- COVER -->
+  <div class="cover-paper fade-in">
+    <div class="cover-ticker-bar">Ausgabe Nr. 8 · April 2026</div>
+    <div class="cover-head">
+      <div class="cover-head-name">freiday <span>Times</span></div>
+      <div class="cover-head-sub">Die Schülerzeitung für Nachhaltigkeit</div>
+    </div>
+    <div class="cover-hero-img">
+      <span class="cover-sun">☀️</span>
+      <span class="cover-hero-icon">⚡</span>
+      <span class="cover-hero-caption">Erneuerbare Energie</span>
+    </div>
+    <div class="cover-body">
+      <div class="cover-label-badge">Titelthema</div>
+      <div class="cover-headline">Solarstrom, Wind & Co. – wie kommt die Energie der Zukunft zu uns?</div>
+      <div class="cover-teaser">Die Sonne scheint, der Wind weht – und unsere Energie könnte längst kostenlos sein. In Ausgabe Nr. 8 tauchen wir ein in die Welt der erneuerbaren Energien.</div>
+    </div>
+    <div class="cover-mini-grid">
+      <div class="mini-item">
+        <div class="mini-cat">Natur</div>
+        <div class="mini-title">Bienen retten leicht gemacht</div>
+      </div>
+      <div class="mini-item">
+        <div class="mini-cat">Aktion</div>
+        <div class="mini-title">Fahrrad-Challenge: Wer gewinnt?</div>
+      </div>
+    </div>
+    <div class="cover-foot">
+      <span>freiday-times.de</span>
+      <span>Nr. 8 · 0,00 €</span>
+    </div>
+  </div>
+
+  <!-- TIMER -->
+  <div class="timer-container fade-in">
+    <div class="timer-intro">
+      <h3>Ausgabe Nr. 8 kommt bald!</h3>
+      <p>Unser nächstes Heft dreht sich alles um erneuerbare Energien – Solarstrom, Windkraft und was wir als Schüler:innen selbst dazu beitragen können. Seid dabei!</p>
+    </div>
+    <div class="countdown-box">
+      <div class="countdown-label">Erscheint am 11. April 2026</div>
+      <div id="done-msg-main" class="done-msg-main" style="display:none">🌱 Die neue Ausgabe ist da!</div>
+      <div id="timer-wrap">
+        <div class="countdown-grid">
+          <div class="count-unit"><span class="count-num" id="ct-days">--</span><span class="count-lbl">Tage</span></div>
+          <div class="count-unit"><span class="count-num" id="ct-hours">--</span><span class="count-lbl">Stunden</span></div>
+          <div class="count-unit"><span class="count-num" id="ct-mins">--</span><span class="count-lbl">Minuten</span></div>
+          <div class="count-unit"><span class="count-num" id="ct-secs">--</span><span class="count-lbl">Sekunden</span></div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-info">
+            <span>Letzte Ausgabe (März)</span>
+            <span id="ct-pct">0%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="ct-fill" style="width:0%"></div></div>
+        </div>
+        <div class="countdown-date">Bis zur nächsten freiday Times</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPIEL -->
+<div class="section-rule" id="section-muell">
+  <h3>Kannst du Müll trennen?</h3>
+</div>
+
+<div class="game-outer">
+  <div class="game-wrap fade-in">
+    <div class="game-header">
+      <div class="game-title">♻️ Mülltrennung-Quiz</div>
+      <div class="game-sub">Wirf jeden Gegenstand in die richtige Tonne!</div>
+    </div>
+    <div class="score-bar">
+      <div class="score-item"><span class="score-num" id="s-correct">0</span><span class="score-lbl">Richtig</span></div>
+      <div class="score-item"><span class="score-num" id="s-wrong">0</span><span class="score-lbl">Falsch</span></div>
+      <div class="score-item"><span class="score-num" id="s-streak">0</span><span class="score-lbl">Streak 🔥</span></div>
+    </div>
+    <div id="game-area">
+      <div class="g-item-area">
+        <div class="trash-card" id="trash-card">
+          <span class="trash-icon" id="trash-icon"></span>
+          <div class="trash-name" id="trash-name"></div>
+        </div>
+      </div>
+      <div class="g-bins">
+        <button class="bin-btn bin-gelb"    onclick="guess('gelb')">   <span class="bin-icon">🟡</span>Gelbe Tonne</button>
+        <button class="bin-btn bin-blau"    onclick="guess('blau')">   <span class="bin-icon">🔵</span>Blaue Tonne</button>
+        <button class="bin-btn bin-altglas" onclick="guess('altglas')"><span class="bin-icon">🟢</span>Altglas</button>
+      </div>
+      <div class="g-bins" style="margin-bottom:1.5rem;">
+        <button class="bin-btn bin-grau"   onclick="guess('grau')">  <span class="bin-icon">⚫</span>Restmüll</button>
+        <button class="bin-btn bin-braun"  onclick="guess('braun')"> <span class="bin-icon">🟤</span>Bio-Tonne</button>
+        <button class="bin-btn bin-sonder" onclick="guess('sonder')"><span class="bin-icon">🔴</span>Sondermüll</button>
+      </div>
+      <div class="g-feedback" id="feedback"></div>
+      <div class="g-progress-row">
+        <div class="g-progress-bg"><div class="g-progress-fg" id="prog-fg" style="width:0%"></div></div>
+        <div class="g-progress-txt" id="prog-txt">0/10</div>
+      </div>
+    </div>
+    <div id="end-screen" style="display:none"></div>
+  </div>
+</div>
+
+<!-- STADTPLANER SPIEL -->
+<div class="section-rule" id="section-stadt">
+  <h3>Bau deine Stadt</h3>
+</div>
+
+<div class="game-outer">
+  <div class="game-wrap fade-in" style="max-width:760px;">
+    <div class="game-header">
+      <div class="game-title">🏙️ Nachhaltige Stadtplanung</div>
+      <div class="game-sub">Fabriken &amp; Märkte = Geld · Häuser verbrauchen Strom · Solar &amp; Wind = sauberer Strom · Kohlekraftwerk = viel Strom aber schlechte Ökologie</div>
+    </div>
+
+    <div class="sp-stats">
+      <div class="sp-stat"><span class="sp-stat-val val-amber" id="st-budget">💰 120</span><span class="sp-stat-lbl">Budget</span></div>
+      <div class="sp-stat"><span class="sp-stat-val val-yellow" id="st-income">📈 +0</span><span class="sp-stat-lbl">Eink./Zug</span></div>
+      <div class="sp-stat"><span class="sp-stat-val val-green" id="st-eco">🌿 60</span><span class="sp-stat-lbl">Ökologie</span></div>
+      <div class="sp-stat"><span class="sp-stat-val val-blue" id="st-hap">😊 60</span><span class="sp-stat-lbl">Glück</span></div>
+      <div class="sp-stat"><span class="sp-stat-val val-red" id="st-pop">👥 0</span><span class="sp-stat-lbl">Einwohner</span></div>
+    </div>
+
+    <div class="sp-bars">
+      <div class="sp-bar-row"><div class="sp-bar-lbl">Ökologie</div><div class="sp-bar-bg"><div class="sp-bar-fg bar-eco" id="bar-eco" style="width:60%"></div></div><div class="sp-bar-num" id="bv-eco">60/100</div></div>
+      <div class="sp-bar-row"><div class="sp-bar-lbl">Glück</div><div class="sp-bar-bg"><div class="sp-bar-fg bar-hap" id="bar-hap" style="width:60%"></div></div><div class="sp-bar-num" id="bv-hap">60/100</div></div>
+      <div class="sp-bar-row"><div class="sp-bar-lbl">Strom</div><div class="sp-bar-bg"><div class="sp-bar-fg bar-pow" id="bar-pow" style="width:0%"></div></div><div class="sp-bar-num" id="bv-pow">⚡0/0</div></div>
+    </div>
+
+    <div class="power-warn" id="power-status"></div>
+
+    <div id="sp-game">
+      <div class="sp-turns" id="sp-turns">Züge übrig: 25</div>
+      <div class="sp-main">
+        <div class="sp-grid-wrap"><div class="sp-grid" id="sp-grid"></div></div>
+        <div class="sp-panel">
+          <div class="sp-panel-title">Gebäude wählen</div>
+          <div id="sp-btns"></div>
+        </div>
+      </div>
+      <div class="sp-actions">
+        <button class="sp-action-btn danger" onclick="spAbbruch()">🗑️ Abreißen</button>
+        <button class="sp-action-btn" onclick="spNextTurn()">⏭️ Überspringen</button>
+      </div>
+      <div class="sp-log" id="sp-log">Wähle ein Gebäude und klicke auf ein freies Feld!</div>
+    </div>
+    <div id="sp-end" style="display:none"></div>
+  </div>
+</div>
+
+<!-- WELTKARTE -->
+<div class="section-rule" id="section-karte">
+  <h3>Klimaprobleme weltweit</h3>
+</div>
+
+<div class="game-outer">
+  <div class="game-wrap fade-in" style="max-width:900px;">
+    <div class="game-header">
+      <div class="game-title">🌍 Interaktive Klimaweltkarte</div>
+      <div class="game-sub">Klicke auf einen Punkt für Details · Nach Thema filtern</div>
+    </div>
+    <div class="karte-filters">
+      <button class="kb on" style="background:#1a1a14;border-color:#1a1a14;color:#fff" onclick="kf('all',this)">Alle</button>
+      <button class="kb" style="color:#c53030;border-color:#fc8181" onclick="kf('klima',this)">🌡️ Klima</button>
+      <button class="kb" style="color:#2c5282;border-color:#63b3ed" onclick="kf('wasser',this)">💧 Wasser</button>
+      <button class="kb" style="color:#22543d;border-color:#68d391" onclick="kf('wald',this)">🌲 Wald</button>
+      <button class="kb" style="color:#1a365d;border-color:#90cdf4" onclick="kf('eis',this)">🧊 Eis</button>
+      <button class="kb" style="color:#44337a;border-color:#b794f4" onclick="kf('ozean',this)">🌊 Ozean</button>
+    </div>
+    <div style="position:relative;width:100%;border-radius:4px;overflow:hidden;border:1px solid #ccc8b8;">
+      <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+        <rect width="1000" height="500" fill="#b8ddf0"/>
+        <line x1="0" y1="125" x2="1000" y2="125" stroke="#a0cce0" stroke-width="0.5"/>
+        <line x1="0" y1="250" x2="1000" y2="250" stroke="#a0cce0" stroke-width="0.8"/>
+        <line x1="0" y1="375" x2="1000" y2="375" stroke="#a0cce0" stroke-width="0.5"/>
+        <line x1="250" y1="0" x2="250" y2="500" stroke="#a0cce0" stroke-width="0.5"/>
+        <line x1="500" y1="0" x2="500" y2="500" stroke="#a0cce0" stroke-width="0.5"/>
+        <line x1="750" y1="0" x2="750" y2="500" stroke="#a0cce0" stroke-width="0.5"/>
+        <!-- Alaska -->
+        <path d="M95,75 L118,68 L128,75 L132,88 L122,95 L108,92 L98,84z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Canada + USA -->
+        <path d="M118,68 L165,58 L195,62 L218,70 L232,80 L238,95 L235,115 L228,135 L222,155 L215,175 L205,192 L195,205 L182,218 L168,228 L158,238 L148,248 L140,255 L132,248 L125,232 L118,212 L112,188 L108,165 L105,140 L105,115 L108,95 L112,80z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Greenland -->
+        <path d="M228,28 L255,22 L272,28 L280,45 L275,62 L258,70 L240,66 L228,50z" fill="#d0e8f8" stroke="#a0c8e0" stroke-width="0.8"/>
+        <!-- Mexico -->
+        <path d="M148,248 L165,252 L175,262 L172,278 L162,286 L150,278 L145,262z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Central America -->
+        <path d="M162,286 L172,280 L180,288 L178,298 L168,302 L160,295z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Caribbean -->
+        <path d="M195,262 L205,258 L210,265 L202,270z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- South America -->
+        <path d="M168,302 L188,295 L205,292 L222,298 L238,312 L248,330 L255,352 L258,375 L255,400 L248,420 L235,435 L220,440 L205,435 L192,420 L180,400 L170,375 L163,348 L160,318z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Scandinavia -->
+        <path d="M448,32 L462,28 L475,35 L478,50 L470,62 L458,68 L445,62 L440,48z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Finland -->
+        <path d="M475,35 L492,30 L505,38 L508,52 L498,62 L482,65 L470,62 L478,50z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- UK -->
+        <path d="M405,58 L415,52 L422,60 L418,72 L408,75 L402,66z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <path d="M408,75 L418,72 L420,82 L412,85 L406,80z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Ireland -->
+        <path d="M398,65 L405,62 L407,70 L400,74 L396,68z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Western Europe -->
+        <path d="M408,85 L430,80 L448,82 L458,92 L455,108 L440,115 L422,118 L408,112 L402,98z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Spain/Portugal -->
+        <path d="M408,112 L425,118 L428,132 L418,138 L405,130 L402,118z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Central Europe -->
+        <path d="M448,82 L490,75 L510,80 L515,95 L505,108 L488,112 L468,110 L455,108 L458,92z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Italy -->
+        <path d="M455,108 L468,110 L472,125 L465,142 L455,150 L448,138 L448,122z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Greece/Balkans -->
+        <path d="M488,112 L505,108 L512,120 L508,135 L498,140 L485,135 L480,122z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Iceland -->
+        <path d="M365,42 L380,38 L390,45 L388,56 L372,60 L362,52z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- North Africa -->
+        <path d="M408,138 L445,130 L478,128 L510,130 L535,138 L548,152 L548,175 L540,195 L528,210 L512,225 L498,235 L482,240 L465,242 L448,240 L432,232 L418,218 L408,200 L402,178 L400,155z" fill="#c8a855" stroke="#a08835" stroke-width="0.8"/>
+        <!-- Sub-Saharan Africa -->
+        <path d="M418,218 L448,240 L482,240 L512,225 L528,255 L538,282 L542,312 L538,342 L528,368 L512,390 L495,408 L478,418 L462,420 L445,415 L428,402 L415,382 L405,355 L398,325 L395,295 L398,265 L405,242z" fill="#8cc870" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Madagascar -->
+        <path d="M525,295 L535,285 L540,298 L538,318 L528,325 L520,312z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Middle East -->
+        <path d="M510,130 L548,125 L568,132 L575,148 L568,165 L548,170 L528,168 L515,155z" fill="#d4b870" stroke="#b09850" stroke-width="0.8"/>
+        <!-- Arabian Peninsula -->
+        <path d="M548,170 L572,165 L588,172 L592,192 L582,212 L565,220 L548,215 L538,198 L538,178z" fill="#d4b870" stroke="#b09850" stroke-width="0.8"/>
+        <!-- Russia -->
+        <path d="M505,38 L565,30 L625,28 L685,32 L738,38 L758,48 L762,62 L748,75 L722,80 L692,82 L658,80 L625,78 L592,75 L562,72 L530,68 L508,62z" fill="#8ab878" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Eastern Russia -->
+        <path d="M738,38 L788,32 L812,40 L818,55 L805,70 L778,75 L752,72 L738,58z" fill="#8ab878" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Central Asia -->
+        <path d="M562,72 L622,68 L658,72 L665,88 L655,105 L630,112 L598,110 L568,105 L555,90z" fill="#c8b870" stroke="#a89850" stroke-width="0.8"/>
+        <!-- India -->
+        <path d="M575,108 L612,105 L632,112 L642,128 L638,152 L628,175 L615,198 L598,215 L580,220 L562,212 L550,192 L548,168 L552,142 L558,120z" fill="#8cc870" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Sri Lanka -->
+        <path d="M598,222 L605,218 L608,228 L602,233z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- China/East Asia -->
+        <path d="M655,62 L722,58 L758,65 L768,80 L772,100 L762,122 L748,140 L728,152 L705,158 L680,158 L655,148 L638,132 L632,112z" fill="#8ab878" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Korea -->
+        <path d="M748,98 L762,92 L768,105 L762,118 L750,120 L744,108z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Japan -->
+        <path d="M772,85 L785,80 L792,90 L788,105 L778,110 L770,100z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- SE Asia -->
+        <path d="M668,155 L698,152 L718,162 L722,180 L712,198 L695,205 L675,200 L660,182z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Borneo -->
+        <path d="M712,192 L738,185 L752,195 L755,215 L742,228 L722,225 L708,212z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Sumatra -->
+        <path d="M665,198 L695,190 L708,202 L702,218 L678,222 L662,210z" fill="#7ab87a" stroke="#5a8a5a" stroke-width="0.8"/>
+        <!-- Australia -->
+        <path d="M712,295 L762,282 L808,285 L840,300 L855,322 L852,352 L838,378 L815,395 L785,400 L752,392 L722,372 L705,345 L698,318z" fill="#c8a850" stroke="#a08830" stroke-width="0.8"/>
+        <!-- Antarctica -->
+        <path d="M0,475 Q250,462 500,468 Q750,475 1000,462 L1000,500 L0,500z" fill="#e0f0fa" stroke="#c0d8ee" stroke-width="0.5"/>
+        <!-- Labels -->
+        <text x="160" y="165" text-anchor="middle" fill="#2d5a27" font-size="10" font-family="sans-serif" opacity="0.8">Nordamerika</text>
+        <text x="208" y="375" text-anchor="middle" fill="#2d5a27" font-size="10" font-family="sans-serif" opacity="0.8">Südamerika</text>
+        <text x="455" y="98" text-anchor="middle" fill="#2d5a27" font-size="10" font-family="sans-serif" opacity="0.8">Europa</text>
+        <text x="468" y="310" text-anchor="middle" fill="#4a7a2a" font-size="10" font-family="sans-serif" opacity="0.8">Afrika</text>
+        <text x="660" y="105" text-anchor="middle" fill="#2d5a27" font-size="10" font-family="sans-serif" opacity="0.8">Asien</text>
+        <text x="778" y="345" text-anchor="middle" fill="#8a6a20" font-size="10" font-family="sans-serif" opacity="0.8">Australien</text>
+      </svg>
+      <!-- HTML dots overlaid on SVG map -->
+      <div id="kmap-dots" style="position:absolute;inset:0;pointer-events:none;"></div>
+    </div>
+    <div id="kd" style="display:none;border:2px solid #ccc8b8;border-left-width:4px;padding:1rem;background:var(--cream);margin-top:0.8rem;"></div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.8rem;">
+      <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:#666;font-family:'Space Mono',monospace"><div style="width:10px;height:10px;border-radius:50%;background:#e53e3e;flex-shrink:0"></div>Klimawandel</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:#666;font-family:'Space Mono',monospace"><div style="width:10px;height:10px;border-radius:50%;background:#2b6cb0;flex-shrink:0"></div>Wasser</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:#666;font-family:'Space Mono',monospace"><div style="width:10px;height:10px;border-radius:50%;background:#276749;flex-shrink:0"></div>Abholzung</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:#666;font-family:'Space Mono',monospace"><div style="width:10px;height:10px;border-radius:50%;background:#4299e1;flex-shrink:0"></div>Eisschmelze</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:#666;font-family:'Space Mono',monospace"><div style="width:10px;height:10px;border-radius:50%;background:#805ad5;flex-shrink:0"></div>Ozean</div>
+    </div>
+  </div>
+</div>
+
+<!-- OZEAN SPIEL -->
+<div class="section-rule" id="section-ozean">
+  <h3>Rette den Ozean</h3>
+</div>
+
+<div class="game-outer">
+  <div class="game-wrap fade-in" style="max-width:760px;">
+    <div class="oz-header">
+      <div class="game-title">🤿 Taucher rettet den Ozean</div>
+      <div class="oz-hud">
+        <div class="oz-stat">♻️ <span id="oz-score">0</span></div>
+        <div class="oz-stat">⏱️ <span id="oz-time">60</span>s</div>
+        <div class="oz-stat" id="oz-lives-box">❤️❤️❤️</div>
+        <button class="g-restart-btn" id="oz-main-btn" onclick="ozToggle()" style="font-size:11px;padding:6px 14px;">▶ Start</button>
+      </div>
+    </div>
+    <div style="height:6px;background:#ddd8c8;margin-bottom:8px;"><div id="oz-prog" style="height:100%;background:#0a97d9;width:100%;transition:width 0.3s;"></div></div>
+    <!-- Arena: HTML-based so emojis render correctly -->
+    <div id="oz-arena" style="position:relative;width:100%;height:380px;border-radius:4px;overflow:hidden;border:2px solid #0a6a8a;cursor:none;touch-action:none;background:linear-gradient(180deg,#5bc8f0 0%,#2ea8d8 55%,#1278a0 100%);">
+      <!-- Light rays -->
+      <div style="position:absolute;top:0;left:8%;width:55px;height:100%;background:rgba(255,255,255,0.06);transform:skewX(-8deg);pointer-events:none"></div>
+      <div style="position:absolute;top:0;left:28%;width:55px;height:100%;background:rgba(255,255,255,0.05);transform:skewX(6deg);pointer-events:none"></div>
+      <div style="position:absolute;top:0;left:52%;width:55px;height:100%;background:rgba(255,255,255,0.06);transform:skewX(-4deg);pointer-events:none"></div>
+      <div style="position:absolute;top:0;left:74%;width:55px;height:100%;background:rgba(255,255,255,0.05);transform:skewX(7deg);pointer-events:none"></div>
+      <!-- Sand -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:38px;background:#d4a855;border-top:4px solid #b8922e;pointer-events:none"></div>
+      <!-- Seaweed -->
+      <div style="position:absolute;bottom:38px;font-size:28px;left:4%;animation:oz-sway 2.1s ease-in-out infinite;pointer-events:none">🌿</div>
+      <div style="position:absolute;bottom:38px;font-size:28px;left:14%;animation:oz-sway 2.4s ease-in-out infinite .3s;pointer-events:none">🌿</div>
+      <div style="position:absolute;bottom:38px;font-size:28px;left:27%;animation:oz-sway 1.9s ease-in-out infinite .7s;pointer-events:none">🌿</div>
+      <div style="position:absolute;bottom:38px;font-size:28px;left:41%;animation:oz-sway 2.2s ease-in-out infinite .2s;pointer-events:none">🌿</div>
+      <div style="position:absolute;bottom:38px;font-size:28px;left:56%;animation:oz-sway 2.0s ease-in-out infinite .5s;pointer-events:none">🌿</div>
+      <div style="position:absolute;bottom:38px;font-size:28px;left:70%;animation:oz-sway 2.3s ease-in-out infinite .1s;pointer-events:none">🌿</div>
+      <div style="position:absolute;bottom:38px;font-size:28px;left:83%;animation:oz-sway 2.1s ease-in-out infinite .8s;pointer-events:none">🌿</div>
+      <div style="position:absolute;bottom:38px;font-size:28px;left:93%;animation:oz-sway 1.8s ease-in-out infinite .4s;pointer-events:none">🌿</div>
+      <!-- Items container -->
+      <div id="oz-items"></div>
+      <!-- Diver -->
+      <div id="oz-diver" style="position:absolute;font-size:38px;transform:translate(-50%,-50%);transition:left 0.07s,top 0.07s;pointer-events:none;z-index:10;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.3));left:50%;top:50%">🤿</div>
+      <!-- Ring around diver -->
+      <div id="oz-ring" style="position:absolute;width:52px;height:52px;border-radius:50%;border:2.5px solid rgba(255,255,255,0.4);transform:translate(-50%,-50%);pointer-events:none;z-index:9;transition:left 0.07s,top 0.07s;left:50%;top:50%"></div>
+      <!-- Start overlay -->
+      <div id="oz-overlay-start" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,15,40,0.62);z-index:20;">
+        <div style="font-size:50px;margin-bottom:10px">🤿</div>
+        <div style="color:#fff;font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;margin-bottom:6px">Taucher rettet den Ozean</div>
+        <div style="color:rgba(255,255,255,0.7);font-family:'Space Mono',monospace;font-size:11px">▶ Start drücken · Maus bewegen = Steuern</div>
+      </div>
+      <!-- Pause overlay -->
+      <div id="oz-overlay-pause" style="position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,15,40,0.55);z-index:20;">
+        <div style="font-size:42px;margin-bottom:8px">⏸️</div>
+        <div style="color:#fff;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900">Pausiert</div>
+        <div style="color:rgba(255,255,255,0.7);font-family:'Space Mono',monospace;font-size:11px;margin-top:6px">▶ Weiter drücken</div>
+      </div>
+    </div>
+    <div id="oz-msg" style="text-align:center;font-size:11px;color:#666;font-family:'Space Mono',monospace;margin-top:6px;min-height:18px;">▶ Start drücken und Maus bewegen!</div>
+    <div id="oz-end" style="display:none;text-align:center;padding:1.5rem;">
+      <div id="oz-end-emoji" style="font-size:48px;display:block;margin-bottom:8px;"></div>
+      <div id="oz-end-title" style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ink);margin-bottom:6px;"></div>
+      <div id="oz-end-sub" style="font-size:0.88rem;color:#555;margin-bottom:1rem;line-height:1.6;max-width:400px;margin-left:auto;margin-right:auto;"></div>
+      <button class="g-restart-btn" onclick="ozStart()">Nochmal tauchen 🤿</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-bottom" style="padding-top:0; border-top: none;">
+      <span>© 2026 freiday Times · Schülerzeitung · Berlin</span>
+      <span class="eco-badge">🌱 Diese Website ist CO₂-bewusst gestaltet</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // COUNTDOWN TIMER
+  const ctTarget = new Date('2026-04-11T08:00:00');
+  const ctStart  = new Date('2026-03-25T00:00:00');
+  const ctTotal  = ctTarget - ctStart;
+
+  function ctPad(n) { return String(n).padStart(2, '0'); }
+
+  function ctTick() {
+    const now  = new Date();
+    const diff = ctTarget - now;
+    if (diff <= 0) {
+      document.getElementById('timer-wrap').style.display = 'none';
+      document.getElementById('done-msg-main').style.display = 'block';
+      return;
+    }
+    document.getElementById('ct-days').textContent  = ctPad(Math.floor(diff / 86400000));
+    document.getElementById('ct-hours').textContent = ctPad(Math.floor((diff % 86400000) / 3600000));
+    document.getElementById('ct-mins').textContent  = ctPad(Math.floor((diff % 3600000) / 60000));
+    document.getElementById('ct-secs').textContent  = ctPad(Math.floor((diff % 60000) / 1000));
+    const pct = Math.min(100, Math.round(((now - ctStart) / ctTotal) * 100));
+    document.getElementById('ct-fill').style.width = pct + '%';
+    document.getElementById('ct-pct').textContent  = pct + '%';
+  }
+  // GAME
+  const gItems = [
+    { icon:'🍌', name:'Bananenschale',        bin:'braun'   },
+    { icon:'📰', name:'Zeitung',              bin:'blau'    },
+    { icon:'🥤', name:'Plastikflasche',       bin:'gelb'    },
+    { icon:'🍶', name:'Glasflasche',          bin:'altglas' },
+    { icon:'🦴', name:'Essensreste',          bin:'braun'   },
+    { icon:'📦', name:'Pappkarton',           bin:'blau'    },
+    { icon:'🧴', name:'Shampooflasche',       bin:'gelb'    },
+    { icon:'💡', name:'Glühbirne',            bin:'sonder'  },
+    { icon:'🥕', name:'Gemüsereste',          bin:'braun'   },
+    { icon:'🥫', name:'Konservendose',        bin:'gelb'    },
+    { icon:'🖊️', name:'Kugelschreiber',       bin:'grau'    },
+    { icon:'🧻', name:'Benutzte Küchenrolle', bin:'grau'    },
+    { icon:'🍕', name:'Fettiger Pizzakarton', bin:'grau'    },
+    { icon:'🫙', name:'Marmeladenglas',       bin:'altglas' },
+    { icon:'🥚', name:'Eierschalen',          bin:'braun'   },
+    { icon:'🛍️', name:'Plastiktüte',          bin:'gelb'    },
+    { icon:'📚', name:'Altpapier',            bin:'blau'    },
+    { icon:'🧃', name:'Tetrapack',            bin:'gelb'    },
+    { icon:'🌿', name:'Gartenabfälle',        bin:'braun'   },
+    { icon:'🔋', name:'Batterie',             bin:'sonder'  },
+    { icon:'💊', name:'Alte Medikamente',     bin:'sonder'  },
+    { icon:'🖥️', name:'Alter Monitor',        bin:'sonder'  },
+    { icon:'🍷', name:'Weinflasche',          bin:'altglas' },
+    { icon:'🥛', name:'Milchkarton',          bin:'gelb'    },
+  ];
+  const gBinNames = { gelb:'Gelbe Tonne', blau:'Blaue Tonne', altglas:'Altglas', grau:'Restmüll', braun:'Bio-Tonne', sonder:'Sondermüll' };
+  let gQueue=[], gIdx=0, gCorrect=0, gWrong=0, gStreak=0, gTotal=10, gAnswered=false;
+
+  function gShuffle(a){ return a.sort(()=>Math.random()-0.5); }
+
+  function startGame(){
+    gQueue=gShuffle([...gItems]).slice(0,gTotal);
+    gIdx=0; gCorrect=0; gWrong=0; gStreak=0; gAnswered=false;
+    document.getElementById('end-screen').style.display='none';
+    document.getElementById('game-area').style.display='block';
+    gUpdateScores(); gShowItem();
+  }
+
+  function gShowItem(){
+    if(gIdx>=gTotal){ gEndGame(); return; }
+    gAnswered=false;
+    const it=gQueue[gIdx];
+    document.getElementById('trash-icon').textContent=it.icon;
+    document.getElementById('trash-name').textContent=it.name;
+    document.getElementById('feedback').textContent='';
+    document.getElementById('feedback').className='g-feedback';
+    const card=document.getElementById('trash-card');
+    card.classList.remove('g-shake');
+    card.style.animation='none'; void card.offsetWidth; card.style.animation='';
+    gUpdateProgress();
+  }
+
+  function guess(bin){
+    if(gAnswered) return;
+    gAnswered=true;
+    const it=gQueue[gIdx];
+    const fb=document.getElementById('feedback');
+    if(bin===it.bin){
+      gCorrect++; gStreak++;
+      fb.textContent='✅ Richtig!';
+      fb.className='g-feedback correct';
+    } else {
+      gWrong++; gStreak=0;
+      document.getElementById('trash-card').classList.add('g-shake');
+      fb.textContent='❌ Richtig: '+gBinNames[it.bin];
+      fb.className='g-feedback wrong';
+    }
+    gUpdateScores(); gIdx++;
+    setTimeout(gShowItem, 1400);
+  }
+
+  function gUpdateScores(){
+    document.getElementById('s-correct').textContent=gCorrect;
+    document.getElementById('s-wrong').textContent=gWrong;
+    document.getElementById('s-streak').textContent=gStreak;
+  }
+
+  function gUpdateProgress(){
+    const pct=Math.round((gIdx/gTotal)*100);
+    document.getElementById('prog-fg').style.width=pct+'%';
+    document.getElementById('prog-txt').textContent=gIdx+'/'+gTotal;
+  }
+
+  function gEndGame(){
+    document.getElementById('game-area').style.display='none';
+    const pct=Math.round((gCorrect/gTotal)*100);
+    let emoji,msg;
+    if(pct===100)    { emoji='🏆'; msg='Perfekt! Du bist ein echter Recycling-Profi!'; }
+    else if(pct>=80) { emoji='🌟'; msg='Super gemacht! Fast alles richtig!'; }
+    else if(pct>=60) { emoji='👍'; msg='Gut! Aber ein paar Tonnen verwechselt…'; }
+    else             { emoji='♻️'; msg='Übung macht den Meister – nochmal versuchen!'; }
+    document.getElementById('end-screen').innerHTML=`
+      <div class="g-end">
+        <span class="g-end-emoji">${emoji}</span>
+        <div class="g-end-title">${gCorrect} von ${gTotal} richtig!</div>
+        <div class="g-end-sub">${msg}</div>
+        <button class="g-restart-btn" onclick="startGame()">Nochmal spielen</button>
+      </div>`;
+    document.getElementById('end-screen').style.display='block';
+  }
+
+  startGame();
+  // STADTPLANER
+  const SP_BUILDINGS = [
+    { id:'factory',  icon:'🏭', name:'Fabrik',         cost:25, income:15, power:-8,  eco:-18, hap:-6,  pop:20,  desc:'Geld +15/Zug, braucht Strom' },
+    { id:'market',   icon:'🛒', name:'Supermarkt',     cost:15, income:8,  power:-4,  eco:-2,  hap:+8,  pop:5,   desc:'Geld +8/Zug, braucht Strom' },
+    { id:'house',    icon:'🏠', name:'Wohnhaus',       cost:10, income:0,  power:-3,  eco:-2,  hap:+5,  pop:10,  desc:'Einwohner, braucht Strom' },
+    { id:'solar',    icon:'☀️', name:'Solaranlage',    cost:20, income:0,  power:+10, eco:+14, hap:+3,  pop:0,   desc:'Produziert +10⚡ sauberen Strom' },
+    { id:'wind',     icon:'🌬️', name:'Windrad',        cost:18, income:0,  power:+12, eco:+16, hap:-1,  pop:0,   desc:'Produziert +12⚡ sauberen Strom' },
+    { id:'coal',     icon:'🪨', name:'Kohlekraftwerk', cost:30, income:0,  power:+25, eco:-30, hap:-10, pop:5,   desc:'Viel Strom +25⚡, aber schadet Umwelt!' },
+    { id:'park',     icon:'🌳', name:'Park',           cost:8,  income:0,  power:0,   eco:+10, hap:+7,  pop:0,   desc:'Natur & Erholung' },
+    { id:'bike',     icon:'🚲', name:'Radweg',         cost:10, income:0,  power:0,   eco:+6,  hap:+6,  pop:3,   desc:'Nachhaltige Mobilität' },
+    { id:'school',   icon:'🏫', name:'Schule',         cost:25, income:-5, power:-5,  eco:+3,  hap:+12, pop:8,   desc:'Kostet 5💰/Zug, aber viel Glück' },
+  ];
+  const GRID_SZ = 5;
+  let spGrid=[], spSelected=null, spBudget=120, spEco=60, spHap=60, spPop=0, spTurns=25, spDemolish=false;
+
+  function spClamp(v){ return Math.max(0,Math.min(100,v)); }
+  function spPower(){ let p=0,c=0; spGrid.forEach(x=>{ if(!x)return; if(x.power>0)p+=x.power; else c+=Math.abs(x.power); }); return{produced:p,consumed:c,surplus:p-c}; }
+  function spIncome(){ return spGrid.reduce((s,x)=>x?s+x.income:s,0); }
+
+  function initGame(){
+    spGrid=Array(GRID_SZ*GRID_SZ).fill(null);
+    spBudget=120; spEco=60; spHap=60; spPop=0; spTurns=25; spSelected=null; spDemolish=false;
+    spRenderGrid(); spRenderBtns(); spUpdateStats();
+    document.getElementById('sp-log').textContent='Wähle ein Gebäude und klicke auf ein freies Feld!';
+    document.getElementById('sp-end').style.display='none';
+    document.getElementById('sp-game').style.display='block';
+  }
+
+  function spRenderGrid(){
+    const g=document.getElementById('sp-grid');
+    const sz=Math.min(380,g.parentElement.offsetWidth-22);
+    const cs=Math.floor((sz-(GRID_SZ-1)*3)/GRID_SZ);
+    g.style.gridTemplateColumns=`repeat(${GRID_SZ},${cs}px)`;
+    g.innerHTML='';
+    const {surplus}=spPower();
+    spGrid.forEach((cell,i)=>{
+      const d=document.createElement('div');
+      const noPow=cell&&cell.power<0&&surplus<0;
+      d.className='sp-cell '+(cell?'filled':'empty')+(noPow?' no-power':'');
+      d.style.width=cs+'px'; d.style.fontSize=Math.floor(cs*0.48)+'px';
+      d.textContent=cell?cell.icon:'';
+      d.title=cell?cell.name:'Leer';
+      d.onclick=()=>spCellClick(i);
+      g.appendChild(d);
+    });
+  }
+
+  function spRenderBtns(){
+    const w=document.getElementById('sp-btns'); w.innerHTML='';
+    SP_BUILDINGS.forEach(b=>{
+      const btn=document.createElement('button');
+      btn.className='sp-btn'+(spSelected&&spSelected.id===b.id?' selected':'');
+      const inc=b.income>0?` 💰+${b.income}`:b.income<0?` 💰${b.income}`:'';
+      const pow=b.power>0?` ⚡+${b.power}`:b.power<0?` ⚡${b.power}`:'';
+      btn.innerHTML=`<span class="btn-icon">${b.icon}</span><span class="btn-info"><span class="btn-name">${b.name}</span><span class="btn-cost">${b.cost}💰${inc}${pow} 🌿${b.eco>0?'+':''}${b.eco}</span></span>`;
+      btn.onclick=()=>{ spDemolish=false; spSelected=b; spRenderBtns(); spLog('📋 '+b.name+' — '+b.desc); };
+      w.appendChild(btn);
+    });
+  }
+
+  function spCellClick(i){
+    if(spTurns<=0) return;
+    if(spDemolish){
+      if(spGrid[i]){
+        const o=spGrid[i];
+        spEco=spClamp(spEco-o.eco*0.4); spHap=spClamp(spHap-o.hap*0.4);
+        spPop=Math.max(0,spPop-o.pop); spBudget+=Math.floor(o.cost*0.4);
+        spGrid[i]=null; spTurns--;
+        spUpdateStats(); spRenderGrid();
+        spLog('🗑️ '+o.name+' abgerissen. +'+Math.floor(o.cost*0.4)+'💰 zurück');
+        spDemolish=false; spCheckEnd();
+      } else { spLog('Kein Gebäude hier!'); }
+      return;
+    }
+    if(!spSelected){ spLog('Bitte zuerst ein Gebäude auswählen!'); return; }
+    if(spGrid[i]){ spLog('Dieses Feld ist schon bebaut!'); return; }
+    if(spBudget<spSelected.cost){ spLog('❌ Nicht genug Budget für '+spSelected.name+'!'); return; }
+    let ecoB=0,hapB=0;
+    [i-1,i+1,i-GRID_SZ,i+GRID_SZ].forEach(j=>{
+      if(j>=0&&j<spGrid.length&&spGrid[j]){
+        if(spSelected.id==='park'&&spGrid[j].id==='park') ecoB+=3;
+        if(spSelected.id==='solar'&&spGrid[j].id==='wind') ecoB+=3;
+        if(spSelected.id==='coal'&&spGrid[j].id==='park') ecoB+=5;
+        if(spSelected.id==='house'&&spGrid[j].id==='park') hapB+=2;
+      }
+    });
+    const inc=spIncome();
+    spGrid[i]=spSelected;
+    spBudget=spBudget-spSelected.cost+inc;
+    spEco=spClamp(spEco+spSelected.eco+ecoB);
+    spHap=spClamp(spHap+spSelected.hap+hapB);
+    spPop=Math.max(0,spPop+spSelected.pop);
+    spTurns--;
+    const {surplus}=spPower();
+    let penMsg='';
+    if(surplus<0){ const pen=Math.abs(surplus)*0.3; spHap=spClamp(spHap-pen); penMsg=' ⚠️ Stromausfall! 😊-'+Math.round(pen); }
+    let msg='✅ '+spSelected.name+' gebaut!';
+    if(inc>0)msg+=' 💰+'+inc; if(ecoB>0)msg+=' 🌿+'+ecoB; if(hapB>0)msg+=' 😊+'+hapB; msg+=penMsg;
+    spLog(msg); spUpdateStats(); spRenderGrid(); spCheckEnd();
+  }
+
+  function spAbbruch(){ spDemolish=!spDemolish; spSelected=null; spRenderBtns(); spLog(spDemolish?'🗑️ Klicke auf ein Gebäude zum Abreißen (40% zurück).':'Abriss-Modus deaktiviert.'); }
+
+  function spNextTurn(){
+    if(spTurns>0){
+      const inc=spIncome(); spBudget+=inc; spTurns--;
+      const {surplus}=spPower(); let penMsg='';
+      if(surplus<0){ const pen=Math.abs(surplus)*0.3; spHap=spClamp(spHap-pen); penMsg=' ⚠️ Stromausfall! 😊-'+Math.round(pen); }
+      spUpdateStats(); spLog('⏭️ Runde übersprungen.'+(inc!==0?' 💰'+(inc>0?'+':'')+inc:'')+penMsg); spCheckEnd();
+    }
+  }
+
+  function spUpdateStats(){
+    const inc=spIncome(); const {produced,consumed,surplus}=spPower();
+    document.getElementById('st-budget').textContent='💰 '+spBudget;
+    document.getElementById('st-income').textContent=(inc>=0?'📈 +':'📉 ')+inc;
+    document.getElementById('st-eco').textContent='🌿 '+Math.round(spEco);
+    document.getElementById('st-hap').textContent='😊 '+Math.round(spHap);
+    document.getElementById('st-pop').textContent='👥 '+spPop;
+    document.getElementById('bar-eco').style.width=spEco+'%';
+    document.getElementById('bar-hap').style.width=spHap+'%';
+    const maxP=Math.max(produced,consumed,1);
+    document.getElementById('bar-pow').style.width=Math.min(100,Math.round((produced/maxP)*100))+'%';
+    document.getElementById('bv-eco').textContent=Math.round(spEco)+'/100';
+    document.getElementById('bv-hap').textContent=Math.round(spHap)+'/100';
+    document.getElementById('bv-pow').textContent='⚡'+produced+'/'+consumed;
+    document.getElementById('sp-turns').textContent='Züge übrig: '+spTurns;
+    const ps=document.getElementById('power-status');
+    if(produced===0&&consumed===0){ ps.textContent=''; ps.className='power-warn'; }
+    else if(surplus>=0){ ps.textContent='⚡ Strom OK — +'+surplus+' Überschuss'; ps.className='power-warn power-ok'; }
+    else { ps.textContent='🔴 Stromausfall! '+produced+' produziert, '+consumed+' benötigt – bau mehr Kraftwerke!'; ps.className='power-warn power-warn-red'; }
+  }
+
+  function spCheckEnd(){ if(spTurns<=0||spGrid.every(c=>c!==null)) spEndGame(); }
+
+  function spEndGame(){
+    document.getElementById('sp-game').style.display='none';
+    const {produced}=spPower();
+    const score=Math.round((spEco+spHap+Math.min(spPop,100))/3);
+    const coals=spGrid.filter(c=>c&&c.id==='coal').length;
+    let emoji,title,msg;
+    if(score>=80&&coals===0)  { emoji='🏆'; title='Öko-Traumstadt!'; msg='Nachhaltig, glücklich und gut versorgt – ganz ohne Kohle!'; }
+    else if(score>=75)         { emoji='🌿'; title='Grüne Stadt!'; msg='Tolle Balance!'+(coals>0?' '+coals+' Kohlekraftwerk(e) trüben das Bild etwas.':' Ohne Kohle – klasse!'); }
+    else if(score>=55)         { emoji='🏗️'; title='Wachsende Stadt'; msg='Die Stadt wächst, aber Ökologie oder Glück könnten besser sein.'+(coals>0?' Weniger Kohle hilft!':''); }
+    else                       { emoji='🏭'; title='Industrie-Stadt'; msg='Viel Produktion, wenig Natur. Mehr Parks, Solar und Wind beim nächsten Mal!'; }
+    document.getElementById('sp-end').innerHTML=`<div class="sp-end"><span class="sp-end-emoji">${emoji}</span><div class="sp-end-title">${title}</div><div class="sp-end-sub">Score: <strong>${score}/100</strong> · Budget: <strong>${spBudget}💰</strong> · Strom: <strong>⚡${produced}</strong><br>${msg}</div><button class="sp-end-btn" onclick="initGame()">Nochmal spielen</button></div>`;
+    document.getElementById('sp-end').style.display='block';
+  }
+
+  function spLog(msg){ document.getElementById('sp-log').textContent=msg; }
+  initGame();
+
+  // SDG ZIELE
+  const SDG_DATA = {
+    1:  { color:'#e5243b', emoji:'🏘️', title:'Keine Armut', text:'Weltweit leben noch immer über 700 Millionen Menschen in extremer Armut. Ziel 1 fordert, dass alle Menschen Zugang zu wirtschaftlichen Ressourcen, sozialer Sicherung und grundlegenden Dienstleistungen erhalten.', tip:'Was du tun kannst: Fair-Trade-Produkte kaufen und Organisationen unterstützen.' },
+    2:  { color:'#dda63a', emoji:'🌾', title:'Kein Hunger', text:'Fast 800 Millionen Menschen hungern weltweit. Ziel 2 zielt auf Ernährungssicherheit, bessere Ernährung und nachhaltige Landwirtschaft – damit alle Menschen genug zu essen haben.', tip:'Was du tun kannst: Lebensmittelverschwendung reduzieren und regional einkaufen.' },
+    3:  { color:'#4c9f38', emoji:'💊', title:'Gesundheit & Wohlbefinden', text:'Jeder Mensch verdient ein gesundes Leben. Ziel 3 strebt universelle Gesundheitsversorgung an, kämpft gegen Krankheiten und will die Sterblichkeit von Müttern und Kindern senken.', tip:'Was du tun kannst: Gesund leben und andere auf mentale Gesundheit hinweisen.' },
+    4:  { color:'#c5192d', emoji:'📚', title:'Hochwertige Bildung', text:'Bildung ist ein Grundrecht. Ziel 4 will sicherstellen, dass alle Kinder eine kostenlose, gleichberechtigte und hochwertige Bildung erhalten und lebenslanges Lernen gefördert wird.', tip:'Was du tun kannst: Dich weiterbilden und Wissen mit anderen teilen.' },
+    5:  { color:'#ff3a21', emoji:'⚖️', title:'Geschlechtergleichstellung', text:'Frauen und Mädchen werden weltweit noch immer diskriminiert. Ziel 5 fordert Gleichberechtigung und die Stärkung von Frauen in allen Bereichen – von der Arbeitswelt bis zur Politik.', tip:'Was du tun kannst: Gegen Stereotypen eintreten und Gleichberechtigung vorleben.' },
+    6:  { color:'#26bde2', emoji:'💧', title:'Sauberes Wasser', text:'2 Milliarden Menschen haben keinen Zugang zu sauberem Trinkwasser. Ziel 6 will Trinkwasser und sanitäre Einrichtungen für alle sichern und nachhaltige Wasserwirtschaft fördern.', tip:'Was du tun kannst: Wasser sparen – kurz duschen, Wasserhahn zudrehen.' },
+    7:  { color:'#fcc30b', emoji:'⚡', title:'Saubere Energie', text:'Noch immer haben 800 Millionen Menschen keinen Strom. Ziel 7 fordert Zugang zu bezahlbarer, verlässlicher und sauberer Energie für alle – durch erneuerbare Quellen wie Solar und Wind.', tip:'Was du tun kannst: Strom sparen und auf erneuerbare Energieanbieter wechseln.' },
+    8:  { color:'#a21942', emoji:'💼', title:'Menschenwürdige Arbeit', text:'Wirtschaftswachstum soll allen zugutekommen. Ziel 8 fordert produktive Vollbeschäftigung, faire Löhne und sichere Arbeitsbedingungen – und ein Ende von Kinderarbeit und moderner Sklaverei.', tip:'Was du tun kannst: Auf faire Herstellungsbedingungen bei Kleidung achten.' },
+    9:  { color:'#fd6925', emoji:'🏗️', title:'Industrie & Innovation', text:'Nachhaltige Infrastruktur und Innovation sind Grundlage für Wohlstand. Ziel 9 will widerstandsfähige Infrastruktur aufbauen, inklusive Industrialisierung und Forschung fördern.', tip:'Was du tun kannst: Technologie für nachhaltige Lösungen einsetzen.' },
+    10: { color:'#dd1367', emoji:'🤝', title:'Weniger Ungleichheiten', text:'Die Kluft zwischen Arm und Reich wächst. Ziel 10 will Ungleichheiten innerhalb und zwischen Ländern verringern – durch fairen Handel, Migration und progressive Sozialpolitik.', tip:'Was du tun kannst: Bewusst konsumieren und lokale Gemeinschaften stärken.' },
+    11: { color:'#fd9d24', emoji:'🏙️', title:'Nachhaltige Städte', text:'Über die Hälfte der Menschheit lebt in Städten. Ziel 11 will Städte sicher, inklusiv, widerstandsfähig und nachhaltig gestalten – mit bezahlbarem Wohnraum und grünen Räumen.', tip:'Was du tun kannst: ÖPNV nutzen, Fahrrad fahren, Grünflächen schützen.' },
+    12: { color:'#bf8b2e', emoji:'♻️', title:'Nachhaltiger Konsum', text:'Wir verbrauchen jährlich 1,7 Erden. Ziel 12 fordert nachhaltige Produktions- und Konsummuster – weniger Verschwendung, Kreislaufwirtschaft und bewusster Umgang mit Ressourcen.', tip:'Was du tun kannst: Weniger kaufen, länger nutzen, reparieren statt wegwerfen.' },
+    13: { color:'#3f7e44', emoji:'🌡️', title:'Maßnahmen zum Klimaschutz', text:'Der Klimawandel ist die größte Herausforderung unserer Zeit. Ziel 13 fordert dringende Maßnahmen zur Bekämpfung des Klimawandels und seiner Auswirkungen – durch CO₂-Reduktion und Anpassungsstrategien.', tip:'Was du tun kannst: CO₂-Fußabdruck reduzieren, weniger fliegen, pflanzlich essen.' },
+    14: { color:'#0a97d9', emoji:'🐋', title:'Leben unter Wasser', text:'Die Ozeane bedecken 70% der Erde und sind existenziell für alles Leben. Ziel 14 will Meere und Meeresressourcen nachhaltig erhalten – gegen Plastikverschmutzung, Überfischung und Versauerung.', tip:'Was du tun kannst: Plastik vermeiden und kein Meeresfrüchte aus Überfischung kaufen.' },
+    15: { color:'#56c02b', emoji:'🦁', title:'Leben an Land', text:'Täglich sterben Dutzende Arten aus. Ziel 15 will Landökosysteme schützen, Wälder erhalten, Wüstenbildung stoppen und den Verlust der Artenvielfalt umkehren.', tip:'Was du tun kannst: Keine Tropenholzprodukte, heimische Pflanzen im Garten.' },
+    16: { color:'#00689d', emoji:'☮️', title:'Frieden & starke Institutionen', text:'Ohne Frieden gibt es keine Entwicklung. Ziel 16 strebt friedliche, inklusive Gesellschaften an, mit fairen Institutionen, Zugang zur Justiz und der Bekämpfung von Korruption.', tip:'Was du tun kannst: Demokratie aktiv mitgestalten und wählen gehen.' },
+    17: { color:'#19486a', emoji:'🌐', title:'Globale Partnerschaften', text:'Die 17 Ziele lassen sich nur gemeinsam erreichen. Ziel 17 fordert eine starke globale Partnerschaft – zwischen Ländern, Unternehmen und der Zivilgesellschaft – für nachhaltige Entwicklung.', tip:'Was du tun kannst: Dich engagieren und andere für Nachhaltigkeit begeistern.' },
+  };
+  let sdgActive = null;
+  function sdgToggle(n) {
+    const detail = document.getElementById('sdg-detail');
+    const cards = document.querySelectorAll('.sdg-card');
+    if (sdgActive === n) {
+      sdgActive = null; detail.style.display = 'none';
+      cards.forEach(c => c.classList.remove('active'));
+      return;
+    }
+    sdgActive = n;
+    cards.forEach((c,i) => c.classList.toggle('active', i === n-1));
+    const d = SDG_DATA[n];
+    detail.innerHTML = `<div class="sdg-detail-inner"><div class="sdg-detail-badge" style="background:${d.color}">${n}</div><div><div class="sdg-detail-title">Ziel ${n}: ${d.title}</div><div class="sdg-detail-text">${d.text}</div><div class="sdg-detail-tip">🌱 ${d.tip}</div></div></div>`;
+    detail.style.display = 'block';
+    detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // WELTKARTE – HTML dots over SVG map
+  const KS_SPOTS = [
+    {cat:'wald', e:'🌲',c:'#276749',l:21,t:62,title:'Amazonas-Abholzung',r:'Brasilien',txt:'Der Amazonas ist die größte Regenwaldregion der Erde. Seit 1970 wurde fast 20% gerodet – für Landwirtschaft und Rinderzucht.',st:['17% gerodet seit 1970','10.000 km²/Jahr','3 Mio. Tierarten bedroht']},
+    {cat:'eis',  e:'❄️',c:'#4299e1',l:50,t:5, title:'Arktis: Eisschmelze',r:'Nordpol',txt:'Das Meereis schrumpft dramatisch. Ohne weißes Eis absorbiert das Meer mehr Wärme – ein gefährlicher Teufelskreis.',st:['13% weniger Eis/Jahrzehnt','+4°C wärmer seit 1980','Eisbären bedroht']},
+    {cat:'klima',e:'🔥',c:'#e53e3e',l:78,t:70,title:'Australien: Megabrände',r:'Australien',txt:'Die Buschbrände 2019–2020 waren die schlimmsten je. Fast 3 Milliarden Tiere starben.',st:['18,6 Mio. ha verbrannt','3 Mrd. Tiere betroffen','Alle 5 Jahre schlimmer']},
+    {cat:'wasser',e:'💧',c:'#2b6cb0',l:64,t:38,title:'Ganges: Verschmutzung',r:'Indien',txt:'Der Ganges ist einer der verschmutzten Flüsse. Industrieabwässer gefährden 400 Mio. Menschen.',st:['400 Mio. abhängig','3 Mrd. L Abwasser täglich','80% Krankheiten']},
+    {cat:'ozean',e:'🐠',c:'#805ad5',l:87,t:63,title:'Großes Barriereriff',r:'Australien · Pazifik',txt:'Das größte Korallenriff leidet unter Bleiche durch Meereserwärmung. 2022 war das schlimmste Ereignis aller Zeiten.',st:['50% Korallen verloren','4. Massenbleiche 2022','64.000 km² bedroht']},
+    {cat:'klima',e:'🌵',c:'#e53e3e',l:45,t:47,title:'Sahelzone',r:'West-/Zentralafrika',txt:'Die Sahelzone kämpft mit extremer Wüstenbildung. Millionen werden Klimaflüchtlinge.',st:['700.000 km² Wüste','135 Mio. betroffen','+2-4°C bis 2050']},
+    {cat:'eis',  e:'⛰️',c:'#4299e1',l:64,t:31,title:'Himalaya-Gletscher',r:'Nepal/Tibet',txt:'Die Himalaya-Gletscher schmelzen 3× schneller als vor 20 Jahren. 1 Mrd. Menschen abhängig.',st:['1 Mrd. abhängig','40% Masse weg','80% weg bis 2100']},
+    {cat:'ozean',e:'♻️',c:'#805ad5',l:92,t:40,title:'Pazifik-Müllstrudel',r:'Nordpazifik',txt:'Ein Plastikstrudel dreimal so groß wie Frankreich. 8 Mio. Tonnen Plastik jährlich neu.',st:['1,8 Bio. Plastikteile','3× Frankreichs Fläche','8 Mio. t/Jahr neu']},
+    {cat:'klima',e:'☀️',c:'#dd6b20',l:46,t:27,title:'Mittelmeer: Hitze',r:'Südeuropa',txt:'Das Mittelmeer erwärmt sich 20% schneller. 2023 war der heißeste Sommer aller Zeiten.',st:['1,5× schneller global','60.000 Hitzetote 2022','Rekord-Sommer 2023']},
+    {cat:'wasser',e:'💧',c:'#2b6cb0',l:50,t:42,title:'Nil: Wasserkonflikt',r:'Ostafrika',txt:'Der Nil versorgt 300 Mio. in 10 Ländern. Staudämme und Klimawandel lösen einen ernsthaften Konflikt aus.',st:['300 Mio. abhängig','10 Länder','Vorrat -20% bis 2050']},
+    {cat:'eis',  e:'🌨️',c:'#4299e1',l:70,t:14,title:'Sibirien: Permafrost',r:'Russland',txt:'Der Permafrost taut und setzt Milliarden Tonnen CO₂ frei – ein sich selbst verstärkender Kreislauf.',st:['1,5 Bio. t CO₂','+3°C seit 1960','Gebäude sinken ein']},
+    {cat:'wald', e:'🌴',c:'#276749',l:74,t:52,title:'Borneo: Regenwald',r:'Malaysia/Indonesien',txt:'50% des Regenwaldes in 50 Jahren für Palmölplantagen verloren. Orang-Utans stark bedroht.',st:['50% Wald weg','100.000 Orang-Utans übrig','Palmöl in 50% aller Produkte']},
+    {cat:'eis',  e:'🧊',c:'#4299e1',l:50,t:94,title:'Antarktis: Eisverlust',r:'Südpol',txt:'Die Antarktis verliert Milliarden Tonnen Eis jährlich. Der Meeresspiegel könnte stark steigen.',st:['150 Mrd. t Eis/Jahr','+3mm Meeresspiegel/Jahr','Irreversibel ab +1,5°C']},
+    {cat:'ozean',e:'🌊',c:'#805ad5',l:44,t:19,title:'Nordsee: Erwärmung',r:'Nordeuropa',txt:'Die Nordsee erwärmt sich 4× schneller als global. Fischbestände verschieben sich nordwärts.',st:['4× schneller global','+2°C seit 1970','Kabeljau halbiert']},
+  ];
+
+  let ksActive2 = null;
+
+  function buildKarteDots() {
+    const wrap = document.querySelector('#section-karte').nextElementSibling.querySelector('[style*="position:relative"]');
+    if(!wrap) return;
+    const dotsDiv = document.getElementById('kmap-dots');
+    if(!dotsDiv) return;
+    dotsDiv.style.pointerEvents = 'none';
+    KS_SPOTS.forEach((s,i) => {
+      const dot = document.createElement('div');
+      dot.style.cssText = `position:absolute;left:${s.l}%;top:${s.t}%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:${s.c};display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:2.5px solid rgba(255,255,255,0.85);box-shadow:0 2px 8px rgba(0,0,0,0.4);transition:transform 0.15s;pointer-events:auto;`;
+      dot.textContent = s.e;
+      dot.dataset.cat = s.cat;
+      dot.dataset.i = i;
+      dot.title = s.title;
+      dot.onmouseenter = () => { if(ksActive2!==i) dot.style.transform='translate(-50%,-50%) scale(1.3)'; };
+      dot.onmouseleave = () => { if(ksActive2!==i) dot.style.transform='translate(-50%,-50%) scale(1)'; };
+      dot.onclick = () => ks2(i);
+      dotsDiv.appendChild(dot);
+    });
+  }
+
+  function ks2(i) {
+    const det = document.getElementById('kd');
+    const dots = document.querySelectorAll('#kmap-dots div');
+    dots.forEach(d => d.style.transform='translate(-50%,-50%) scale(1)');
+    if(ksActive2===i){det.style.display='none';ksActive2=null;return;}
+    ksActive2=i;
+    dots[i].style.transform='translate(-50%,-50%) scale(1.25)';
+    const s=KS_SPOTS[i];
+    det.style.display='block'; det.style.borderLeftColor=s.c; det.style.borderLeftWidth='4px';
+    det.innerHTML=`<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px"><div style="width:36px;height:36px;border-radius:50%;background:${s.c}22;border:2px solid ${s.c};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${s.e}</div><div><div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink)">${s.title}</div><div style="font-size:11px;color:#888;font-family:'Space Mono',monospace">${s.r}</div></div></div><div style="font-size:0.88rem;line-height:1.7;color:#444;margin-bottom:8px">${s.txt}</div><div>${s.st.map(x=>`<span style="display:inline-block;background:var(--paper);border:1px solid #ccc8b8;padding:2px 8px;font-size:10px;font-family:'Space Mono',monospace;margin:2px">${x}</span>`).join('')}</div>`;
+    det.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  function kf(cat,btn) {
+    document.querySelectorAll('.kb').forEach(b=>{b.classList.remove('on');b.style.background='transparent';});
+    btn.classList.add('on');
+    if(cat==='all'){btn.style.background='#1a1a14';btn.style.color='#fff';}
+    document.querySelectorAll('#kmap-dots div').forEach(d=>{
+      const show=cat==='all'||d.dataset.cat===cat;
+      d.style.opacity=show?'1':'0.1'; d.style.pointerEvents=show?'auto':'none';
+    });
+    document.getElementById('kd').style.display='none'; ksActive2=null;
+  }
+
+  buildKarteDots();
+
+  // OZEAN SPIEL – HTML emoji version
+  const OZ_PLASTIC2 = ['🧴','🥤','🛍️','🔩','🧃','🍶','🪣','📦'];
+  const OZ_DANGER2  = ['🪼','🐡','🦈','🐙'];
+  const OZ_PNAMES2  = ['Shampoo','Flasche','Plastiktüte','Schraube','Tetrapack','Glasfl.','Eimer','Karton'];
+  const OZ_DNAMES2  = ['Qualle','Kugelfisch','Hai','Tintenfisch'];
+
+  let ozDiver2={x:50,y:50,tx:50,ty:50};
+  let ozItems2=[], ozScore2=0, ozLives2=3, ozTime2=60;
+  let ozRunning2=false, ozPaused2=false, ozStarted2=false;
+  let ozAnimId2, ozTmrId2, ozMsgTimer2, ozFrame2=0;
+
+  const ozArena = document.getElementById('oz-arena');
+  const ozDiverEl = document.getElementById('oz-diver');
+  const ozRingEl = document.getElementById('oz-ring');
+  const ozItemsCont = document.getElementById('oz-items');
+
+  function ozStart() {
+    document.getElementById('oz-end').style.display='none';
+    document.getElementById('oz-overlay-start').style.display='none';
+    document.getElementById('oz-overlay-pause').style.display='none';
+    ozDiver2={x:50,y:50,tx:50,ty:50}; ozDiverEl.style.left='50%'; ozDiverEl.style.top='50%';
+    ozRingEl.style.left='50%'; ozRingEl.style.top='50%';
+    ozItemsCont.innerHTML='';
+    ozItems2=[]; ozScore2=0; ozLives2=3; ozTime2=60; ozRunning2=true; ozPaused2=false; ozStarted2=true; ozFrame2=0;
+    ozUpdateHUD2(); ozUpdateBtn2();
+    ozShowMsg2('🖱️ Maus bewegen · Plastik ♻️ sammeln · Quallen & Haie meiden!');
+    clearInterval(ozTmrId2);
+    ozTmrId2=setInterval(()=>{
+      if(!ozRunning2||ozPaused2)return;
+      ozTime2--; document.getElementById('oz-time').textContent=ozTime2;
+      document.getElementById('oz-prog').style.width=(ozTime2/60*100)+'%';
+      if(ozTime2<=0)ozEnd2();
+    },1000);
+    cancelAnimationFrame(ozAnimId2);
+    function loop(){if(!ozRunning2)return;ozFrame2++;if(!ozPaused2){if(ozFrame2%45===0)ozSpawn2();ozUpdate2();}ozAnimId2=requestAnimationFrame(loop);}
+    loop();
+  }
+
+  function ozSpawn2(){
+    const isP=Math.random()<0.65;
+    const idx=Math.floor(Math.random()*(isP?OZ_PLASTIC2.length:OZ_DANGER2.length));
+    const side=Math.floor(Math.random()*4);
+    let x,y,vx,vy; const spd=1.2+Math.random()*1.5;
+    if(side===0){x=Math.random()*80+10;y=-10;vx=(Math.random()-.5)*spd*0.7;vy=spd;}
+    else if(side===1){x=110;y=Math.random()*70+10;vx=-spd;vy=(Math.random()-.5)*spd*0.7;}
+    else if(side===2){x=Math.random()*80+10;y=110;vx=(Math.random()-.5)*spd*0.7;vy=-spd;}
+    else{x=-10;y=Math.random()*70+10;vx=spd;vy=(Math.random()-.5)*spd*0.7;}
+    const el=document.createElement('div');
+    el.style.cssText=`position:absolute;font-size:30px;transform:translate(-50%,-50%);pointer-events:none;z-index:8;transition:opacity 0.15s;background:${isP?'rgba(255,255,255,0.3)':'rgba(255,80,80,0.25)'};border-radius:50%;padding:4px;line-height:1;left:${x}%;top:${y}%`;
+    el.textContent=isP?OZ_PLASTIC2[idx]:OZ_DANGER2[idx];
+    ozItemsCont.appendChild(el);
+    ozItems2.push({el,x,y,vx,vy,isP,name:isP?OZ_PNAMES2[idx]:OZ_DNAMES2[idx],alive:true});
+  }
+
+  function ozUpdate2(){
+    ozDiver2.x+=(ozDiver2.tx-ozDiver2.x)*0.14; ozDiver2.y+=(ozDiver2.ty-ozDiver2.y)*0.14;
+    ozDiver2.x=Math.max(4,Math.min(96,ozDiver2.x)); ozDiver2.y=Math.max(4,Math.min(84,ozDiver2.y));
+    ozDiverEl.style.left=ozDiver2.x+'%'; ozDiverEl.style.top=ozDiver2.y+'%';
+    ozRingEl.style.left=ozDiver2.x+'%'; ozRingEl.style.top=ozDiver2.y+'%';
+    if(ozDiver2.tx>ozDiver2.x+0.5) ozDiverEl.style.transform='translate(-50%,-50%) scaleX(1)';
+    else if(ozDiver2.tx<ozDiver2.x-0.5) ozDiverEl.style.transform='translate(-50%,-50%) scaleX(-1)';
+    for(let i=ozItems2.length-1;i>=0;i--){
+      const it=ozItems2[i];
+      if(!it.alive)continue;
+      it.x+=it.vx; it.y+=it.vy;
+      it.el.style.left=it.x+'%'; it.el.style.top=it.y+'%';
+      if(it.x<-15||it.x>115||it.y<-15||it.y>115){it.el.remove();ozItems2.splice(i,1);continue;}
+      const dx=ozDiver2.x-it.x, dy=ozDiver2.y-it.y*0.92;
+      if(Math.sqrt(dx*dx+dy*dy)<6){
+        it.alive=false; it.el.style.opacity='0';
+        setTimeout(()=>it.el.remove(),200); ozItems2.splice(i,1);
+        if(it.isP){ozScore2++;ozUpdateHUD2();ozShowMsg2('♻️ +1 '+it.name+' gesammelt!');}
+        else{ozLives2=Math.max(0,ozLives2-1);ozUpdateHUD2();ozShowMsg2('💥 '+it.name+' getroffen! '+('❤️'.repeat(ozLives2)||'💀'));if(ozLives2<=0){ozRunning2=false;setTimeout(ozEnd2,500);}}
+      }
+    }
+  }
+
+  function ozToggle(){
+    if(!ozStarted2||!ozRunning2){ozStart();return;}
+    ozPaused2=!ozPaused2; ozUpdateBtn2();
+    document.getElementById('oz-overlay-pause').style.display=ozPaused2?'flex':'none';
+    ozShowMsg2(ozPaused2?'⏸ Pausiert':'▶ Weiter gehts!');
+  }
+  function ozUpdateBtn2(){
+    const b=document.getElementById('oz-main-btn');
+    if(!ozStarted2||!ozRunning2){b.textContent='▶ Start';b.style.background='#2d5a27';}
+    else if(ozPaused2){b.textContent='▶ Weiter';b.style.background='#2d5a27';}
+    else{b.textContent='⏸ Pause';b.style.background='#b45309';}
+  }
+  function ozEnd2(){
+    ozRunning2=false;ozStarted2=false;clearInterval(ozTmrId2);cancelAnimationFrame(ozAnimId2);
+    ozItemsCont.innerHTML='';
+    document.getElementById('oz-end').style.display='block'; ozUpdateBtn2();
+    let emoji,title,sub;
+    if(ozScore2>=30){emoji='🏆';title='Ozean-Champion!';sub=`${ozScore2} Plastikteile! Du bist ein echter Meeresretter.`;}
+    else if(ozScore2>=18){emoji='🌊';title='Super Taucher!';sub=`${ozScore2} Plastikteile – toll! Verzichte im Alltag auf Einwegplastik.`;}
+    else if(ozScore2>=8){emoji='🐬';title='Guter Anfang!';sub=`${ozScore2} Plastikteile – das Meer braucht jeden Helfer!`;}
+    else{emoji='🐡';title='Weiter üben!';sub=`Nur ${ozScore2} Plastikteile. Bleib nah am Plastik und meide Gefahren!`;}
+    document.getElementById('oz-end-emoji').textContent=emoji;
+    document.getElementById('oz-end-title').textContent=title;
+    document.getElementById('oz-end-sub').textContent=sub;
+  }
+  function ozShowMsg2(t){const e=document.getElementById('oz-msg');e.textContent=t;clearTimeout(ozMsgTimer2);ozMsgTimer2=setTimeout(()=>{if(!ozPaused2&&ozRunning2)e.textContent='';},2200);}
+  function ozUpdateHUD2(){
+    document.getElementById('oz-score').textContent=ozScore2;
+    document.getElementById('oz-lives-box').textContent='❤️'.repeat(Math.max(0,ozLives2))||'💀';
+  }
+
+  ozArena.addEventListener('mousemove',e=>{
+    if(!ozStarted2||ozPaused2)return;
+    const r=ozArena.getBoundingClientRect();
+    ozDiver2.tx=((e.clientX-r.left)/r.width)*100;
+    ozDiver2.ty=((e.clientY-r.top)/r.height)*100;
+  });
+  ozArena.addEventListener('touchmove',e=>{
+    if(!ozStarted2||ozPaused2)return;
+    e.preventDefault();
+    const r=ozArena.getBoundingClientRect();
+    ozDiver2.tx=((e.touches[0].clientX-r.left)/r.width)*100;
+    ozDiver2.ty=((e.touches[0].clientY-r.top)/r.height)*100;
+  },{passive:false});
+
+  ctTick();
+  setInterval(ctTick, 1000);
+
+  // Seaweed CSS animation
+  const swayStyle = document.createElement('style');
+  swayStyle.textContent = '@keyframes oz-sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}';
+  document.head.appendChild(swayStyle);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
+    {cat:'eis',  e:'❄️',t:'Arktis: Eisschmelze',r:'Nordpol · Arktis',c:'#4299e1',txt:'Das arktische Meereis schrumpft dramatisch. 2023 war das kleinste Ausmaß seit Beginn der Aufzeichnungen. Ohne weißes Eis absorbiert das Meer mehr Wärme – ein Teufelskreis.',st:['13% weniger Eis/Jahrzehnt','+4°C wärmer als 1980','Eisbären stark bedroht']},
+    {cat:'klima',e:'🔥',t:'Australien: Megabrände',r:'Australien',c:'#e53e3e',txt:'Die Buschbrände 2019–2020 waren die schlimmsten in der Geschichte Australiens. Fast 3 Milliarden Tiere starben. Klimawandel macht solche Ereignisse häufiger und intensiver.',st:['18,6 Mio. Hektar verbrannt','3 Mrd. Tiere betroffen','Alle 5 Jahre schlimmer']},
+    {cat:'wasser',e:'💧',t:'Ganges: Verschmutzung',r:'Indien · Asien',c:'#2b6cb0',txt:'Der Ganges ist einer der am stärksten verschmutzten Flüsse der Welt. Industrieabwässer und Plastikmüll gefährden 400 Millionen Menschen.',st:['400 Mio. abhängige Menschen','3 Mrd. Liter Abwasser täglich','80% der Krankheiten durch Wasser']},
+    {cat:'ozean',e:'🐠',t:'Barriereriff bleicht',r:'Australien · Pazifik',c:'#805ad5',txt:'Das Große Barriereriff ist das größte Korallenriff der Welt. Wärmeres Meerwasser verursacht Korallenbleiche – 2022 war das schlimmste Bleicheereignis aller Zeiten.',st:['50% Korallen seit 1995 verloren','4. Massenbleiche 2022','64.000 km² bedroht']},
+    {cat:'klima',e:'🌵',t:'Sahelzone: Wüstenbildung',r:'West-/Zentralafrika',c:'#e53e3e',txt:'Die Sahelzone kämpft mit extremer Desertifikation. Durch Klimawandel breitet sich die Wüste jährlich aus. Millionen werden zu Klimaflüchtlingen.',st:['700.000 km² bereits Wüste','135 Mio. Menschen betroffen','+2–4°C bis 2050']},
+    {cat:'eis',  e:'⛰️',t:'Himalaya-Gletscher',r:'Nepal/Tibet · Asien',c:'#4299e1',txt:'Die Himalaya-Gletscher versorgen über 1 Milliarde Menschen mit Trinkwasser. Sie schmelzen dreimal schneller als vor 20 Jahren.',st:['1 Mrd. Menschen abhängig','40% Gletschermasse verloren','Bis 2100: 80% weg möglich']},
+    {cat:'ozean',e:'♻️',t:'Pazifik-Müllstrudel',r:'Nordpazifik',c:'#805ad5',txt:'Im Nordpazifik sammelt sich Plastik in einem riesigen Strudel – dreimal so groß wie Frankreich. Jedes Jahr enden 8 Millionen Tonnen Plastik im Meer.',st:['1,8 Bio. Plastikteile','3× Frankreichs Fläche','8 Mio. Tonnen Plastik/Jahr neu']},
+    {cat:'klima',e:'☀️',t:'Mittelmeer: Hitzewellen',r:'Südeuropa',c:'#dd6b20',txt:'Das Mittelmeer erwärmt sich 20% schneller als der globale Durchschnitt. 2023 war der heißeste Sommer aller Zeiten mit verheerenden Waldbränden.',st:['1,5× schneller als global','60.000 Hitzetote 2022','Heißester Sommer 2023']},
+    {cat:'wasser',e:'💧',t:'Nil: Wasserkonflikt',r:'Ostafrika / Nordafrika',c:'#2b6cb0',txt:'Der Nil versorgt 300 Millionen Menschen in 10 Ländern. Staudammprojekte und sinkende Niederschläge haben einen ernsthaften geopolitischen Konflikt ausgelöst.',st:['300 Mio. abhängige Menschen','10 Länder teilen das Wasser','Vorrat sinkt 20% bis 2050']},
+    {cat:'eis',  e:'🌨️',t:'Sibirien: Permafrost',r:'Russland · Sibirien',c:'#4299e1',txt:'Der sibirische Permafrost enthält Milliarden Tonnen Methan und CO₂. Durch Erwärmung taut er auf und setzt diese Treibhausgase frei – ein sich selbst verstärkender Kreislauf.',st:['1,5 Bio. Tonnen CO₂ gespeichert','+3°C in Sibirien seit 1960','Gebäude und Straßen sinken ein']},
+    {cat:'wald', e:'🌴',t:'Borneo: Regenwald',r:'Malaysia / Indonesien',c:'#276749',txt:'Borneo hat in 50 Jahren über die Hälfte seines Regenwaldes verloren – für Palmölplantagen. Orang-Utans und Borneo-Elefanten sind stark bedroht.',st:['50% Wald in 50 Jahren weg','Orang-Utan: nur 100.000 übrig','Palmöl in 50% aller Produkte']},
+    {cat:'eis',  e:'🧊',t:'Antarktis: Eisverlust',r:'Südpol · Antarktis',c:'#4299e1',txt:'Die Antarktis verliert jedes Jahr Milliarden Tonnen Eis. Der westantarktische Eisschild könnte zusammenbrechen und den Meeresspiegel um mehrere Meter anheben.',st:['150 Mrd. Tonnen Eis/Jahr verloren','+3mm Meeresspiegel/Jahr','Irreversibel ab +1,5°C']},
+    {cat:'ozean',e:'🌊',t:'Nordsee: Erwärmung',r:'Nordeuropa',c:'#805ad5',txt:'Die Nordsee erwärmt sich viermal schneller als der globale Durchschnitt. Fischbestände verschieben sich nordwärts und Stürme werden heftiger.',st:['4× schneller als global','+2°C seit 1970','Kabeljau-Bestände halbiert']},
+  ];
+  let ksActive = null;
+  function ks(i) {
+    const d = document.getElementById('kd');
+    if (ksActive===i) { d.style.display='none'; ksActive=null; return; }
+    ksActive=i;
+    const s=KS_DATA[i];
+    d.style.display='block'; d.style.borderLeftColor=s.c; d.style.borderLeftWidth='4px';
+    d.innerHTML=`<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px"><div style="width:36px;height:36px;border-radius:50%;background:${s.c}22;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${s.e}</div><div><div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink)">${s.t}</div><div style="font-size:11px;color:#888;font-family:'Space Mono',monospace">${s.r}</div></div></div><div style="font-size:0.88rem;line-height:1.7;color:#444;margin-bottom:8px">${s.txt}</div><div>${s.st.map(x=>`<span style="display:inline-block;background:var(--paper);border:1px solid #ccc8b8;padding:2px 8px;font-size:10px;font-family:'Space Mono',monospace;margin:2px">${x}</span>`).join('')}</div>`;
+    d.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  function kf(cat,btn) {
+    document.querySelectorAll('.kb').forEach(b=>{b.classList.remove('on');b.style.background='transparent';});
+    btn.classList.add('on');
+    if(cat==='all'){btn.style.background='#1a1a14';btn.style.color='#fff';}
+    document.querySelectorAll('.khs').forEach(h=>{
+      const show=cat==='all'||h.dataset.cat===cat;
+      h.style.opacity=show?'1':'0.1'; h.style.pointerEvents=show?'auto':'none';
+    });
+    document.getElementById('kd').style.display='none'; ksActive=null;
+  }
+
+  // OZEAN SPIEL – TAUCHER VERSION
+  const ozCanvas = document.getElementById('oz-canvas');
+  const ozCtx = ozCanvas.getContext('2d');
+  const ozWrap = document.getElementById('oz-wrap');
+  let ozW, ozH, ozDiver, ozItems, ozScore, ozLives, ozTimeLeft, ozRunning, ozPaused, ozStarted, ozAnimId, ozTimerInt, ozBubbles, ozFrame;
+  const OZ_PLASTIC = ['🧴','🥤','🛍️','🔩','🧃','🍶','🪣'];
+  const OZ_DANGER  = ['🪼','🐡','🦈'];
+
+  function ozResize(){const r=ozWrap.getBoundingClientRect();ozW=Math.floor(r.width);ozH=Math.min(400,Math.floor(ozW*0.56));ozCanvas.width=ozW;ozCanvas.height=ozH;}
+  function ozMakeBubbles(){ozBubbles=Array.from({length:16},()=>({x:Math.random()*ozW,y:Math.random()*ozH,r:2+Math.random()*7,speed:0.2+Math.random()*0.45,alpha:0.08+Math.random()*0.18}));}
+
+  function ozStart(){
+    document.getElementById('oz-end').style.display='none';
+    ozCanvas.style.display='block'; ozResize(); ozMakeBubbles();
+    ozDiver={x:ozW/2,y:ozH/2,tx:ozW/2,ty:ozH/2,dir:1};
+    ozItems=[]; ozScore=0; ozLives=3; ozTimeLeft=60; ozRunning=true; ozPaused=false; ozStarted=true; ozFrame=0;
+    ozUpdateHUD(); ozUpdateBtn();
+    document.getElementById('oz-msg').textContent='🖱️ Maus bewegen · Plastik ♻️ sammeln · Quallen & Haie meiden!';
+    clearInterval(ozTimerInt);
+    ozTimerInt=setInterval(()=>{if(!ozRunning||ozPaused)return;ozTimeLeft--;document.getElementById('oz-time').textContent=ozTimeLeft;document.getElementById('oz-prog').style.width=(ozTimeLeft/60*100)+'%';if(ozTimeLeft<=0)ozEnd();},1000);
+    cancelAnimationFrame(ozAnimId);
+    function loop(){if(!ozRunning)return;if(!ozPaused){ozFrame++;if(ozFrame%38===0)ozSpawn();ozUpdateGame();}ozDrawGame();ozAnimId=requestAnimationFrame(loop);}
+    loop();
+  }
+
+  function ozSpawn(){
+    const isP=Math.random()<0.63; const side=Math.floor(Math.random()*4);
+    let x,y,vx,vy; const spd=1.2+Math.random()*1.8;
+    if(side===0){x=Math.random()*ozW;y=-32;vx=(Math.random()-.5)*1.3;vy=spd;}
+    else if(side===1){x=ozW+32;y=Math.random()*ozH;vx=-spd;vy=(Math.random()-.5)*1.3;}
+    else if(side===2){x=Math.random()*ozW;y=ozH+32;vx=(Math.random()-.5)*1.3;vy=-spd;}
+    else{x=-32;y=Math.random()*ozH;vx=spd;vy=(Math.random()-.5)*1.3;}
+    ozItems.push({x,y,vx,vy,isP,emoji:isP?OZ_PLASTIC[Math.floor(Math.random()*OZ_PLASTIC.length)]:OZ_DANGER[Math.floor(Math.random()*OZ_DANGER.length)],size:26,alpha:1,collected:false});
+  }
+
+  function ozUpdateGame(){
+    ozDiver.x+=(ozDiver.tx-ozDiver.x)*0.13; ozDiver.y+=(ozDiver.ty-ozDiver.y)*0.13;
+    ozDiver.x=Math.max(22,Math.min(ozW-22,ozDiver.x)); ozDiver.y=Math.max(22,Math.min(ozH-22,ozDiver.y));
+    if(ozDiver.tx>ozDiver.x+2)ozDiver.dir=1; else if(ozDiver.tx<ozDiver.x-2)ozDiver.dir=-1;
+    ozBubbles.forEach(b=>{b.y-=b.speed;if(b.y<-10)b.y=ozH+10;});
+    ozItems=ozItems.filter(it=>it.alpha>0.05&&it.x>-60&&it.x<ozW+60&&it.y>-60&&it.y<ozH+60);
+    for(const it of ozItems){
+      if(it.collected){it.alpha-=0.07;it.y-=2.5;continue;}
+      it.x+=it.vx; it.y+=it.vy;
+      const dx=ozDiver.x-it.x,dy=ozDiver.y-it.y;
+      if(Math.sqrt(dx*dx+dy*dy)<26){
+        it.collected=true;
+        if(it.isP){ozScore++;ozUpdateHUD();ozShowMsg('♻️ +1 Plastik gesammelt!');}
+        else{ozLives=Math.max(0,ozLives-1);ozUpdateHUD();ozShowMsg('💥 Treffer! '+('❤️'.repeat(ozLives)||'💀'));if(ozLives<=0){ozRunning=false;setTimeout(ozEnd,500);}}
+      }
+    }
+  }
+
+  function ozDrawDiver(x,y,dir){
+    ozCtx.save(); ozCtx.translate(x,y); if(dir<0)ozCtx.scale(-1,1);
+    ozCtx.fillStyle='#1a3a6a'; ozCtx.beginPath(); ozCtx.ellipse(0,4,10,14,0,0,Math.PI*2); ozCtx.fill();
+    ozCtx.fillStyle='#5bc8f0'; ozCtx.beginPath(); ozCtx.ellipse(-1,-8,9,7,0,0,Math.PI*2); ozCtx.fill();
+    ozCtx.strokeStyle='#1a3a6a'; ozCtx.lineWidth=1.5; ozCtx.stroke();
+    ozCtx.fillStyle='#fff'; ozCtx.beginPath(); ozCtx.arc(-4,-9,2.5,0,Math.PI*2); ozCtx.fill();
+    ozCtx.beginPath(); ozCtx.arc(3,-9,2.5,0,Math.PI*2); ozCtx.fill();
+    ozCtx.fillStyle='#333'; ozCtx.beginPath(); ozCtx.arc(-3.5,-9,1.2,0,Math.PI*2); ozCtx.fill();
+    ozCtx.beginPath(); ozCtx.arc(3.5,-9,1.2,0,Math.PI*2); ozCtx.fill();
+    ozCtx.strokeStyle='#f59e0b'; ozCtx.lineWidth=2; ozCtx.beginPath(); ozCtx.moveTo(5,-5); ozCtx.quadraticCurveTo(14,-2,14,6); ozCtx.stroke();
+    ozCtx.fillStyle='#f59e0b'; ozCtx.beginPath(); ozCtx.arc(14,6,3,0,Math.PI*2); ozCtx.fill();
+    ozCtx.fillStyle='#374151'; ozCtx.beginPath(); ozCtx.roundRect(-14,-4,7,16,3); ozCtx.fill();
+    ozCtx.fillStyle='#f59e0b'; ozCtx.beginPath(); ozCtx.ellipse(-5,20,5,10,-0.3,0,Math.PI*2); ozCtx.fill();
+    ozCtx.beginPath(); ozCtx.ellipse(5,20,5,10,0.3,0,Math.PI*2); ozCtx.fill();
+    ozCtx.fillStyle='#1a3a6a'; ozCtx.beginPath(); ozCtx.ellipse(-14,4,4,10,-0.4,0,Math.PI*2); ozCtx.fill();
+    ozCtx.beginPath(); ozCtx.ellipse(14,4,4,10,0.4,0,Math.PI*2); ozCtx.fill();
+    ozCtx.strokeStyle='#92400e'; ozCtx.lineWidth=1.5; ozCtx.beginPath(); ozCtx.arc(18,10,7,0,Math.PI*2); ozCtx.stroke();
+    ozCtx.beginPath(); ozCtx.moveTo(11,10); ozCtx.lineTo(25,10); ozCtx.stroke();
+    ozCtx.beginPath(); ozCtx.moveTo(18,3); ozCtx.lineTo(18,17); ozCtx.stroke();
+    if(ozScore>0){ozCtx.fillStyle='#92400e';ozCtx.font='8px serif';ozCtx.textAlign='center';ozCtx.textBaseline='middle';ozCtx.fillText(Math.min(ozScore,9)+'',18,10);}
+    ozCtx.fillStyle='rgba(255,255,255,0.6)';
+    [0,1,2].forEach(i=>{const bx=14+Math.sin(Date.now()/300+i*2)*3,by=6-i*7-(Date.now()/200%6);ozCtx.beginPath();ozCtx.arc(bx,by,1.5-i*0.3,0,Math.PI*2);ozCtx.fill();});
+    ozCtx.restore();
+  }
+
+  function ozDrawGame(){
+    const g=ozCtx.createLinearGradient(0,0,0,ozH);
+    g.addColorStop(0,'#5bc8f0');g.addColorStop(0.5,'#2ea8d8');g.addColorStop(1,'#1278a0');
+    ozCtx.fillStyle=g; ozCtx.fillRect(0,0,ozW,ozH);
+    ozCtx.save();
+    for(let i=0;i<5;i++){ozCtx.globalAlpha=0.06;ozCtx.fillStyle='#fff';const rx=(ozW/5)*i+ozW/10;ozCtx.beginPath();ozCtx.moveTo(rx-20,0);ozCtx.lineTo(rx+20,0);ozCtx.lineTo(rx+60,ozH);ozCtx.lineTo(rx-60,ozH);ozCtx.closePath();ozCtx.fill();}
+    ozCtx.restore();
+    ozCtx.fillStyle='#d4a855'; ozCtx.fillRect(0,ozH-26,ozW,26);
+    ozCtx.fillStyle='#c49040'; ozCtx.fillRect(0,ozH-26,ozW,4);
+    for(let i=0;i<8;i++){const sx=(ozW/8)*i+18;ozCtx.strokeStyle='#2d8a3a';ozCtx.lineWidth=3;ozCtx.beginPath();ozCtx.moveTo(sx,ozH-26);ozCtx.quadraticCurveTo(sx+8,ozH-50,sx,ozH-70);ozCtx.stroke();}
+    [ozW*0.1,ozW*0.35,ozW*0.65,ozW*0.88].forEach((cx,i)=>{const cols=['#e53e3e','#ed8936','#805ad5','#e53e3e'];ozCtx.strokeStyle=cols[i];ozCtx.lineWidth=4;for(let b=0;b<3;b++){ozCtx.beginPath();ozCtx.moveTo(cx+b*8-8,ozH-26);ozCtx.quadraticCurveTo(cx+b*8-4,ozH-45,cx+b*8,ozH-38);ozCtx.stroke();}});
+    ozCtx.save(); ozBubbles.forEach(b=>{ozCtx.globalAlpha=b.alpha;ozCtx.strokeStyle='rgba(255,255,255,0.7)';ozCtx.lineWidth=1;ozCtx.beginPath();ozCtx.arc(b.x,b.y,b.r,0,Math.PI*2);ozCtx.stroke();}); ozCtx.restore();
+    ozCtx.save();
+    for(const it of ozItems){ozCtx.globalAlpha=it.alpha;ozCtx.fillStyle='rgba(255,255,255,0.45)';ozCtx.beginPath();ozCtx.arc(it.x,it.y,it.size*0.7,0,Math.PI*2);ozCtx.fill();ozCtx.font=`${it.size}px serif`;ozCtx.textAlign='center';ozCtx.textBaseline='middle';ozCtx.fillText(it.emoji,it.x,it.y);}
+    ozCtx.restore();
+    ozDrawDiver(ozDiver.x,ozDiver.y,ozDiver.dir);
+    if(ozPaused){ozCtx.fillStyle='rgba(0,0,0,0.45)';ozCtx.fillRect(0,0,ozW,ozH);ozCtx.fillStyle='#fff';ozCtx.font='bold 26px serif';ozCtx.textAlign='center';ozCtx.textBaseline='middle';ozCtx.fillText('⏸ Pausiert',ozW/2,ozH/2-12);ozCtx.font='13px monospace';ozCtx.fillStyle='rgba(255,255,255,0.7)';ozCtx.fillText('▶ Weiter drücken',ozW/2,ozH/2+16);}
+    if(!ozStarted){ozCtx.fillStyle='rgba(0,20,40,0.62)';ozCtx.fillRect(0,0,ozW,ozH);ozCtx.font='48px serif';ozCtx.textAlign='center';ozCtx.textBaseline='middle';ozCtx.fillText('🤿',ozW/2,ozH/2-28);ozCtx.fillStyle='#fff';ozCtx.font='bold 18px serif';ozCtx.fillText('Taucher rettet den Ozean',ozW/2,ozH/2+12);ozCtx.fillStyle='rgba(255,255,255,0.7)';ozCtx.font='13px monospace';ozCtx.fillText('▶ Start drücken',ozW/2,ozH/2+38);}
+  }
+
+  function ozToggle(){
+    if(!ozStarted||!ozRunning){ozStart();return;}
+    ozPaused=!ozPaused; ozUpdateBtn();
+    if(ozPaused)ozShowMsg('⏸ Pausiert'); else ozShowMsg('▶ Weiter!');
+  }
+  function ozUpdateBtn(){
+    const btn=document.getElementById('oz-main-btn');
+    if(!ozStarted||!ozRunning){btn.textContent='▶ Start';btn.style.background='#2d5a27';}
+    else if(ozPaused){btn.textContent='▶ Weiter';btn.style.background='#2d5a27';}
+    else{btn.textContent='⏸ Pause';btn.style.background='#b45309';}
+  }
+  function ozEnd(){
+    ozRunning=false;ozStarted=false;clearInterval(ozTimerInt);cancelAnimationFrame(ozAnimId);
+    ozCanvas.style.display='none';document.getElementById('oz-end').style.display='block'; ozUpdateBtn();
+    let emoji,title,sub;
+    if(ozScore>=30){emoji='🏆';title='Ozean-Champion!';sub=`${ozScore} Plastikteile! Du bist ein echter Meeresretter.`;}
+    else if(ozScore>=18){emoji='🌊';title='Super Taucher!';sub=`${ozScore} Plastikteile – toll! Verzichte im Alltag auf Einwegplastik.`;}
+    else if(ozScore>=8){emoji='🐬';title='Guter Anfang!';sub=`${ozScore} Plastikteile – weiter so!`;}
+    else{emoji='🐡';title='Weiter üben!';sub=`Nur ${ozScore} Plastikteile. Halte die Maus nah am Plastik!`;}
+    document.getElementById('oz-end-emoji').textContent=emoji;
+    document.getElementById('oz-end-title').textContent=title;
+    document.getElementById('oz-end-sub').textContent=sub;
+  }
+  let ozMsgTimer;
+  function ozShowMsg(t){const el=document.getElementById('oz-msg');el.textContent=t;clearTimeout(ozMsgTimer);ozMsgTimer=setTimeout(()=>{if(!ozPaused&&ozRunning)el.textContent='';},1800);}
+  function ozUpdateHUD(){document.getElementById('oz-score').textContent=ozScore;document.getElementById('oz-lives-box').textContent='❤️'.repeat(Math.max(0,ozLives))||'💀';}
+  ozWrap.addEventListener('mousemove',e=>{if(!ozStarted||ozPaused)return;const r=ozCanvas.getBoundingClientRect();ozDiver.tx=(e.clientX-r.left)*(ozW/r.width);ozDiver.ty=(e.clientY-r.top)*(ozW/r.width);});
+  ozWrap.addEventListener('touchmove',e=>{if(!ozStarted||ozPaused)return;e.preventDefault();const r=ozCanvas.getBoundingClientRect();ozDiver.tx=(e.touches[0].clientX-r.left)*(ozW/r.width);ozDiver.ty=(e.touches[0].clientY-r.top)*(ozW/r.width);},{passive:false});
+  window.addEventListener('resize',()=>{ozResize();ozMakeBubbles();});
+  ozStarted=false; ozRunning=false; ozPaused=false;
+  ozResize(); ozMakeBubbles();
+  ozDiver={x:ozW/2,y:ozH/2,tx:ozW/2,ty:ozH/2,dir:1}; ozItems=[]; ozScore=0; ozLives=3; ozTimeLeft=60;
+  ozUpdateHUD(); ozUpdateBtn(); ozDrawGame();
+
+  ctTick();
+  setInterval(ctTick, 1000);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
