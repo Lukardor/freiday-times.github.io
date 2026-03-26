@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Freiday Times – Schülerzeitung für Nachhaltigkeit</title>
+<title>freiday Times – Schülerzeitung für Nachhaltigkeit</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -16,6 +16,36 @@
     --cream: #ede8d8;
     --rust: #b85c30;
   }
+
+  [data-theme="dark"] {
+    --ink: #e8e4d8;
+    --paper: #1a1e1a;
+    --leaf: #5a9e52;
+    --moss: #6aae62;
+    --sprout: #8ab87a;
+    --sun: #d4a843;
+    --cream: #242820;
+    --rust: #d4784a;
+  }
+
+  /* DARK MODE TOGGLE */
+  .dark-toggle {
+    background: var(--cream);
+    border: 1.5px solid #ccc8b8;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .dark-toggle:hover { background: var(--paper); }
+  [data-theme="dark"] .dark-toggle { background: #2a2e28; border-color: #445040; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -935,6 +965,65 @@
   .sdg-detail-text { font-size: 0.9rem; line-height: 1.7; color: #444; }
   .sdg-detail-tip { margin-top: 0.6rem; font-size: 0.85rem; color: var(--leaf); font-family: 'Space Mono', monospace; }
 
+  /* DARK MODE OVERRIDES */
+  [data-theme="dark"] body { background: var(--paper); color: var(--ink); }
+  [data-theme="dark"] header { border-color: #445040; }
+  [data-theme="dark"] .header-top { border-color: #445040; color: #8a9a88; }
+  [data-theme="dark"] .header-bar { border-color: #445040; }
+  [data-theme="dark"] .masthead-title h1 { color: var(--ink); }
+  [data-theme="dark"] .masthead-tagline { color: #8a9a88; }
+  [data-theme="dark"] nav a { color: var(--ink); }
+  [data-theme="dark"] .section-rule::after { background: repeating-linear-gradient(to right,var(--ink) 0,var(--ink) 4px,transparent 4px,transparent 8px); }
+  [data-theme="dark"] .cover-paper { background: #1e221e; border-color: #445040; box-shadow: 5px 5px 0 #2a2e28; }
+  [data-theme="dark"] .cover-head { border-color: var(--ink); }
+  [data-theme="dark"] .cover-head-name { color: var(--ink); }
+  [data-theme="dark"] .cover-head-sub { color: #8a9a88; }
+  [data-theme="dark"] .cover-mini-grid .mini-title { color: var(--ink); }
+  [data-theme="dark"] .cover-foot { border-color: #445040; color: #8a9a88; }
+  [data-theme="dark"] .cover-body .cover-headline { color: var(--ink); }
+  [data-theme="dark"] .cover-teaser { color: #8a9a88; }
+  [data-theme="dark"] .mini-item { border-color: #445040; }
+  [data-theme="dark"] .countdown-box { background: var(--cream); border-color: var(--ink); }
+  [data-theme="dark"] .count-unit { background: var(--paper); border-color: #445040; }
+  [data-theme="dark"] .progress-bar { background: #2a2e28; }
+  [data-theme="dark"] .info-pillar { border-color: #445040; }
+  [data-theme="dark"] .pillar-green { background: #1a2e1a; }
+  [data-theme="dark"] .pillar-blue  { background: #1a1e2e; }
+  [data-theme="dark"] .pillar-amber { background: #2e2518; }
+  [data-theme="dark"] .pillar-text  { color: #a8b8a8; }
+  [data-theme="dark"] .info-quote { background: var(--cream); border-color: var(--leaf); }
+  [data-theme="dark"] .info-fact { background: var(--cream); border-color: #445040; }
+  [data-theme="dark"] .fact-lbl { color: #a8b8a8; }
+  [data-theme="dark"] .sdg-card.active { outline-color: var(--ink); }
+  [data-theme="dark"] .sdg-detail { background: var(--cream); border-color: #445040; }
+  [data-theme="dark"] .game-wrap { background: var(--cream); border-color: #445040; }
+  [data-theme="dark"] .score-item { background: #2a2e28; border-color: #445040; }
+  [data-theme="dark"] .trash-card { background: #1e221e; border-color: #445040; }
+  [data-theme="dark"] .bin-gelb    { background: #2e2500; }
+  [data-theme="dark"] .bin-blau    { background: #001828; }
+  [data-theme="dark"] .bin-altglas { background: #001e08; }
+  [data-theme="dark"] .bin-grau    { background: #222222; }
+  [data-theme="dark"] .bin-braun   { background: #1e1000; }
+  [data-theme="dark"] .bin-sonder  { background: #2e0000; }
+  [data-theme="dark"] .g-feedback.correct { color: #5aae52; }
+  [data-theme="dark"] .g-feedback.wrong   { color: #e06060; }
+  [data-theme="dark"] .sp-stat { background: #2a2e28; border-color: #445040; }
+  [data-theme="dark"] .sp-grid-wrap { background: var(--cream); border-color: #445040; }
+  [data-theme="dark"] .sp-cell.empty { background: #1a2e1a; border-color: #3a5a3a; }
+  [data-theme="dark"] .sp-cell.filled { background: #1e221e; border-color: #445040; }
+  [data-theme="dark"] .sp-btn { background: #1e221e; border-color: #445040; color: var(--ink); }
+  [data-theme="dark"] .sp-btn:hover { background: #2a2e28; }
+  [data-theme="dark"] .sp-btn.selected { background: #1a2e1a; border-color: var(--leaf); }
+  [data-theme="dark"] .sp-action-btn { background: #1e221e; border-color: #445040; color: var(--ink); }
+  [data-theme="dark"] .sp-action-btn.danger { border-color: #5a2020; color: #e06060; }
+  [data-theme="dark"] .sp-log { background: var(--cream); border-color: #445040; color: #a8b8a8; }
+  [data-theme="dark"] .karte-filters .kb { color: #a8b8a8 !important; }
+  [data-theme="dark"] #kd { background: var(--cream) !important; border-color: #445040 !important; }
+  [data-theme="dark"] footer { background: #0e120e; }
+  [data-theme="dark"] .quote-banner { background: #1a3a16; }
+  [data-theme="dark"] .info-section p { color: #a8b8a8; }
+  [data-theme="dark"] .info-intro h2 { color: var(--ink); }
+
   /* ANIMATIONS */
   .fade-in {
     opacity: 0;
@@ -966,7 +1055,7 @@
   <div class="ticker">
     <span>🌱 Klimaschutz beginnt in der Schule</span>
     <span>♻️ Mülltrennung – so geht's richtig</span>
-    <span>🌍 Freidays for Future</span>
+    <span>🌍 Fridays for Future: Nächste Demo am 22. April</span>
     <span>🌿 Unser Schulgarten wächst</span>
     <span>☀️ Neue Solaranlage auf dem Schuldach geplant</span>
     <span>🚲 Fahrradfreundliche Schule – Abstimmung läuft</span>
@@ -981,12 +1070,13 @@
 
 <!-- HEADER -->
 <header>
-  <div class="header-top"
+  <div class="header-top">
+    <span>Ausgabe Nr. 7 · März 2026</span>
     <span>Die Schülerzeitung für Nachhaltigkeit</span>
     <span>Berlin, Deutschland</span>
   </div>
   <div class="masthead-title">
-    <h1>Freiday <span>Times</span></h1>
+    <h1>freiday <span>Times</span></h1>
     <p class="masthead-tagline">Wir schreiben für eine bessere Welt — eine Seite nach der anderen.</p>
   </div>
   <div class="header-bar">
@@ -998,7 +1088,10 @@
       <a href="#section-stadt">Stadtplaner</a>
       <a href="#section-ozean">Ozean</a>
     </nav>
-    <div class="header-leaf">🌿</div>
+    <div style="display:flex;align-items:center;gap:0.8rem">
+      <button class="dark-toggle" id="dark-btn" onclick="toggleDark()">🌙 Dark</button>
+      <div class="header-leaf">🌿</div>
+    </div>
   </div>
 </header>
 
@@ -1847,7 +1940,7 @@
     const isP=Math.random()<0.65;
     const idx=Math.floor(Math.random()*(isP?OZ_PLASTIC2.length:OZ_DANGER2.length));
     const side=Math.floor(Math.random()*4);
-    let x,y,vx,vy; const spd=1.2+Math.random()*1.5;
+    let x,y,vx,vy; const spd=0.5+Math.random()*0.8;
     if(side===0){x=Math.random()*80+10;y=-10;vx=(Math.random()-.5)*spd*0.7;vy=spd;}
     else if(side===1){x=110;y=Math.random()*70+10;vx=-spd;vy=(Math.random()-.5)*spd*0.7;}
     else if(side===2){x=Math.random()*80+10;y=110;vx=(Math.random()-.5)*spd*0.7;vy=-spd;}
@@ -1930,6 +2023,19 @@
   ctTick();
   setInterval(ctTick, 1000);
 
+  // DARK MODE
+  function toggleDark() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('dark-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+    localStorage.setItem('freiday-theme', isDark ? 'light' : 'dark');
+  }
+  const savedTheme = localStorage.getItem('freiday-theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('dark-btn').textContent = '☀️ Light';
+  }
+
   // Seaweed CSS animation
   const swayStyle = document.createElement('style');
   swayStyle.textContent = '@keyframes oz-sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}';
@@ -1940,188 +2046,6 @@
       if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
-    {cat:'eis',  e:'❄️',t:'Arktis: Eisschmelze',r:'Nordpol · Arktis',c:'#4299e1',txt:'Das arktische Meereis schrumpft dramatisch. 2023 war das kleinste Ausmaß seit Beginn der Aufzeichnungen. Ohne weißes Eis absorbiert das Meer mehr Wärme – ein Teufelskreis.',st:['13% weniger Eis/Jahrzehnt','+4°C wärmer als 1980','Eisbären stark bedroht']},
-    {cat:'klima',e:'🔥',t:'Australien: Megabrände',r:'Australien',c:'#e53e3e',txt:'Die Buschbrände 2019–2020 waren die schlimmsten in der Geschichte Australiens. Fast 3 Milliarden Tiere starben. Klimawandel macht solche Ereignisse häufiger und intensiver.',st:['18,6 Mio. Hektar verbrannt','3 Mrd. Tiere betroffen','Alle 5 Jahre schlimmer']},
-    {cat:'wasser',e:'💧',t:'Ganges: Verschmutzung',r:'Indien · Asien',c:'#2b6cb0',txt:'Der Ganges ist einer der am stärksten verschmutzten Flüsse der Welt. Industrieabwässer und Plastikmüll gefährden 400 Millionen Menschen.',st:['400 Mio. abhängige Menschen','3 Mrd. Liter Abwasser täglich','80% der Krankheiten durch Wasser']},
-    {cat:'ozean',e:'🐠',t:'Barriereriff bleicht',r:'Australien · Pazifik',c:'#805ad5',txt:'Das Große Barriereriff ist das größte Korallenriff der Welt. Wärmeres Meerwasser verursacht Korallenbleiche – 2022 war das schlimmste Bleicheereignis aller Zeiten.',st:['50% Korallen seit 1995 verloren','4. Massenbleiche 2022','64.000 km² bedroht']},
-    {cat:'klima',e:'🌵',t:'Sahelzone: Wüstenbildung',r:'West-/Zentralafrika',c:'#e53e3e',txt:'Die Sahelzone kämpft mit extremer Desertifikation. Durch Klimawandel breitet sich die Wüste jährlich aus. Millionen werden zu Klimaflüchtlingen.',st:['700.000 km² bereits Wüste','135 Mio. Menschen betroffen','+2–4°C bis 2050']},
-    {cat:'eis',  e:'⛰️',t:'Himalaya-Gletscher',r:'Nepal/Tibet · Asien',c:'#4299e1',txt:'Die Himalaya-Gletscher versorgen über 1 Milliarde Menschen mit Trinkwasser. Sie schmelzen dreimal schneller als vor 20 Jahren.',st:['1 Mrd. Menschen abhängig','40% Gletschermasse verloren','Bis 2100: 80% weg möglich']},
-    {cat:'ozean',e:'♻️',t:'Pazifik-Müllstrudel',r:'Nordpazifik',c:'#805ad5',txt:'Im Nordpazifik sammelt sich Plastik in einem riesigen Strudel – dreimal so groß wie Frankreich. Jedes Jahr enden 8 Millionen Tonnen Plastik im Meer.',st:['1,8 Bio. Plastikteile','3× Frankreichs Fläche','8 Mio. Tonnen Plastik/Jahr neu']},
-    {cat:'klima',e:'☀️',t:'Mittelmeer: Hitzewellen',r:'Südeuropa',c:'#dd6b20',txt:'Das Mittelmeer erwärmt sich 20% schneller als der globale Durchschnitt. 2023 war der heißeste Sommer aller Zeiten mit verheerenden Waldbränden.',st:['1,5× schneller als global','60.000 Hitzetote 2022','Heißester Sommer 2023']},
-    {cat:'wasser',e:'💧',t:'Nil: Wasserkonflikt',r:'Ostafrika / Nordafrika',c:'#2b6cb0',txt:'Der Nil versorgt 300 Millionen Menschen in 10 Ländern. Staudammprojekte und sinkende Niederschläge haben einen ernsthaften geopolitischen Konflikt ausgelöst.',st:['300 Mio. abhängige Menschen','10 Länder teilen das Wasser','Vorrat sinkt 20% bis 2050']},
-    {cat:'eis',  e:'🌨️',t:'Sibirien: Permafrost',r:'Russland · Sibirien',c:'#4299e1',txt:'Der sibirische Permafrost enthält Milliarden Tonnen Methan und CO₂. Durch Erwärmung taut er auf und setzt diese Treibhausgase frei – ein sich selbst verstärkender Kreislauf.',st:['1,5 Bio. Tonnen CO₂ gespeichert','+3°C in Sibirien seit 1960','Gebäude und Straßen sinken ein']},
-    {cat:'wald', e:'🌴',t:'Borneo: Regenwald',r:'Malaysia / Indonesien',c:'#276749',txt:'Borneo hat in 50 Jahren über die Hälfte seines Regenwaldes verloren – für Palmölplantagen. Orang-Utans und Borneo-Elefanten sind stark bedroht.',st:['50% Wald in 50 Jahren weg','Orang-Utan: nur 100.000 übrig','Palmöl in 50% aller Produkte']},
-    {cat:'eis',  e:'🧊',t:'Antarktis: Eisverlust',r:'Südpol · Antarktis',c:'#4299e1',txt:'Die Antarktis verliert jedes Jahr Milliarden Tonnen Eis. Der westantarktische Eisschild könnte zusammenbrechen und den Meeresspiegel um mehrere Meter anheben.',st:['150 Mrd. Tonnen Eis/Jahr verloren','+3mm Meeresspiegel/Jahr','Irreversibel ab +1,5°C']},
-    {cat:'ozean',e:'🌊',t:'Nordsee: Erwärmung',r:'Nordeuropa',c:'#805ad5',txt:'Die Nordsee erwärmt sich viermal schneller als der globale Durchschnitt. Fischbestände verschieben sich nordwärts und Stürme werden heftiger.',st:['4× schneller als global','+2°C seit 1970','Kabeljau-Bestände halbiert']},
-  ];
-  let ksActive = null;
-  function ks(i) {
-    const d = document.getElementById('kd');
-    if (ksActive===i) { d.style.display='none'; ksActive=null; return; }
-    ksActive=i;
-    const s=KS_DATA[i];
-    d.style.display='block'; d.style.borderLeftColor=s.c; d.style.borderLeftWidth='4px';
-    d.innerHTML=`<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px"><div style="width:36px;height:36px;border-radius:50%;background:${s.c}22;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${s.e}</div><div><div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink)">${s.t}</div><div style="font-size:11px;color:#888;font-family:'Space Mono',monospace">${s.r}</div></div></div><div style="font-size:0.88rem;line-height:1.7;color:#444;margin-bottom:8px">${s.txt}</div><div>${s.st.map(x=>`<span style="display:inline-block;background:var(--paper);border:1px solid #ccc8b8;padding:2px 8px;font-size:10px;font-family:'Space Mono',monospace;margin:2px">${x}</span>`).join('')}</div>`;
-    d.scrollIntoView({behavior:'smooth',block:'nearest'});
-  }
-  function kf(cat,btn) {
-    document.querySelectorAll('.kb').forEach(b=>{b.classList.remove('on');b.style.background='transparent';});
-    btn.classList.add('on');
-    if(cat==='all'){btn.style.background='#1a1a14';btn.style.color='#fff';}
-    document.querySelectorAll('.khs').forEach(h=>{
-      const show=cat==='all'||h.dataset.cat===cat;
-      h.style.opacity=show?'1':'0.1'; h.style.pointerEvents=show?'auto':'none';
-    });
-    document.getElementById('kd').style.display='none'; ksActive=null;
-  }
-
-  // OZEAN SPIEL – TAUCHER VERSION
-  const ozCanvas = document.getElementById('oz-canvas');
-  const ozCtx = ozCanvas.getContext('2d');
-  const ozWrap = document.getElementById('oz-wrap');
-  let ozW, ozH, ozDiver, ozItems, ozScore, ozLives, ozTimeLeft, ozRunning, ozPaused, ozStarted, ozAnimId, ozTimerInt, ozBubbles, ozFrame;
-  const OZ_PLASTIC = ['🧴','🥤','🛍️','🔩','🧃','🍶','🪣'];
-  const OZ_DANGER  = ['🪼','🐡','🦈'];
-
-  function ozResize(){const r=ozWrap.getBoundingClientRect();ozW=Math.floor(r.width);ozH=Math.min(400,Math.floor(ozW*0.56));ozCanvas.width=ozW;ozCanvas.height=ozH;}
-  function ozMakeBubbles(){ozBubbles=Array.from({length:16},()=>({x:Math.random()*ozW,y:Math.random()*ozH,r:2+Math.random()*7,speed:0.2+Math.random()*0.45,alpha:0.08+Math.random()*0.18}));}
-
-  function ozStart(){
-    document.getElementById('oz-end').style.display='none';
-    ozCanvas.style.display='block'; ozResize(); ozMakeBubbles();
-    ozDiver={x:ozW/2,y:ozH/2,tx:ozW/2,ty:ozH/2,dir:1};
-    ozItems=[]; ozScore=0; ozLives=3; ozTimeLeft=60; ozRunning=true; ozPaused=false; ozStarted=true; ozFrame=0;
-    ozUpdateHUD(); ozUpdateBtn();
-    document.getElementById('oz-msg').textContent='🖱️ Maus bewegen · Plastik ♻️ sammeln · Quallen & Haie meiden!';
-    clearInterval(ozTimerInt);
-    ozTimerInt=setInterval(()=>{if(!ozRunning||ozPaused)return;ozTimeLeft--;document.getElementById('oz-time').textContent=ozTimeLeft;document.getElementById('oz-prog').style.width=(ozTimeLeft/60*100)+'%';if(ozTimeLeft<=0)ozEnd();},1000);
-    cancelAnimationFrame(ozAnimId);
-    function loop(){if(!ozRunning)return;if(!ozPaused){ozFrame++;if(ozFrame%38===0)ozSpawn();ozUpdateGame();}ozDrawGame();ozAnimId=requestAnimationFrame(loop);}
-    loop();
-  }
-
-  function ozSpawn(){
-    const isP=Math.random()<0.63; const side=Math.floor(Math.random()*4);
-    let x,y,vx,vy; const spd=1.2+Math.random()*1.8;
-    if(side===0){x=Math.random()*ozW;y=-32;vx=(Math.random()-.5)*1.3;vy=spd;}
-    else if(side===1){x=ozW+32;y=Math.random()*ozH;vx=-spd;vy=(Math.random()-.5)*1.3;}
-    else if(side===2){x=Math.random()*ozW;y=ozH+32;vx=(Math.random()-.5)*1.3;vy=-spd;}
-    else{x=-32;y=Math.random()*ozH;vx=spd;vy=(Math.random()-.5)*1.3;}
-    ozItems.push({x,y,vx,vy,isP,emoji:isP?OZ_PLASTIC[Math.floor(Math.random()*OZ_PLASTIC.length)]:OZ_DANGER[Math.floor(Math.random()*OZ_DANGER.length)],size:26,alpha:1,collected:false});
-  }
-
-  function ozUpdateGame(){
-    ozDiver.x+=(ozDiver.tx-ozDiver.x)*0.13; ozDiver.y+=(ozDiver.ty-ozDiver.y)*0.13;
-    ozDiver.x=Math.max(22,Math.min(ozW-22,ozDiver.x)); ozDiver.y=Math.max(22,Math.min(ozH-22,ozDiver.y));
-    if(ozDiver.tx>ozDiver.x+2)ozDiver.dir=1; else if(ozDiver.tx<ozDiver.x-2)ozDiver.dir=-1;
-    ozBubbles.forEach(b=>{b.y-=b.speed;if(b.y<-10)b.y=ozH+10;});
-    ozItems=ozItems.filter(it=>it.alpha>0.05&&it.x>-60&&it.x<ozW+60&&it.y>-60&&it.y<ozH+60);
-    for(const it of ozItems){
-      if(it.collected){it.alpha-=0.07;it.y-=2.5;continue;}
-      it.x+=it.vx; it.y+=it.vy;
-      const dx=ozDiver.x-it.x,dy=ozDiver.y-it.y;
-      if(Math.sqrt(dx*dx+dy*dy)<26){
-        it.collected=true;
-        if(it.isP){ozScore++;ozUpdateHUD();ozShowMsg('♻️ +1 Plastik gesammelt!');}
-        else{ozLives=Math.max(0,ozLives-1);ozUpdateHUD();ozShowMsg('💥 Treffer! '+('❤️'.repeat(ozLives)||'💀'));if(ozLives<=0){ozRunning=false;setTimeout(ozEnd,500);}}
-      }
-    }
-  }
-
-  function ozDrawDiver(x,y,dir){
-    ozCtx.save(); ozCtx.translate(x,y); if(dir<0)ozCtx.scale(-1,1);
-    ozCtx.fillStyle='#1a3a6a'; ozCtx.beginPath(); ozCtx.ellipse(0,4,10,14,0,0,Math.PI*2); ozCtx.fill();
-    ozCtx.fillStyle='#5bc8f0'; ozCtx.beginPath(); ozCtx.ellipse(-1,-8,9,7,0,0,Math.PI*2); ozCtx.fill();
-    ozCtx.strokeStyle='#1a3a6a'; ozCtx.lineWidth=1.5; ozCtx.stroke();
-    ozCtx.fillStyle='#fff'; ozCtx.beginPath(); ozCtx.arc(-4,-9,2.5,0,Math.PI*2); ozCtx.fill();
-    ozCtx.beginPath(); ozCtx.arc(3,-9,2.5,0,Math.PI*2); ozCtx.fill();
-    ozCtx.fillStyle='#333'; ozCtx.beginPath(); ozCtx.arc(-3.5,-9,1.2,0,Math.PI*2); ozCtx.fill();
-    ozCtx.beginPath(); ozCtx.arc(3.5,-9,1.2,0,Math.PI*2); ozCtx.fill();
-    ozCtx.strokeStyle='#f59e0b'; ozCtx.lineWidth=2; ozCtx.beginPath(); ozCtx.moveTo(5,-5); ozCtx.quadraticCurveTo(14,-2,14,6); ozCtx.stroke();
-    ozCtx.fillStyle='#f59e0b'; ozCtx.beginPath(); ozCtx.arc(14,6,3,0,Math.PI*2); ozCtx.fill();
-    ozCtx.fillStyle='#374151'; ozCtx.beginPath(); ozCtx.roundRect(-14,-4,7,16,3); ozCtx.fill();
-    ozCtx.fillStyle='#f59e0b'; ozCtx.beginPath(); ozCtx.ellipse(-5,20,5,10,-0.3,0,Math.PI*2); ozCtx.fill();
-    ozCtx.beginPath(); ozCtx.ellipse(5,20,5,10,0.3,0,Math.PI*2); ozCtx.fill();
-    ozCtx.fillStyle='#1a3a6a'; ozCtx.beginPath(); ozCtx.ellipse(-14,4,4,10,-0.4,0,Math.PI*2); ozCtx.fill();
-    ozCtx.beginPath(); ozCtx.ellipse(14,4,4,10,0.4,0,Math.PI*2); ozCtx.fill();
-    ozCtx.strokeStyle='#92400e'; ozCtx.lineWidth=1.5; ozCtx.beginPath(); ozCtx.arc(18,10,7,0,Math.PI*2); ozCtx.stroke();
-    ozCtx.beginPath(); ozCtx.moveTo(11,10); ozCtx.lineTo(25,10); ozCtx.stroke();
-    ozCtx.beginPath(); ozCtx.moveTo(18,3); ozCtx.lineTo(18,17); ozCtx.stroke();
-    if(ozScore>0){ozCtx.fillStyle='#92400e';ozCtx.font='8px serif';ozCtx.textAlign='center';ozCtx.textBaseline='middle';ozCtx.fillText(Math.min(ozScore,9)+'',18,10);}
-    ozCtx.fillStyle='rgba(255,255,255,0.6)';
-    [0,1,2].forEach(i=>{const bx=14+Math.sin(Date.now()/300+i*2)*3,by=6-i*7-(Date.now()/200%6);ozCtx.beginPath();ozCtx.arc(bx,by,1.5-i*0.3,0,Math.PI*2);ozCtx.fill();});
-    ozCtx.restore();
-  }
-
-  function ozDrawGame(){
-    const g=ozCtx.createLinearGradient(0,0,0,ozH);
-    g.addColorStop(0,'#5bc8f0');g.addColorStop(0.5,'#2ea8d8');g.addColorStop(1,'#1278a0');
-    ozCtx.fillStyle=g; ozCtx.fillRect(0,0,ozW,ozH);
-    ozCtx.save();
-    for(let i=0;i<5;i++){ozCtx.globalAlpha=0.06;ozCtx.fillStyle='#fff';const rx=(ozW/5)*i+ozW/10;ozCtx.beginPath();ozCtx.moveTo(rx-20,0);ozCtx.lineTo(rx+20,0);ozCtx.lineTo(rx+60,ozH);ozCtx.lineTo(rx-60,ozH);ozCtx.closePath();ozCtx.fill();}
-    ozCtx.restore();
-    ozCtx.fillStyle='#d4a855'; ozCtx.fillRect(0,ozH-26,ozW,26);
-    ozCtx.fillStyle='#c49040'; ozCtx.fillRect(0,ozH-26,ozW,4);
-    for(let i=0;i<8;i++){const sx=(ozW/8)*i+18;ozCtx.strokeStyle='#2d8a3a';ozCtx.lineWidth=3;ozCtx.beginPath();ozCtx.moveTo(sx,ozH-26);ozCtx.quadraticCurveTo(sx+8,ozH-50,sx,ozH-70);ozCtx.stroke();}
-    [ozW*0.1,ozW*0.35,ozW*0.65,ozW*0.88].forEach((cx,i)=>{const cols=['#e53e3e','#ed8936','#805ad5','#e53e3e'];ozCtx.strokeStyle=cols[i];ozCtx.lineWidth=4;for(let b=0;b<3;b++){ozCtx.beginPath();ozCtx.moveTo(cx+b*8-8,ozH-26);ozCtx.quadraticCurveTo(cx+b*8-4,ozH-45,cx+b*8,ozH-38);ozCtx.stroke();}});
-    ozCtx.save(); ozBubbles.forEach(b=>{ozCtx.globalAlpha=b.alpha;ozCtx.strokeStyle='rgba(255,255,255,0.7)';ozCtx.lineWidth=1;ozCtx.beginPath();ozCtx.arc(b.x,b.y,b.r,0,Math.PI*2);ozCtx.stroke();}); ozCtx.restore();
-    ozCtx.save();
-    for(const it of ozItems){ozCtx.globalAlpha=it.alpha;ozCtx.fillStyle='rgba(255,255,255,0.45)';ozCtx.beginPath();ozCtx.arc(it.x,it.y,it.size*0.7,0,Math.PI*2);ozCtx.fill();ozCtx.font=`${it.size}px serif`;ozCtx.textAlign='center';ozCtx.textBaseline='middle';ozCtx.fillText(it.emoji,it.x,it.y);}
-    ozCtx.restore();
-    ozDrawDiver(ozDiver.x,ozDiver.y,ozDiver.dir);
-    if(ozPaused){ozCtx.fillStyle='rgba(0,0,0,0.45)';ozCtx.fillRect(0,0,ozW,ozH);ozCtx.fillStyle='#fff';ozCtx.font='bold 26px serif';ozCtx.textAlign='center';ozCtx.textBaseline='middle';ozCtx.fillText('⏸ Pausiert',ozW/2,ozH/2-12);ozCtx.font='13px monospace';ozCtx.fillStyle='rgba(255,255,255,0.7)';ozCtx.fillText('▶ Weiter drücken',ozW/2,ozH/2+16);}
-    if(!ozStarted){ozCtx.fillStyle='rgba(0,20,40,0.62)';ozCtx.fillRect(0,0,ozW,ozH);ozCtx.font='48px serif';ozCtx.textAlign='center';ozCtx.textBaseline='middle';ozCtx.fillText('🤿',ozW/2,ozH/2-28);ozCtx.fillStyle='#fff';ozCtx.font='bold 18px serif';ozCtx.fillText('Taucher rettet den Ozean',ozW/2,ozH/2+12);ozCtx.fillStyle='rgba(255,255,255,0.7)';ozCtx.font='13px monospace';ozCtx.fillText('▶ Start drücken',ozW/2,ozH/2+38);}
-  }
-
-  function ozToggle(){
-    if(!ozStarted||!ozRunning){ozStart();return;}
-    ozPaused=!ozPaused; ozUpdateBtn();
-    if(ozPaused)ozShowMsg('⏸ Pausiert'); else ozShowMsg('▶ Weiter!');
-  }
-  function ozUpdateBtn(){
-    const btn=document.getElementById('oz-main-btn');
-    if(!ozStarted||!ozRunning){btn.textContent='▶ Start';btn.style.background='#2d5a27';}
-    else if(ozPaused){btn.textContent='▶ Weiter';btn.style.background='#2d5a27';}
-    else{btn.textContent='⏸ Pause';btn.style.background='#b45309';}
-  }
-  function ozEnd(){
-    ozRunning=false;ozStarted=false;clearInterval(ozTimerInt);cancelAnimationFrame(ozAnimId);
-    ozCanvas.style.display='none';document.getElementById('oz-end').style.display='block'; ozUpdateBtn();
-    let emoji,title,sub;
-    if(ozScore>=30){emoji='🏆';title='Ozean-Champion!';sub=`${ozScore} Plastikteile! Du bist ein echter Meeresretter.`;}
-    else if(ozScore>=18){emoji='🌊';title='Super Taucher!';sub=`${ozScore} Plastikteile – toll! Verzichte im Alltag auf Einwegplastik.`;}
-    else if(ozScore>=8){emoji='🐬';title='Guter Anfang!';sub=`${ozScore} Plastikteile – weiter so!`;}
-    else{emoji='🐡';title='Weiter üben!';sub=`Nur ${ozScore} Plastikteile. Halte die Maus nah am Plastik!`;}
-    document.getElementById('oz-end-emoji').textContent=emoji;
-    document.getElementById('oz-end-title').textContent=title;
-    document.getElementById('oz-end-sub').textContent=sub;
-  }
-  let ozMsgTimer;
-  function ozShowMsg(t){const el=document.getElementById('oz-msg');el.textContent=t;clearTimeout(ozMsgTimer);ozMsgTimer=setTimeout(()=>{if(!ozPaused&&ozRunning)el.textContent='';},1800);}
-  function ozUpdateHUD(){document.getElementById('oz-score').textContent=ozScore;document.getElementById('oz-lives-box').textContent='❤️'.repeat(Math.max(0,ozLives))||'💀';}
-  ozWrap.addEventListener('mousemove',e=>{if(!ozStarted||ozPaused)return;const r=ozCanvas.getBoundingClientRect();ozDiver.tx=(e.clientX-r.left)*(ozW/r.width);ozDiver.ty=(e.clientY-r.top)*(ozW/r.width);});
-  ozWrap.addEventListener('touchmove',e=>{if(!ozStarted||ozPaused)return;e.preventDefault();const r=ozCanvas.getBoundingClientRect();ozDiver.tx=(e.touches[0].clientX-r.left)*(ozW/r.width);ozDiver.ty=(e.touches[0].clientY-r.top)*(ozW/r.width);},{passive:false});
-  window.addEventListener('resize',()=>{ozResize();ozMakeBubbles();});
-  ozStarted=false; ozRunning=false; ozPaused=false;
-  ozResize(); ozMakeBubbles();
-  ozDiver={x:ozW/2,y:ozH/2,tx:ozW/2,ty:ozH/2,dir:1}; ozItems=[]; ozScore=0; ozLives=3; ozTimeLeft=60;
-  ozUpdateHUD(); ozUpdateBtn(); ozDrawGame();
-
-  ctTick();
-  setInterval(ctTick, 1000);
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
-      }
-    });
-  }, { threshold: 0.1 });
-
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
 </body>
