@@ -891,7 +891,7 @@
   .power-ok { background:#d1fae5; color:#065f46; }
   .power-warn-red { background:#fee2e2; color:#991b1b; }
   .sp-turns { text-align:center; font-size:10px; color:#888; font-family:'Space Mono',monospace; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.06em; }
-  .sp-main { display:grid; grid-template-columns:1fr 220px; gap:1rem; margin-bottom:1rem; }
+  .sp-main { display:grid; grid-template-columns:1fr 240px; gap:1rem; margin-bottom:1rem; }
   .sp-grid-wrap { background:var(--cream); border:1px solid #ccc8b8; padding:10px; }
   .sp-grid { display:grid; gap:3px; }
   .sp-cell {
@@ -1313,14 +1313,14 @@
 <div class="collapsible-body" id="body-stadt">
 
 <div class="game-outer">
-  <div class="game-wrap fade-in" style="max-width:760px;">
+  <div class="game-wrap fade-in" style="max-width:860px;">
     <div class="game-header">
       <div class="game-title">🏙️ Nachhaltige Stadtplanung</div>
       <div class="game-sub">Fabriken &amp; Märkte = Geld · Häuser verbrauchen Strom · Solar &amp; Wind = sauberer Strom · Kohlekraftwerk = viel Strom aber schlechte Ökologie</div>
     </div>
 
     <div class="sp-stats">
-      <div class="sp-stat"><span class="sp-stat-val val-amber" id="st-budget">💰 120</span><span class="sp-stat-lbl">Budget</span></div>
+      <div class="sp-stat"><span class="sp-stat-val val-amber" id="st-budget">💰 150</span><span class="sp-stat-lbl">Budget</span></div>
       <div class="sp-stat"><span class="sp-stat-val val-yellow" id="st-income">📈 +0</span><span class="sp-stat-lbl">Eink./Zug</span></div>
       <div class="sp-stat"><span class="sp-stat-val val-green" id="st-eco">🌿 60</span><span class="sp-stat-lbl">Ökologie</span></div>
       <div class="sp-stat"><span class="sp-stat-val val-blue" id="st-hap">😊 60</span><span class="sp-stat-lbl">Glück</span></div>
@@ -1336,7 +1336,7 @@
     <div class="power-warn" id="power-status"></div>
 
     <div id="sp-game">
-      <div class="sp-turns" id="sp-turns">Züge übrig: 25</div>
+      <div class="sp-turns" id="sp-turns">Züge übrig: 40</div>
       <div class="sp-main">
         <div class="sp-grid-wrap"><div class="sp-grid" id="sp-grid"></div></div>
         <div class="sp-panel">
@@ -1739,37 +1739,69 @@
     { id:'bike',     icon:'🚲', name:'Radweg',         cost:10, income:0,  power:0,   eco:+6,  hap:+6,  pop:3,   desc:'Nachhaltige Mobilität' },
     { id:'school',   icon:'🏫', name:'Schule',         cost:25, income:-5, power:-5,  eco:+3,  hap:+12, pop:8,   desc:'Kostet 5💰/Zug, aber viel Glück' },
   ];
-  const GRID_SZ = 5;
-  let spGrid=[], spSelected=null, spBudget=120, spEco=60, spHap=60, spPop=0, spTurns=25, spDemolish=false;
+  const GRID_SZ = 7;
+  let spGrid=[], spSelected=null, spBudget=150, spEco=60, spHap=60, spPop=0, spTurns=40, spDemolish=false;
+  let spRiver = []; // set of cell indices that are river
 
   function spClamp(v){ return Math.max(0,Math.min(100,v)); }
   function spPower(){ let p=0,c=0; spGrid.forEach(x=>{ if(!x)return; if(x.power>0)p+=x.power; else c+=Math.abs(x.power); }); return{produced:p,consumed:c,surplus:p-c}; }
   function spIncome(){ return spGrid.reduce((s,x)=>x?s+x.income:s,0); }
 
+  function spGenRiver(){
+    // Random winding river from top to bottom through the grid
+    spRiver=[];
+    let col = 1 + Math.floor(Math.random()*(GRID_SZ-2)); // start col (not edge)
+    for(let row=0; row<GRID_SZ; row++){
+      spRiver.push(row*GRID_SZ + col);
+      // Sometimes add a bend (wider river)
+      if(Math.random()<0.4 && col>0)          spRiver.push(row*GRID_SZ + col-1);
+      if(Math.random()<0.4 && col<GRID_SZ-1) spRiver.push(row*GRID_SZ + col+1);
+      // Meander: shift col by -1, 0 or +1
+      const shift = Math.floor(Math.random()*3)-1;
+      col = Math.max(1, Math.min(GRID_SZ-2, col+shift));
+    }
+    // Remove duplicates
+    spRiver = [...new Set(spRiver)];
+  }
+
   function initGame(){
     spGrid=Array(GRID_SZ*GRID_SZ).fill(null);
-    spBudget=120; spEco=60; spHap=60; spPop=0; spTurns=25; spSelected=null; spDemolish=false;
+    spBudget=150; spEco=60; spHap=60; spPop=0; spTurns=40; spSelected=null; spDemolish=false;
+    spGenRiver(); // generate new river each game
     spRenderGrid(); spRenderBtns(); spUpdateStats();
-    document.getElementById('sp-log').textContent='Wähle ein Gebäude und klicke auf ein freies Feld!';
+    document.getElementById('sp-log').textContent='🌊 Neuer Fluss generiert! Baue entlang des Flusses für Öko-Bonus!';
     document.getElementById('sp-end').style.display='none';
     document.getElementById('sp-game').style.display='block';
   }
 
   function spRenderGrid(){
     const g=document.getElementById('sp-grid');
-    const sz=Math.min(380,g.parentElement.offsetWidth-22);
+    const sz=Math.min(560,g.parentElement.offsetWidth-22);
     const cs=Math.floor((sz-(GRID_SZ-1)*3)/GRID_SZ);
     g.style.gridTemplateColumns=`repeat(${GRID_SZ},${cs}px)`;
     g.innerHTML='';
     const {surplus}=spPower();
     spGrid.forEach((cell,i)=>{
       const d=document.createElement('div');
+      const isRiver=spRiver.includes(i);
       const noPow=cell&&cell.power<0&&surplus<0;
-      d.className='sp-cell '+(cell?'filled':'empty')+(noPow?' no-power':'');
-      d.style.width=cs+'px'; d.style.fontSize=Math.floor(cs*0.48)+'px';
-      d.textContent=cell?cell.icon:'';
-      d.title=cell?cell.name:'Leer';
-      d.onclick=()=>spCellClick(i);
+      if(isRiver){
+        d.className='sp-cell';
+        d.style.width=cs+'px'; d.style.fontSize=Math.floor(cs*0.48)+'px';
+        d.style.background='linear-gradient(135deg,#3b82f6,#60a5fa)';
+        d.style.border='1.5px solid #1d4ed8';
+        d.style.cursor='not-allowed';
+        d.title='🌊 Fluss – nicht bebaubar. Anliegende Gebäude erhalten Öko-Bonus!';
+        // Animated wave character
+        d.textContent='🌊';
+        d.style.opacity='0.85';
+      } else {
+        d.className='sp-cell '+(cell?'filled':'empty')+(noPow?' no-power':'');
+        d.style.width=cs+'px'; d.style.fontSize=Math.floor(cs*0.48)+'px';
+        d.textContent=cell?cell.icon:'';
+        d.title=cell?cell.name:'Leer';
+        d.onclick=()=>spCellClick(i);
+      }
       g.appendChild(d);
     });
   }
@@ -1789,6 +1821,7 @@
 
   function spCellClick(i){
     if(spTurns<=0) return;
+    if(spRiver.includes(i)){ spLog('🌊 Fluss – hier kann nicht gebaut werden!'); return; }
     if(spDemolish){
       if(spGrid[i]){
         const o=spGrid[i];
@@ -1806,11 +1839,15 @@
     if(spBudget<spSelected.cost){ spLog('❌ Nicht genug Budget für '+spSelected.name+'!'); return; }
     let ecoB=0,hapB=0;
     [i-1,i+1,i-GRID_SZ,i+GRID_SZ].forEach(j=>{
-      if(j>=0&&j<spGrid.length&&spGrid[j]){
-        if(spSelected.id==='park'&&spGrid[j].id==='park') ecoB+=3;
-        if(spSelected.id==='solar'&&spGrid[j].id==='wind') ecoB+=3;
-        if(spSelected.id==='coal'&&spGrid[j].id==='park') ecoB+=5;
-        if(spSelected.id==='house'&&spGrid[j].id==='park') hapB+=2;
+      if(j>=0&&j<spGrid.length){
+        // River adjacency bonus — +5 eco for any building next to river
+        if(spRiver.includes(j)) ecoB+=5;
+        if(spGrid[j]){
+          if(spSelected.id==='park'&&spGrid[j].id==='park') ecoB+=3;
+          if(spSelected.id==='solar'&&spGrid[j].id==='wind') ecoB+=3;
+          if(spSelected.id==='coal'&&spGrid[j].id==='park') ecoB+=5;
+          if(spSelected.id==='house'&&spGrid[j].id==='park') hapB+=2;
+        }
       }
     });
     const inc=spIncome();
@@ -1824,7 +1861,7 @@
     let penMsg='';
     if(surplus<0){ const pen=Math.abs(surplus)*0.3; spHap=spClamp(spHap-pen); penMsg=' ⚠️ Stromausfall! 😊-'+Math.round(pen); }
     let msg='✅ '+spSelected.name+' gebaut!';
-    if(inc>0)msg+=' 💰+'+inc; if(ecoB>0)msg+=' 🌿+'+ecoB; if(hapB>0)msg+=' 😊+'+hapB; msg+=penMsg;
+    if(inc>0)msg+=' 💰+'+inc; if(ecoB>0)msg+=' 🌿+'+ecoB+(ecoB>=5&&[i-1,i+1,i-GRID_SZ,i+GRID_SZ].some(j=>spRiver.includes(j))?' (Fluss-Bonus!)':''); if(hapB>0)msg+=' 😊+'+hapB; msg+=penMsg;
     spLog(msg); spUpdateStats(); spRenderGrid(); spCheckEnd();
   }
 
@@ -1860,7 +1897,7 @@
     else { ps.textContent='🔴 Stromausfall! '+produced+' produziert, '+consumed+' benötigt – bau mehr Kraftwerke!'; ps.className='power-warn power-warn-red'; }
   }
 
-  function spCheckEnd(){ if(spTurns<=0||spGrid.every(c=>c!==null)) spEndGame(); }
+  function spCheckEnd(){ if(spTurns<=0||spGrid.every((c,i)=>c!==null||spRiver.includes(i))) spEndGame(); }
 
   function spEndGame(){
     document.getElementById('sp-game').style.display='none';
