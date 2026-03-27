@@ -1869,6 +1869,7 @@
   ];
   const GRID_SZ = 11;
   let spGrid=[], spSelected=null, spBudget=250, spEco=60, spHap=60, spPop=0, spTurns=80, spDemolish=false;
+  let spCurrentMap = 'plains';
 
   function spClamp(v){ return Math.max(0,Math.min(100,v)); }
   function spPower(){ let p=0,c=0; spGrid.forEach(x=>{ if(!x)return; if(x.power>0)p+=x.power; else c+=Math.abs(x.power); }); return{produced:p,consumed:c,surplus:p-c}; }
