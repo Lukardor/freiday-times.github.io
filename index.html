@@ -1729,15 +1729,16 @@
   startGame();
   // STADTPLANER
   const SP_BUILDINGS = [
-    { id:'factory',  icon:'🏭', name:'Fabrik',         cost:25, income:15, power:-8,  eco:-18, hap:-6,  pop:20,  desc:'Geld +15/Zug, braucht Strom' },
-    { id:'market',   icon:'🛒', name:'Supermarkt',     cost:15, income:8,  power:-4,  eco:-2,  hap:+8,  pop:5,   desc:'Geld +8/Zug, braucht Strom' },
-    { id:'house',    icon:'🏠', name:'Wohnhaus',       cost:10, income:0,  power:-3,  eco:-2,  hap:+5,  pop:10,  desc:'Einwohner, braucht Strom' },
-    { id:'solar',    icon:'☀️', name:'Solaranlage',    cost:20, income:0,  power:+10, eco:+14, hap:+3,  pop:0,   desc:'Produziert +10⚡ sauberen Strom' },
-    { id:'wind',     icon:'🌬️', name:'Windrad',        cost:18, income:0,  power:+12, eco:+16, hap:-1,  pop:0,   desc:'Produziert +12⚡ sauberen Strom' },
-    { id:'coal',     icon:'🪨', name:'Kohlekraftwerk', cost:30, income:0,  power:+25, eco:-30, hap:-10, pop:5,   desc:'Viel Strom +25⚡, aber schadet Umwelt!' },
-    { id:'park',     icon:'🌳', name:'Park',           cost:8,  income:0,  power:0,   eco:+10, hap:+7,  pop:0,   desc:'Natur & Erholung' },
-    { id:'bike',     icon:'🚲', name:'Radweg',         cost:10, income:0,  power:0,   eco:+6,  hap:+6,  pop:3,   desc:'Nachhaltige Mobilität' },
-    { id:'school',   icon:'🏫', name:'Schule',         cost:25, income:-5, power:-5,  eco:+3,  hap:+12, pop:8,   desc:'Kostet 5💰/Zug, aber viel Glück' },
+    { id:'factory',    icon:'🏭', name:'Fabrik',             cost:25, income:15, power:-8,  eco:-18, hap:-6,  pop:20, desc:'Geld +15/Zug, braucht Strom', riverOnly:false },
+    { id:'market',     icon:'🛒', name:'Supermarkt',         cost:15, income:8,  power:-4,  eco:-2,  hap:+8,  pop:5,  desc:'Geld +8/Zug, braucht Strom', riverOnly:false },
+    { id:'house',      icon:'🏠', name:'Wohnhaus',           cost:10, income:0,  power:-3,  eco:-2,  hap:+5,  pop:10, desc:'Einwohner, braucht Strom', riverOnly:false },
+    { id:'solar',      icon:'☀️', name:'Solaranlage',        cost:20, income:0,  power:+10, eco:+14, hap:+3,  pop:0,  desc:'Produziert +10⚡ sauberen Strom', riverOnly:false },
+    { id:'wind',       icon:'🌬️', name:'Windrad',            cost:18, income:0,  power:+12, eco:+16, hap:-1,  pop:0,  desc:'Produziert +12⚡ sauberen Strom', riverOnly:false },
+    { id:'coal',       icon:'🪨', name:'Kohlekraftwerk',     cost:30, income:0,  power:+25, eco:-30, hap:-10, pop:5,  desc:'Viel Strom +25⚡, aber schadet Umwelt!', riverOnly:false },
+    { id:'wasserkraft',icon:'💧', name:'Wasserkraftwerk',    cost:22, income:0,  power:+18, eco:+20, hap:+4,  pop:0,  desc:'Nur auf dem Fluss! +18⚡ sauberer Strom', riverOnly:true },
+    { id:'park',       icon:'🌳', name:'Park',               cost:8,  income:0,  power:0,   eco:+10, hap:+7,  pop:0,  desc:'Natur & Erholung', riverOnly:false },
+    { id:'bike',       icon:'🚲', name:'Radweg',             cost:10, income:0,  power:0,   eco:+6,  hap:+6,  pop:3,  desc:'Nachhaltige Mobilität', riverOnly:false },
+    { id:'school',     icon:'🏫', name:'Schule',             cost:25, income:-5, power:-5,  eco:+3,  hap:+12, pop:8,  desc:'Kostet 5💰/Zug, aber viel Glück', riverOnly:false },
   ];
   const GRID_SZ = 7;
   let spGrid=[], spSelected=null, spBudget=150, spEco=60, spHap=60, spPop=0, spTurns=40, spDemolish=false;
@@ -1788,13 +1789,21 @@
       if(isRiver){
         d.className='sp-cell';
         d.style.width=cs+'px'; d.style.fontSize=Math.floor(cs*0.48)+'px';
-        d.style.background='linear-gradient(135deg,#3b82f6,#60a5fa)';
-        d.style.border='1.5px solid #1d4ed8';
-        d.style.cursor='not-allowed';
-        d.title='🌊 Fluss – nicht bebaubar. Anliegende Gebäude erhalten Öko-Bonus!';
-        // Animated wave character
-        d.textContent='🌊';
-        d.style.opacity='0.85';
+        d.style.cursor='pointer';
+        if(cell){
+          // Wasserkraft built on river
+          d.style.background='linear-gradient(135deg,#1d4ed8,#3b82f6)';
+          d.style.border='2px solid #1e40af';
+          d.textContent=cell.icon;
+          d.title=cell.name+' (auf dem Fluss)';
+        } else {
+          d.style.background='linear-gradient(135deg,#3b82f6,#60a5fa)';
+          d.style.border='1.5px solid #1d4ed8';
+          d.style.opacity='0.85';
+          d.textContent='🌊';
+          d.title='🌊 Fluss – nur Wasserkraftwerk kann hier gebaut werden';
+        }
+        d.onclick=()=>spCellClick(i);
       } else {
         d.className='sp-cell '+(cell?'filled':'empty')+(noPow?' no-power':'');
         d.style.width=cs+'px'; d.style.fontSize=Math.floor(cs*0.48)+'px';
@@ -1821,7 +1830,7 @@
 
   function spCellClick(i){
     if(spTurns<=0) return;
-    if(spRiver.includes(i)){ spLog('🌊 Fluss – hier kann nicht gebaut werden!'); return; }
+    const isRiver = spRiver.includes(i);
     if(spDemolish){
       if(spGrid[i]){
         const o=spGrid[i];
@@ -1836,18 +1845,21 @@
     }
     if(!spSelected){ spLog('Bitte zuerst ein Gebäude auswählen!'); return; }
     if(spGrid[i]){ spLog('Dieses Feld ist schon bebaut!'); return; }
+    // River logic
+    if(isRiver && spSelected.id!=='wasserkraft'){
+      spLog('🌊 Nur das Wasserkraftwerk kann auf dem Fluss gebaut werden!'); return;
+    }
+    if(!isRiver && spSelected.riverOnly){
+      spLog('💧 Das Wasserkraftwerk kann nur auf dem Fluss gebaut werden!'); return;
+    }
     if(spBudget<spSelected.cost){ spLog('❌ Nicht genug Budget für '+spSelected.name+'!'); return; }
     let ecoB=0,hapB=0;
     [i-1,i+1,i-GRID_SZ,i+GRID_SZ].forEach(j=>{
-      if(j>=0&&j<spGrid.length){
-        // River adjacency bonus — +5 eco for any building next to river
-        if(spRiver.includes(j)) ecoB+=5;
-        if(spGrid[j]){
-          if(spSelected.id==='park'&&spGrid[j].id==='park') ecoB+=3;
-          if(spSelected.id==='solar'&&spGrid[j].id==='wind') ecoB+=3;
-          if(spSelected.id==='coal'&&spGrid[j].id==='park') ecoB+=5;
-          if(spSelected.id==='house'&&spGrid[j].id==='park') hapB+=2;
-        }
+      if(j>=0&&j<spGrid.length&&spGrid[j]){
+        if(spSelected.id==='park'&&spGrid[j].id==='park') ecoB+=3;
+        if(spSelected.id==='solar'&&spGrid[j].id==='wind') ecoB+=3;
+        if(spSelected.id==='coal'&&spGrid[j].id==='park') ecoB+=5;
+        if(spSelected.id==='house'&&spGrid[j].id==='park') hapB+=2;
       }
     });
     const inc=spIncome();
@@ -1861,7 +1873,7 @@
     let penMsg='';
     if(surplus<0){ const pen=Math.abs(surplus)*0.3; spHap=spClamp(spHap-pen); penMsg=' ⚠️ Stromausfall! 😊-'+Math.round(pen); }
     let msg='✅ '+spSelected.name+' gebaut!';
-    if(inc>0)msg+=' 💰+'+inc; if(ecoB>0)msg+=' 🌿+'+ecoB+(ecoB>=5&&[i-1,i+1,i-GRID_SZ,i+GRID_SZ].some(j=>spRiver.includes(j))?' (Fluss-Bonus!)':''); if(hapB>0)msg+=' 😊+'+hapB; msg+=penMsg;
+    if(inc>0)msg+=' 💰+'+inc; if(ecoB>0)msg+=' 🌿+'+ecoB; if(hapB>0)msg+=' 😊+'+hapB; msg+=penMsg;
     spLog(msg); spUpdateStats(); spRenderGrid(); spCheckEnd();
   }
 
