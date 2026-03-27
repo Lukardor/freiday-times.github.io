@@ -885,6 +885,8 @@
   .sp-bar-lbl { font-size:10px; color:#666; width:75px; text-align:right; font-family:'Space Mono',monospace; }
   .sp-bar-bg { flex:1; height:6px; background:#ddd8c8; }
   .sp-bar-fg { height:100%; transition:width 0.5s ease; }
+  .bar-eco { background:#16a34a; }
+  .bar-hap { background:#2563eb; }
   .bar-pow { background:#b45309; }
   .sp-bar-num { font-size:10px; font-family:'Space Mono',monospace; color:#888; width:55px; }
   .power-warn { text-align:center; font-size:11px; font-family:'Space Mono',monospace; padding:5px 10px; margin-bottom:8px; min-height:22px; }
@@ -1313,14 +1315,14 @@
 <div class="collapsible-body" id="body-stadt">
 
 <div class="game-outer">
-  <div class="game-wrap fade-in" style="max-width:860px;">
+  <div class="game-wrap fade-in" style="max-width:980px;">
     <div class="game-header">
       <div class="game-title">🏙️ Nachhaltige Stadtplanung</div>
       <div class="game-sub">Fabriken &amp; Märkte = Geld · Häuser verbrauchen Strom · Solar &amp; Wind = sauberer Strom · Kohlekraftwerk = viel Strom aber schlechte Ökologie</div>
     </div>
 
     <div class="sp-stats">
-      <div class="sp-stat"><span class="sp-stat-val val-amber" id="st-budget">💰 150</span><span class="sp-stat-lbl">Budget</span></div>
+      <div class="sp-stat"><span class="sp-stat-val val-amber" id="st-budget">💰 250</span><span class="sp-stat-lbl">Budget</span></div>
       <div class="sp-stat"><span class="sp-stat-val val-yellow" id="st-income">📈 +0</span><span class="sp-stat-lbl">Eink./Zug</span></div>
       <div class="sp-stat"><span class="sp-stat-val val-green" id="st-eco">🌿 60</span><span class="sp-stat-lbl">Ökologie</span></div>
       <div class="sp-stat"><span class="sp-stat-val val-blue" id="st-hap">😊 60</span><span class="sp-stat-lbl">Glück</span></div>
@@ -1336,7 +1338,7 @@
     <div class="power-warn" id="power-status"></div>
 
     <div id="sp-game">
-      <div class="sp-turns" id="sp-turns">Züge übrig: 40</div>
+      <div class="sp-turns" id="sp-turns">Züge übrig: 80</div>
       <div class="sp-main">
         <div class="sp-grid-wrap"><div class="sp-grid" id="sp-grid"></div></div>
         <div class="sp-panel">
@@ -1739,14 +1741,56 @@
     { id:'park',       icon:'🌳', name:'Park',               cost:8,  income:0,  power:0,   eco:+10, hap:+7,  pop:0,  desc:'Natur & Erholung', riverOnly:false },
     { id:'bike',       icon:'🚲', name:'Radweg',             cost:10, income:0,  power:0,   eco:+6,  hap:+6,  pop:3,  desc:'Nachhaltige Mobilität', riverOnly:false },
     { id:'school',     icon:'🏫', name:'Schule',             cost:25, income:-5, power:-5,  eco:+3,  hap:+12, pop:8,  desc:'Kostet 5💰/Zug, aber viel Glück', riverOnly:false },
+    { id:'hospital',   icon:'🏥', name:'Krankenhaus',        cost:30, income:0,  power:-6,  eco:+2,  hap:+15, pop:12, desc:'+15 Glück & Einwohner, braucht Strom', riverOnly:false },
+    { id:'police',     icon:'🚔', name:'Polizeiwache',       cost:20, income:0,  power:-3,  eco:0,   hap:+10, pop:5,  desc:'+10 Glück & Sicherheit, braucht Strom', riverOnly:false },
+    { id:'stadium',    icon:'🏟️', name:'Stadion',            cost:40, income:5,  power:-12, eco:-3,  hap:+20, pop:15, desc:'+20 Glück! Braucht viel Strom', riverOnly:false },
+    { id:'solarfield', icon:'🌻', name:'Solarfeld',          cost:35, income:0,  power:+22, eco:+18, hap:+2,  pop:0,  desc:'Produziert +22⚡ – mehr als eine Solaranlage', riverOnly:false },
+    { id:'theater',    icon:'🎭', name:'Theater',            cost:28, income:3,  power:-5,  eco:+4,  hap:+18, pop:8,  desc:'+18 Glück & Kultur, braucht Strom', riverOnly:false },
+    { id:'hotel',      icon:'🏨', name:'Hotel',              cost:32, income:12, power:-7,  eco:-4,  hap:+6,  pop:18, desc:'Geld +12/Zug & viele Einwohner', riverOnly:false },
+    { id:'library',    icon:'📚', name:'Bibliothek',         cost:18, income:0,  power:-2,  eco:+5,  hap:+9,  pop:4,  desc:'Bildung & Glück, wenig Strom', riverOnly:false },
+    { id:'restaurant', icon:'🍽️', name:'Restaurant',         cost:20, income:10, power:-3,  eco:-1,  hap:+8,  pop:6,  desc:'Geld +10/Zug & Glück', riverOnly:false },
+    { id:'airport',    icon:'✈️', name:'Flughafen',          cost:55, income:20, power:-15, eco:-20, hap:+5,  pop:25, desc:'Viel Geld & Einwohner, schadet Umwelt', riverOnly:false },
+    { id:'nuclear',    icon:'⚛️', name:'Kernkraftwerk',      cost:60, income:0,  power:+50, eco:-15, hap:-8,  pop:0,  desc:'+50⚡ riesig viel Strom, etwas Risiko', riverOnly:false },
+    { id:'greenhouse', icon:'🌿', name:'Gewächshaus',        cost:22, income:4,  power:-4,  eco:+12, hap:+6,  pop:3,  desc:'Geld + Ökologie, nachhaltige Landwirtschaft', riverOnly:false },
+    { id:'university', icon:'🎓', name:'Universität',        cost:45, income:-8, power:-8,  eco:+6,  hap:+22, pop:20, desc:'+22 Glück & Bildung, hohe Unterhaltskosten', riverOnly:false },
+    { id:'harbor',     icon:'⚓', name:'Hafen',              cost:38, income:18, power:-6,  eco:-8,  hap:+4,  pop:12, desc:'Geld +18/Zug – nur am Fluss!', riverOnly:true },
+    { id:'waterpark',  icon:'🎡', name:'Freizeitpark',       cost:35, income:8,  power:-10, eco:+2,  hap:+16, pop:10, desc:'+16 Glück & Spaß für alle!', riverOnly:false },
+    { id:'farm',       icon:'🚜', name:'Bauernhof',          cost:12, income:5,  power:0,   eco:+8,  hap:+4,  pop:2,  desc:'Geld + Ökologie, kein Strom nötig', riverOnly:false },
+    { id:'windfarm',   icon:'🌀', name:'Windpark',           cost:42, income:0,  power:+30, eco:+22, hap:-2,  pop:0,  desc:'+30⚡ saubere Energie, viel Ökologie', riverOnly:false },
+    { id:'museum',     icon:'🏛️', name:'Museum',             cost:30, income:2,  power:-4,  eco:+6,  hap:+14, pop:7,  desc:'Kultur & Glück für die Stadt', riverOnly:false },
+    { id:'firestation',icon:'🚒', name:'Feuerwache',         cost:22, income:0,  power:-3,  eco:+1,  hap:+8,  pop:4,  desc:'Sicherheit & Glück', riverOnly:false },
+    { id:'skyscraper', icon:'🏢', name:'Wolkenkratzer',      cost:50, income:18, power:-12, eco:-8,  hap:+5,  pop:35, desc:'Viele Einwohner & Geld, braucht viel Strom', riverOnly:false },
+    { id:'mall',       icon:'🏬', name:'Einkaufszentrum',    cost:38, income:16, power:-9,  eco:-6,  hap:+12, pop:10, desc:'Geld +16/Zug & Glück', riverOnly:false },
+    { id:'stadium2',   icon:'🎪', name:'Zirkus',             cost:25, income:6,  power:-4,  eco:+1,  hap:+14, pop:5,  desc:'Spaß & Glück für alle!', riverOnly:false },
+    { id:'zoo',        icon:'🦁', name:'Zoo',                cost:35, income:5,  power:-5,  eco:+8,  hap:+16, pop:8,  desc:'Tiere & viel Glück, etwas Ökologie', riverOnly:false },
+    { id:'aquarium',   icon:'🐠', name:'Aquarium',           cost:30, income:4,  power:-4,  eco:+10, hap:+13, pop:6,  desc:'Meeresschutz & Glück', riverOnly:false },
+    { id:'solartower', icon:'🗼', name:'Solarturm',          cost:55, income:0,  power:+35, eco:+25, hap:+5,  pop:0,  desc:'Viel sauberer Strom +35⚡, viel Ökologie', riverOnly:false },
+    { id:'tram',       icon:'🚋', name:'Straßenbahn',        cost:28, income:0,  power:-5,  eco:+14, hap:+10, pop:8,  desc:'Nachhaltiger Nahverkehr, weniger Autos', riverOnly:false },
+    { id:'garden',     icon:'🌸', name:'Botanischer Garten', cost:20, income:1,  power:0,   eco:+15, hap:+11, pop:3,  desc:'Natur pur, viel Ökologie & Glück', riverOnly:false },
+    { id:'datacenter', icon:'🖥️', name:'Rechenzentrum',      cost:45, income:22, power:-18, eco:-10, hap:+2,  pop:8,  desc:'Sehr viel Geld +22/Zug, braucht enorm Strom', riverOnly:false },
+    { id:'lighthouse', icon:'🗼', name:'Leuchtturm',         cost:15, income:2,  power:-1,  eco:+4,  hap:+7,  pop:2,  desc:'Orientierung & Charme, wenig Strom', riverOnly:true },
+    { id:'campsite',   icon:'⛺', name:'Campingplatz',       cost:12, income:3,  power:0,   eco:+6,  hap:+8,  pop:4,  desc:'Natur & Erholung, kein Strom nötig', riverOnly:false },
+    { id:'fishmarket', icon:'🐟', name:'Fischmarkt',         cost:18, income:8,  power:-2,  eco:-3,  hap:+7,  pop:5,  desc:'Geld +8/Zug, nur am Fluss', riverOnly:true },
+    { id:'playground', icon:'🛝', name:'Spielplatz',         cost:8,  income:0,  power:0,   eco:+3,  hap:+9,  pop:2,  desc:'Glück für Familien, kein Strom', riverOnly:false },
+    { id:'spa',        icon:'🧖', name:'Wellnesszentrum',    cost:32, income:6,  power:-5,  eco:+3,  hap:+17, pop:6,  desc:'Entspannung & sehr viel Glück', riverOnly:false },
+    { id:'recycling',  icon:'♻️', name:'Recyclingzentrum',   cost:20, income:2,  power:-3,  eco:+18, hap:+4,  pop:3,  desc:'Top Ökologie, Müll wird zu Ressource', riverOnly:false },
   ];
-  const GRID_SZ = 7;
-  let spGrid=[], spSelected=null, spBudget=150, spEco=60, spHap=60, spPop=0, spTurns=40, spDemolish=false;
+  const GRID_SZ = 11;
+  let spGrid=[], spSelected=null, spBudget=250, spEco=60, spHap=60, spPop=0, spTurns=80, spDemolish=false;
   let spRiver = []; // set of cell indices that are river
 
   function spClamp(v){ return Math.max(0,Math.min(100,v)); }
   function spPower(){ let p=0,c=0; spGrid.forEach(x=>{ if(!x)return; if(x.power>0)p+=x.power; else c+=Math.abs(x.power); }); return{produced:p,consumed:c,surplus:p-c}; }
-  function spIncome(){ return spGrid.reduce((s,x)=>x?s+x.income:s,0); }
+  function spIncome(){
+    const {surplus}=spPower();
+    const blackout=surplus<0;
+    return spGrid.reduce((s,x)=>{
+      if(!x) return s;
+      // During blackout: buildings that need power (power<0) stop producing income
+      if(blackout && x.power<0) return s;
+      return s+x.income;
+    },0);
+  }
 
   function spGenRiver(){
     // Random winding river from top to bottom through the grid
@@ -1767,7 +1811,7 @@
 
   function initGame(){
     spGrid=Array(GRID_SZ*GRID_SZ).fill(null);
-    spBudget=150; spEco=60; spHap=60; spPop=0; spTurns=40; spSelected=null; spDemolish=false;
+    spBudget=250; spEco=60; spHap=60; spPop=0; spTurns=80; spSelected=null; spDemolish=false;
     spGenRiver(); // generate new river each game
     spRenderGrid(); spRenderBtns(); spUpdateStats();
     document.getElementById('sp-log').textContent='🌊 Neuer Fluss generiert! Baue entlang des Flusses für Öko-Bonus!';
@@ -1777,7 +1821,7 @@
 
   function spRenderGrid(){
     const g=document.getElementById('sp-grid');
-    const sz=Math.min(560,g.parentElement.offsetWidth-22);
+    const sz=Math.min(660,g.parentElement.offsetWidth-22);
     const cs=Math.floor((sz-(GRID_SZ-1)*3)/GRID_SZ);
     g.style.gridTemplateColumns=`repeat(${GRID_SZ},${cs}px)`;
     g.innerHTML='';
@@ -1822,7 +1866,9 @@
       btn.className='sp-btn'+(spSelected&&spSelected.id===b.id?' selected':'');
       const inc=b.income>0?` 💰+${b.income}`:b.income<0?` 💰${b.income}`:'';
       const pow=b.power>0?` ⚡+${b.power}`:b.power<0?` ⚡${b.power}`:'';
-      btn.innerHTML=`<span class="btn-icon">${b.icon}</span><span class="btn-info"><span class="btn-name">${b.name}</span><span class="btn-cost">${b.cost}💰${inc}${pow} 🌿${b.eco>0?'+':''}${b.eco}</span></span>`;
+      const hap=b.hap>0?` 😊+${b.hap}`:b.hap<0?` 😊${b.hap}`:'';
+      const pop=b.pop>0?` 👥+${b.pop}`:'';
+      btn.innerHTML=`<span class="btn-icon">${b.icon}</span><span class="btn-info"><span class="btn-name">${b.name}</span><span class="btn-cost">${b.cost}💰${inc}${pow}${hap}${pop} 🌿${b.eco>0?'+':''}${b.eco}</span></span>`;
       btn.onclick=()=>{ spDemolish=false; spSelected=b; spRenderBtns(); spLog('📋 '+b.name+' — '+b.desc); };
       w.appendChild(btn);
     });
@@ -1890,15 +1936,25 @@
 
   function spUpdateStats(){
     const inc=spIncome(); const {produced,consumed,surplus}=spPower();
+    const blackout=surplus<0;
     document.getElementById('st-budget').textContent='💰 '+spBudget;
-    document.getElementById('st-income').textContent=(inc>=0?'📈 +':'📉 ')+inc;
+    document.getElementById('st-income').textContent=(inc>0?'📈 +':inc<0?'📉 ':'➡️ ')+inc+(blackout&&inc<spGrid.reduce((s,x)=>x?s+x.income:s,0)?' ⚡':'');
     document.getElementById('st-eco').textContent='🌿 '+Math.round(spEco);
     document.getElementById('st-hap').textContent='😊 '+Math.round(spHap);
     document.getElementById('st-pop').textContent='👥 '+spPop;
-    document.getElementById('bar-eco').style.width=spEco+'%';
-    document.getElementById('bar-hap').style.width=spHap+'%';
+    // Eco bar — green when high, orange when mid, red when low
+    const ecoBar=document.getElementById('bar-eco');
+    ecoBar.style.width=spEco+'%';
+    ecoBar.style.background=spEco>=60?'#16a34a':spEco>=30?'#f97316':'#ef4444';
+    // Hap bar — blue when high, orange when mid, red when low
+    const hapBar=document.getElementById('bar-hap');
+    hapBar.style.width=spHap+'%';
+    hapBar.style.background=spHap>=60?'#2563eb':spHap>=30?'#f97316':'#ef4444';
+    // Power bar
     const maxP=Math.max(produced,consumed,1);
-    document.getElementById('bar-pow').style.width=Math.min(100,Math.round((produced/maxP)*100))+'%';
+    const powBar=document.getElementById('bar-pow');
+    powBar.style.width=Math.min(100,Math.round((produced/maxP)*100))+'%';
+    powBar.style.background=blackout?'#ef4444':'#b45309';
     document.getElementById('bv-eco').textContent=Math.round(spEco)+'/100';
     document.getElementById('bv-hap').textContent=Math.round(spHap)+'/100';
     document.getElementById('bv-pow').textContent='⚡'+produced+'/'+consumed;
@@ -1906,7 +1962,7 @@
     const ps=document.getElementById('power-status');
     if(produced===0&&consumed===0){ ps.textContent=''; ps.className='power-warn'; }
     else if(surplus>=0){ ps.textContent='⚡ Strom OK — +'+surplus+' Überschuss'; ps.className='power-warn power-ok'; }
-    else { ps.textContent='🔴 Stromausfall! '+produced+' produziert, '+consumed+' benötigt – bau mehr Kraftwerke!'; ps.className='power-warn power-warn-red'; }
+    else { ps.textContent='🔴 Stromausfall! Fabriken & Märkte produzieren kein Geld – bau mehr Kraftwerke!'; ps.className='power-warn power-warn-red'; }
   }
 
   function spCheckEnd(){ if(spTurns<=0||spGrid.every((c,i)=>c!==null||spRiver.includes(i))) spEndGame(); }
