@@ -1030,6 +1030,47 @@
   [data-theme="dark"] .info-section p { color: #a8b8a8; }
   [data-theme="dark"] .info-intro h2 { color: var(--ink); }
 
+  /* GAME PICKER */
+  .game-picker-wrap {
+    max-width: 1200px; margin: 1rem auto 0.5rem; padding: 0 2rem;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+  }
+  .game-picker-btn {
+    background: var(--cream); border: 2px solid #ccc8b8; border-radius: 8px;
+    padding: 1.1rem 0.8rem; cursor: pointer; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    transition: all 0.2s; font-family: inherit; color: var(--ink);
+  }
+  .game-picker-btn:hover { border-color: var(--leaf); background: #f0fdf4; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .game-picker-btn.active { border-color: var(--leaf); background: #f0fdf4; box-shadow: 0 0 0 3px rgba(45,90,39,0.15); }
+  .gp-icon { font-size: 36px; display: block; }
+  .gp-name { font-size: 13px; font-weight: 600; display: block; }
+  .gp-desc { font-size: 10px; color: #888; font-family: 'Space Mono', monospace; display: block; line-height: 1.4; }
+  [data-theme="dark"] .game-picker-btn { background: var(--cream); border-color: #445040; }
+  [data-theme="dark"] .game-picker-btn:hover, [data-theme="dark"] .game-picker-btn.active { background: #1a2e1a; border-color: var(--leaf); }
+
+  /* CATEGORY BANNERS */
+  .cat-banner {
+    max-width: 1200px; margin: 2.5rem auto 0; padding: 0 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .cat-banner-inner {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--leaf); color: #fff;
+    padding: 10px 22px; border-radius: 4px;
+    font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .cat-banner-inner span { font-size: 20px; }
+  .cat-banner::after {
+    content: ''; flex: 1; height: 2px;
+    background: var(--leaf); opacity: 0.3;
+  }
+  .cat-sub {
+    max-width: 1200px; margin: 0 auto; padding: 4px 2rem 0;
+    font-size: 11px; color: #888; font-family: 'Space Mono', monospace;
+  }
+
   /* COLLAPSIBLE SECTIONS */
   .section-rule { cursor: pointer; user-select: none; }
   .section-rule:hover h3 { color: var(--leaf); }
@@ -1114,11 +1155,8 @@
       <a href="#section-was-ist">Nachhaltigkeit</a>
       <a href="#section-ausgabe">Ausgabe</a>
       <a href="#section-karte">Weltkarte</a>
-      <a href="#section-muell">Mülltrennung</a>
-      <a href="#section-stadt">Stadtplaner</a>
-      <a href="#section-ozean">Ozean</a>
-      <a href="#section-muellauto">🚛 Müllauto</a>
-      <a href="#section-quiz">🌍 Quiz</a>
+      <a href="#cat-spiele">🎮 Spiele</a>
+      <a href="#cat-quiz">🧠 Quiz</a>
       <a href="#section-highscore">🏆 Highscore</a>
     </nav>
     <div style="display:flex;align-items:center;gap:0.8rem">
@@ -1263,58 +1301,41 @@
   </div>
 </div>
 
-<!-- SPIEL -->
-<div class="section-rule" id="section-muell" onclick="toggleSection('muell')">
-  <h3>Kannst du Müll trennen?</h3>
-  <span class="section-toggle open" id="toggle-muell">▼</span>
-</div>
-<div class="collapsible-body" id="body-muell">
-
-<div class="game-outer">
-  <div class="game-wrap fade-in">
-    <div class="game-header">
-      <div class="game-title">♻️ Mülltrennung-Quiz</div>
-      <div class="game-sub">Wirf jeden Gegenstand in die richtige Tonne!</div>
-    </div>
-    <div class="score-bar">
-      <div class="score-item"><span class="score-num" id="s-correct">0</span><span class="score-lbl">Richtig</span></div>
-      <div class="score-item"><span class="score-num" id="s-wrong">0</span><span class="score-lbl">Falsch</span></div>
-      <div class="score-item"><span class="score-num" id="s-streak">0</span><span class="score-lbl">Streak 🔥</span></div>
-    </div>
-    <div id="game-area">
-      <div class="g-item-area">
-        <div class="trash-card" id="trash-card">
-          <span class="trash-icon" id="trash-icon"></span>
-          <div class="trash-name" id="trash-name"></div>
-        </div>
-      </div>
-      <div class="g-bins">
-        <button class="bin-btn bin-gelb"    onclick="guess('gelb')">   <span class="bin-icon">🟡</span>Gelbe Tonne</button>
-        <button class="bin-btn bin-blau"    onclick="guess('blau')">   <span class="bin-icon">🔵</span>Blaue Tonne</button>
-        <button class="bin-btn bin-altglas" onclick="guess('altglas')"><span class="bin-icon">🟢</span>Altglas</button>
-      </div>
-      <div class="g-bins" style="margin-bottom:1.5rem;">
-        <button class="bin-btn bin-grau"   onclick="guess('grau')">  <span class="bin-icon">⚫</span>Restmüll</button>
-        <button class="bin-btn bin-braun"  onclick="guess('braun')"> <span class="bin-icon">🟤</span>Bio-Tonne</button>
-        <button class="bin-btn bin-sonder" onclick="guess('sonder')"><span class="bin-icon">🔴</span>Sondermüll</button>
-      </div>
-      <div class="g-feedback" id="feedback"></div>
-      <div class="g-progress-row">
-        <div class="g-progress-bg"><div class="g-progress-fg" id="prog-fg" style="width:0%"></div></div>
-        <div class="g-progress-txt" id="prog-txt">0/10</div>
-      </div>
-    </div>
-    <div id="end-screen" style="display:none"></div>
-  </div>
-</div>
+<!-- KATEGORIE: SPIELE -->
+<div id="cat-spiele" class="cat-banner">
+  <div class="cat-banner-inner"><span>🎮</span> Spiele</div>
 </div>
 
+<div class="game-picker-wrap">
+  <button class="game-picker-btn" onclick="openGame('stadt')"   id="pick-stadt">
+    <span class="gp-icon">🏙️</span>
+    <span class="gp-name">Stadtplaner</span>
+    <span class="gp-desc">Baue eine nachhaltige Stadt</span>
+  </button>
+  <button class="game-picker-btn" onclick="openGame('karte')"   id="pick-karte">
+    <span class="gp-icon">🌍</span>
+    <span class="gp-name">Weltkarte</span>
+    <span class="gp-desc">Klimaprobleme weltweit</span>
+  </button>
+  <button class="game-picker-btn" onclick="openGame('ozean')"   id="pick-ozean">
+    <span class="gp-icon">🤿</span>
+    <span class="gp-name">Ozean-Taucher</span>
+    <span class="gp-desc">Rette den Ozean vor Plastik</span>
+  </button>
+  <button class="game-picker-btn" onclick="openGame('muellauto')" id="pick-muellauto">
+    <span class="gp-icon">🚛</span>
+    <span class="gp-name">Müllauto</span>
+    <span class="gp-desc">Sammle Müll im Wald</span>
+  </button>
+</div>
+
+<div id="game-area-spiele">
 <!-- STADTPLANER SPIEL -->
-<div class="section-rule" id="section-stadt" onclick="toggleSection('stadt')">
+
   <h3>Bau deine Stadt</h3>
   <span class="section-toggle open" id="toggle-stadt">▼</span>
 </div>
-<div class="collapsible-body" id="body-stadt">
+<div id="body-stadt" style="display:none">
 
 <div class="game-outer">
   <div class="game-wrap fade-in" style="max-width:980px;">
@@ -1379,11 +1400,7 @@
 </div>
 
 <!-- WELTKARTE -->
-<div class="section-rule" id="section-karte" onclick="toggleSection('karte')">
-  <h3>Klimaprobleme weltweit</h3>
-  <span class="section-toggle open" id="toggle-karte">▼</span>
-</div>
-<div class="collapsible-body" id="body-karte">
+<div id="body-karte" style="display:none">
 
 <div class="game-outer">
   <div class="game-wrap fade-in" style="max-width:900px;">
@@ -1503,11 +1520,7 @@
 </div>
 
 <!-- OZEAN SPIEL -->
-<div class="section-rule" id="section-ozean" onclick="toggleSection('ozean')">
-  <h3>Rette den Ozean</h3>
-  <span class="section-toggle open" id="toggle-ozean">▼</span>
-</div>
-<div class="collapsible-body" id="body-ozean">
+<div id="body-ozean" style="display:none">
 
 <div class="game-outer">
   <div class="game-wrap fade-in" style="max-width:760px;">
@@ -1570,11 +1583,7 @@
 </div>
 
 <!-- MÜLLAUTO SPIEL -->
-<div class="section-rule" id="section-muellauto" onclick="toggleSection('muellauto')">
-  <h3>Müllsammel-Express</h3>
-  <span class="section-toggle open" id="toggle-muellauto">▼</span>
-</div>
-<div class="collapsible-body" id="body-muellauto">
+<div id="body-muellauto" style="display:none">
 <div class="game-outer">
   <div class="game-wrap fade-in" style="max-width:720px;">
     <div class="game-header">
@@ -1612,12 +1621,70 @@
 </div>
 </div>
 
-<!-- LÄNDER-QUIZ -->
-<div class="section-rule" id="section-quiz" onclick="toggleSection('quiz')">
-  <h3>Länder-Klima-Quiz</h3>
-  <span class="section-toggle open" id="toggle-quiz">▼</span>
+</div><!-- end game-area-spiele -->
+
+<!-- KATEGORIE: QUIZ -->
+<div id="cat-quiz" class="cat-banner">
+  <div class="cat-banner-inner"><span>🧠</span> Quiz</div>
 </div>
-<div class="collapsible-body" id="body-quiz">
+
+<div class="game-picker-wrap">
+  <button class="game-picker-btn" onclick="openQuiz('muell')" id="pick-muell">
+    <span class="gp-icon">♻️</span>
+    <span class="gp-name">Mülltrennung</span>
+    <span class="gp-desc">Welcher Müll kommt wohin?</span>
+  </button>
+  <button class="game-picker-btn" onclick="openQuiz('quiz')" id="pick-quiz">
+    <span class="gp-icon">🌍</span>
+    <span class="gp-name">Länder-Klima-Quiz</span>
+    <span class="gp-desc">Teste dein Klimawissen</span>
+  </button>
+</div>
+
+<div id="game-area-quiz">
+<!-- MÜLLTRENNUNG QUIZ -->
+<div id="body-muell" style="display:none">
+<div class="game-outer">
+  <div class="game-wrap fade-in">
+    <div class="game-header">
+      <div class="game-title">♻️ Mülltrennung-Quiz</div>
+      <div class="game-sub">Wirf jeden Gegenstand in die richtige Tonne!</div>
+    </div>
+    <div class="score-bar">
+      <div class="score-item"><span class="score-num" id="s-correct">0</span><span class="score-lbl">Richtig</span></div>
+      <div class="score-item"><span class="score-num" id="s-wrong">0</span><span class="score-lbl">Falsch</span></div>
+      <div class="score-item"><span class="score-num" id="s-streak">0</span><span class="score-lbl">Streak 🔥</span></div>
+    </div>
+    <div id="game-area">
+      <div class="g-item-area">
+        <div class="trash-card" id="trash-card">
+          <span class="trash-icon" id="trash-icon"></span>
+          <div class="trash-name" id="trash-name"></div>
+        </div>
+      </div>
+      <div class="g-bins">
+        <button class="bin-btn bin-gelb"    onclick="guess('gelb')">   <span class="bin-icon">🟡</span>Gelbe Tonne</button>
+        <button class="bin-btn bin-blau"    onclick="guess('blau')">   <span class="bin-icon">🔵</span>Blaue Tonne</button>
+        <button class="bin-btn bin-altglas" onclick="guess('altglas')"><span class="bin-icon">🟢</span>Altglas</button>
+      </div>
+      <div class="g-bins" style="margin-bottom:1.5rem;">
+        <button class="bin-btn bin-grau"   onclick="guess('grau')">  <span class="bin-icon">⚫</span>Restmüll</button>
+        <button class="bin-btn bin-braun"  onclick="guess('braun')"> <span class="bin-icon">🟤</span>Bio-Tonne</button>
+        <button class="bin-btn bin-sonder" onclick="guess('sonder')"><span class="bin-icon">🔴</span>Sondermüll</button>
+      </div>
+      <div class="g-feedback" id="feedback"></div>
+      <div class="g-progress-row">
+        <div class="g-progress-bg"><div class="g-progress-fg" id="prog-fg" style="width:0%"></div></div>
+        <div class="g-progress-txt" id="prog-txt">0/10</div>
+      </div>
+    </div>
+    <div id="end-screen" style="display:none"></div>
+  </div>
+</div>
+</div>
+
+<!-- LÄNDER-QUIZ -->
+<div id="body-quiz" style="display:none">
 <div class="game-outer">
   <div class="game-wrap fade-in" style="max-width:680px;">
     <div class="game-header">
@@ -1644,6 +1711,8 @@
   </div>
 </div>
 </div>
+
+</div><!-- end game-area-quiz -->
 
 <!-- HIGHSCORE -->
 <div class="section-rule" id="section-highscore" onclick="toggleSection('highscore')">
@@ -2274,8 +2343,6 @@
   let ksActive2 = null;
 
   function buildKarteDots() {
-    const wrap = document.querySelector('#section-karte').nextElementSibling.querySelector('[style*="position:relative"]');
-    if(!wrap) return;
     const dotsDiv = document.getElementById('kmap-dots');
     if(!dotsDiv) return;
     dotsDiv.style.pointerEvents = 'none';
@@ -2444,6 +2511,29 @@
 
   ctTick();
   setInterval(ctTick, 1000);
+
+  // GAME PICKER
+  function openGame(id){
+    ['stadt','karte','ozean','muellauto'].forEach(g=>{
+      const body=document.getElementById('body-'+g);
+      const btn=document.getElementById('pick-'+g);
+      const open = g===id && body.style.display==='none';
+      body.style.display = (g===id && open) ? 'block' : g===id ? 'none' : 'none';
+      if(btn) btn.classList.toggle('active', g===id && open);
+      if(g===id && open) setTimeout(()=>body.scrollIntoView({behavior:'smooth',block:'start'}),50);
+    });
+  }
+
+  function openQuiz(id){
+    ['muell','quiz'].forEach(q=>{
+      const body=document.getElementById('body-'+q);
+      const btn=document.getElementById('pick-'+q);
+      const open = q===id && body.style.display==='none';
+      body.style.display = (q===id && open) ? 'block' : 'none';
+      if(btn) btn.classList.toggle('active', q===id && open);
+      if(q===id && open) setTimeout(()=>body.scrollIntoView({behavior:'smooth',block:'start'}),50);
+    });
+  }
 
   // COLLAPSIBLE SECTIONS
   function toggleSection(id) {
