@@ -1118,6 +1118,8 @@
       <a href="#section-stadt">Stadtplaner</a>
       <a href="#section-ozean">Ozean</a>
       <a href="#section-muellauto">🚛 Müllauto</a>
+      <a href="#section-quiz">🌍 Quiz</a>
+      <a href="#section-highscore">🏆 Highscore</a>
     </nav>
     <div style="display:flex;align-items:center;gap:0.8rem">
       <button class="dark-toggle" id="dark-btn" onclick="toggleDark()">🌙 Dark</button>
@@ -1319,6 +1321,25 @@
     <div class="game-header">
       <div class="game-title">🏙️ Nachhaltige Stadtplanung</div>
       <div class="game-sub">Fabriken &amp; Märkte = Geld · Häuser verbrauchen Strom · Solar &amp; Wind = sauberer Strom · Kohlekraftwerk = viel Strom aber schlechte Ökologie</div>
+    </div>
+
+    <!-- MAP SELECTOR -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center;">
+      <span style="font-size:11px;font-family:'Space Mono',monospace;color:#888;">Karte wählen:</span>
+      <button class="kb on" id="map-btn-plains"  onclick="spSelectMap('plains')"  style="font-size:11px;padding:4px 10px;">🌾 Ebene</button>
+      <button class="kb"    id="map-btn-desert"  onclick="spSelectMap('desert')"  style="font-size:11px;padding:4px 10px;">🏜️ Wüste</button>
+      <button class="kb"    id="map-btn-coast"   onclick="spSelectMap('coast')"   style="font-size:11px;padding:4px 10px;">🌊 Küste</button>
+      <button class="kb"    id="map-btn-mountain" onclick="spSelectMap('mountain')" style="font-size:11px;padding:4px 10px;">⛰️ Gebirge</button>
+    </div>
+    <!-- EVENT OVERLAY -->
+    <div id="sp-event-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;">
+      <div style="background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:1.5rem;max-width:360px;width:90%;text-align:center;animation:fadeIn 0.2s ease;">
+        <div id="sp-ev-icon" style="font-size:48px;margin-bottom:8px"></div>
+        <div id="sp-ev-title" style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:8px"></div>
+        <div id="sp-ev-desc" style="font-size:13px;color:#555;line-height:1.6;margin-bottom:12px"></div>
+        <div id="sp-ev-effect" style="font-size:12px;font-family:'Space Mono',monospace;color:var(--leaf);margin-bottom:12px;font-weight:700"></div>
+        <button onclick="spCloseEvent()" style="background:var(--leaf);color:#fff;border:none;padding:8px 20px;border-radius:4px;cursor:pointer;font-family:'Space Mono',monospace;font-size:12px;">OK ✓</button>
+      </div>
     </div>
 
     <div class="sp-stats">
@@ -1591,6 +1612,57 @@
 </div>
 </div>
 
+<!-- LÄNDER-QUIZ -->
+<div class="section-rule" id="section-quiz" onclick="toggleSection('quiz')">
+  <h3>Länder-Klima-Quiz</h3>
+  <span class="section-toggle open" id="toggle-quiz">▼</span>
+</div>
+<div class="collapsible-body" id="body-quiz">
+<div class="game-outer">
+  <div class="game-wrap fade-in" style="max-width:680px;">
+    <div class="game-header">
+      <div class="game-title">🌍 Länder-Klima-Quiz</div>
+      <div class="game-sub">Teste dein Wissen über Klimaschutz und Länder!</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+      <div class="score-item"><span class="score-num" id="qz-correct">0</span><span class="score-lbl">Richtig</span></div>
+      <div class="score-item"><span class="score-num" id="qz-wrong">0</span><span class="score-lbl">Falsch</span></div>
+      <div class="score-item"><span class="score-num" id="qz-q">0</span><span class="score-lbl">von 10</span></div>
+    </div>
+    <div id="qz-game">
+      <div id="qz-question" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ink);margin-bottom:1rem;min-height:48px;"></div>
+      <div id="qz-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;"></div>
+      <div id="qz-feedback" style="text-align:center;font-size:13px;font-family:'Space Mono',monospace;min-height:20px;color:var(--leaf);"></div>
+      <div style="height:5px;background:#ddd8c8;margin-top:8px;border-radius:3px;overflow:hidden;"><div id="qz-prog" style="height:100%;background:var(--leaf);width:0%;transition:width 0.4s;border-radius:3px;"></div></div>
+    </div>
+    <div id="qz-end" style="display:none;text-align:center;padding:1.5rem;">
+      <div id="qz-end-icon" style="font-size:48px;margin-bottom:8px;"></div>
+      <div id="qz-end-title" style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--ink);margin-bottom:6px;"></div>
+      <div id="qz-end-sub" style="font-size:13px;color:#555;margin-bottom:1rem;line-height:1.6;"></div>
+      <button class="g-restart-btn" onclick="qzStart()">Nochmal spielen 🌍</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- HIGHSCORE -->
+<div class="section-rule" id="section-highscore" onclick="toggleSection('highscore')">
+  <h3>🏆 Highscore-Liste</h3>
+  <span class="section-toggle open" id="toggle-highscore">▼</span>
+</div>
+<div class="collapsible-body" id="body-highscore">
+<div class="game-outer">
+  <div class="game-wrap fade-in" style="max-width:680px;">
+    <div class="game-header">
+      <div class="game-title">🏆 Hall of Fame</div>
+      <div class="game-sub">Die besten Ergebnisse aller Spiele – gespeichert im Browser</div>
+    </div>
+    <div id="hs-board" style="display:grid;gap:8px;"></div>
+    <button class="g-restart-btn" onclick="hsClear()" style="margin-top:1rem;background:#b85c30;">🗑️ Highscores löschen</button>
+  </div>
+</div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -1600,6 +1672,25 @@
     </div>
   </div>
 </footer>
+
+<!-- NAME EINGABE POPUP -->
+<div id="hs-name-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:var(--paper);border:2px solid var(--ink);border-radius:10px;padding:1.8rem;max-width:340px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+    <div style="font-size:48px;margin-bottom:8px">🏆</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:4px">Gut gespielt!</div>
+    <div id="hs-name-game" style="font-size:11px;font-family:'Space Mono',monospace;color:#888;margin-bottom:4px"></div>
+    <div id="hs-name-score" style="font-size:13px;color:var(--leaf);font-family:'Space Mono',monospace;font-weight:700;margin-bottom:16px"></div>
+    <div style="font-size:13px;color:var(--ink);margin-bottom:8px">Wie heißt du?</div>
+    <input id="hs-name-input"
+      type="text" maxlength="20" placeholder="Dein Name..."
+      onkeydown="if(event.key==='Enter')hsSubmitName()"
+      style="width:100%;padding:8px 12px;font-size:14px;font-family:'Space Mono',monospace;border:2px solid #ccc8b8;border-radius:4px;background:var(--cream);color:var(--ink);outline:none;margin-bottom:12px;box-sizing:border-box;">
+    <div style="display:flex;gap:8px;justify-content:center;">
+      <button onclick="hsSubmitName()" style="background:var(--leaf);color:#fff;border:none;padding:9px 20px;border-radius:4px;cursor:pointer;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;">✓ Eintragen</button>
+      <button onclick="hsSkip()" style="background:var(--cream);color:#888;border:1.5px solid #ccc8b8;padding:9px 16px;border-radius:4px;cursor:pointer;font-family:'Space Mono',monospace;font-size:12px;">Überspringen</button>
+    </div>
+  </div>
+</div>
 
 <script>
   // COUNTDOWN TIMER
@@ -1726,6 +1817,7 @@
         <button class="g-restart-btn" onclick="startGame()">Nochmal spielen</button>
       </div>`;
     document.getElementById('end-screen').style.display='block';
+    if(typeof hsAdd==='function') hsAdd('♻️ Mülltrennung-Quiz', gCorrect*10, gCorrect+'/'+gTotal+' richtig');
   }
 
   startGame();
@@ -1777,7 +1869,6 @@
   ];
   const GRID_SZ = 11;
   let spGrid=[], spSelected=null, spBudget=250, spEco=60, spHap=60, spPop=0, spTurns=80, spDemolish=false;
-  let spRiver = []; // set of cell indices that are river
 
   function spClamp(v){ return Math.max(0,Math.min(100,v)); }
   function spPower(){ let p=0,c=0; spGrid.forEach(x=>{ if(!x)return; if(x.power>0)p+=x.power; else c+=Math.abs(x.power); }); return{produced:p,consumed:c,surplus:p-c}; }
@@ -1810,11 +1901,16 @@
   }
 
   function initGame(){
+    const map = SP_MAPS[spCurrentMap];
     spGrid=Array(GRID_SZ*GRID_SZ).fill(null);
-    spBudget=250; spEco=60; spHap=60; spPop=0; spTurns=80; spSelected=null; spDemolish=false;
-    spGenRiver(); // generate new river each game
+    spBudget=map.budget; spEco=map.eco; spHap=map.hap; spPop=0; spTurns=map.turns; spSelected=null; spDemolish=false; spEventCooldown=3;
+    spGenRiver();
+    spGenMountains();
     spRenderGrid(); spRenderBtns(); spUpdateStats();
-    document.getElementById('sp-log').textContent='🌊 Neuer Fluss generiert! Baue entlang des Flusses für Öko-Bonus!';
+    const hints = map.hasRiver&&map.hasMountains ? ' · Fluss 🌊 & Berge ⛰️ auf der Karte!'
+                : map.hasRiver ? ' · Fluss 🌊 auf der Karte!'
+                : ' · Kein Fluss – volle Fläche bebaubar!';
+    document.getElementById('sp-log').textContent=map.icon+' Karte: '+map.name+' – '+map.desc+hints;
     document.getElementById('sp-end').style.display='none';
     document.getElementById('sp-game').style.display='block';
   }
@@ -1826,16 +1922,24 @@
     g.style.gridTemplateColumns=`repeat(${GRID_SZ},${cs}px)`;
     g.innerHTML='';
     const {surplus}=spPower();
+    const map=SP_MAPS[spCurrentMap];
+    document.querySelector('.sp-grid-wrap').style.background=map.gridBg;
     spGrid.forEach((cell,i)=>{
       const d=document.createElement('div');
-      const isRiver=spRiver.includes(i);
-      const noPow=cell&&cell.power<0&&surplus<0;
-      if(isRiver){
+      const isRiver    = spRiver.includes(i);
+      const isMountain = spMountains.includes(i);
+      const noPow      = cell&&cell.power<0&&surplus<0;
+
+      if(isMountain){
+        // Mountain: unpassable, rocky style
         d.className='sp-cell';
-        d.style.width=cs+'px'; d.style.fontSize=Math.floor(cs*0.48)+'px';
-        d.style.cursor='pointer';
+        d.style.cssText=`width:${cs}px;font-size:${Math.floor(cs*0.48)}px;background:linear-gradient(135deg,#9ca3af,#6b7280);border:1.5px solid #4b5563;cursor:not-allowed;opacity:0.9;`;
+        d.textContent='⛰️';
+        d.title='⛰️ Berg – nicht bebaubar';
+      } else if(isRiver){
+        d.className='sp-cell';
+        d.style.cssText=`width:${cs}px;font-size:${Math.floor(cs*0.48)}px;cursor:pointer;`;
         if(cell){
-          // Wasserkraft built on river
           d.style.background='linear-gradient(135deg,#1d4ed8,#3b82f6)';
           d.style.border='2px solid #1e40af';
           d.textContent=cell.icon;
@@ -1851,6 +1955,14 @@
       } else {
         d.className='sp-cell '+(cell?'filled':'empty')+(noPow?' no-power':'');
         d.style.width=cs+'px'; d.style.fontSize=Math.floor(cs*0.48)+'px';
+        if(!cell){
+          d.style.background=map.cellEmpty;
+          d.style.borderColor=map.gridBg;
+          d.onmouseenter=()=>d.style.background=map.cellEmptyHov;
+          d.onmouseleave=()=>d.style.background=map.cellEmpty;
+        } else {
+          d.style.background=map.cellFilled;
+        }
         d.textContent=cell?cell.icon:'';
         d.title=cell?cell.name:'Leer';
         d.onclick=()=>spCellClick(i);
@@ -1859,32 +1971,44 @@
     });
   }
 
+  function spGetCost(b){
+    const mult = SP_MAPS[spCurrentMap].costMult || 1;
+    return Math.round(b.cost * mult);
+  }
+
   function spRenderBtns(){
     const w=document.getElementById('sp-btns'); w.innerHTML='';
+    const isMountain = spCurrentMap==='mountain';
     SP_BUILDINGS.forEach(b=>{
       const btn=document.createElement('button');
       btn.className='sp-btn'+(spSelected&&spSelected.id===b.id?' selected':'');
+      const realCost=spGetCost(b);
+      const costStr=isMountain&&realCost!==b.cost
+        ? `<span style="text-decoration:line-through;opacity:0.5;font-size:9px">${b.cost}</span> <span style="color:#ef4444">${realCost}💰</span>`
+        : `${realCost}💰`;
       const inc=b.income>0?` 💰+${b.income}`:b.income<0?` 💰${b.income}`:'';
       const pow=b.power>0?` ⚡+${b.power}`:b.power<0?` ⚡${b.power}`:'';
       const hap=b.hap>0?` 😊+${b.hap}`:b.hap<0?` 😊${b.hap}`:'';
       const pop=b.pop>0?` 👥+${b.pop}`:'';
-      btn.innerHTML=`<span class="btn-icon">${b.icon}</span><span class="btn-info"><span class="btn-name">${b.name}</span><span class="btn-cost">${b.cost}💰${inc}${pow}${hap}${pop} 🌿${b.eco>0?'+':''}${b.eco}</span></span>`;
-      btn.onclick=()=>{ spDemolish=false; spSelected=b; spRenderBtns(); spLog('📋 '+b.name+' — '+b.desc); };
+      btn.innerHTML=`<span class="btn-icon">${b.icon}</span><span class="btn-info"><span class="btn-name">${b.name}</span><span class="btn-cost">${costStr}${inc}${pow}${hap}${pop} 🌿${b.eco>0?'+':''}${b.eco}</span></span>`;
+      btn.onclick=()=>{ spDemolish=false; spSelected=b; spRenderBtns(); spLog('📋 '+b.name+' — '+b.desc+(isMountain?' ⛰️ Gebirgs-Aufpreis: '+realCost+'💰':'')); };
       w.appendChild(btn);
     });
   }
 
   function spCellClick(i){
     if(spTurns<=0) return;
-    const isRiver = spRiver.includes(i);
+    const isRiver    = spRiver.includes(i);
+    const isMountain = spMountains.includes(i);
+    if(isMountain){ spLog('⛰️ Berg – hier kann nicht gebaut werden!'); return; }
     if(spDemolish){
       if(spGrid[i]){
         const o=spGrid[i];
         spEco=spClamp(spEco-o.eco*0.4); spHap=spClamp(spHap-o.hap*0.4);
-        spPop=Math.max(0,spPop-o.pop); spBudget+=Math.floor(o.cost*0.4);
+        spPop=Math.max(0,spPop-o.pop); spBudget+=Math.floor(spGetCost(o)*0.4);
         spGrid[i]=null; spTurns--;
         spUpdateStats(); spRenderGrid();
-        spLog('🗑️ '+o.name+' abgerissen. +'+Math.floor(o.cost*0.4)+'💰 zurück');
+        spLog('🗑️ '+o.name+' abgerissen. +'+Math.floor(spGetCost(o)*0.4)+'💰 zurück');
         spDemolish=false; spCheckEnd();
       } else { spLog('Kein Gebäude hier!'); }
       return;
@@ -1898,7 +2022,7 @@
     if(!isRiver && spSelected.riverOnly){
       spLog('💧 Das Wasserkraftwerk kann nur auf dem Fluss gebaut werden!'); return;
     }
-    if(spBudget<spSelected.cost){ spLog('❌ Nicht genug Budget für '+spSelected.name+'!'); return; }
+    if(spBudget<spGetCost(spSelected)){ spLog('❌ Nicht genug Budget für '+spSelected.name+'!'); return; }
     let ecoB=0,hapB=0;
     [i-1,i+1,i-GRID_SZ,i+GRID_SZ].forEach(j=>{
       if(j>=0&&j<spGrid.length&&spGrid[j]){
@@ -1910,7 +2034,7 @@
     });
     const inc=spIncome();
     spGrid[i]=spSelected;
-    spBudget=spBudget-spSelected.cost+inc;
+    spBudget=spBudget-spGetCost(spSelected)+inc;
     spEco=spClamp(spEco+spSelected.eco+ecoB);
     spHap=spClamp(spHap+spSelected.hap+hapB);
     spPop=Math.max(0,spPop+spSelected.pop);
@@ -1920,17 +2044,124 @@
     if(surplus<0){ const pen=Math.abs(surplus)*0.3; spHap=spClamp(spHap-pen); penMsg=' ⚠️ Stromausfall! 😊-'+Math.round(pen); }
     let msg='✅ '+spSelected.name+' gebaut!';
     if(inc>0)msg+=' 💰+'+inc; if(ecoB>0)msg+=' 🌿+'+ecoB; if(hapB>0)msg+=' 😊+'+hapB; msg+=penMsg;
-    spLog(msg); spUpdateStats(); spRenderGrid(); spCheckEnd();
+    spLog(msg); spUpdateStats(); spRenderGrid(); spRenderBtns();
+    spTriggerEvent();
+    if(document.getElementById('sp-event-overlay').style.display==='none') spCheckEnd();
   }
 
   function spAbbruch(){ spDemolish=!spDemolish; spSelected=null; spRenderBtns(); spLog(spDemolish?'🗑️ Klicke auf ein Gebäude zum Abreißen (40% zurück).':'Abriss-Modus deaktiviert.'); }
+
+  // MAP TYPES
+  const SP_MAPS = {
+    plains:   { name:'Ebene',   icon:'🌾', eco:60, hap:60, budget:250, turns:80, ecoMult:1.0, costMult:1.0,
+                cellEmpty:'#d4edda', cellEmptyHov:'#c1e4cb', cellFilled:'#eef5ec', gridBg:'#b8d4bc',
+                hasRiver:true,  hasMountains:false,
+                desc:'Ausgeglichen – perfekt für Anfänger' },
+    desert:   { name:'Wüste',   icon:'🏜️', eco:30, hap:50, budget:300, turns:80, ecoMult:0.7, costMult:1.0,
+                cellEmpty:'#f5e6c8', cellEmptyHov:'#edda9f', cellFilled:'#fdf5e6', gridBg:'#e0c88a',
+                hasRiver:false, hasMountains:false,
+                desc:'Solar bringt +50% mehr Strom · Kein Fluss · Wenig Natur' },
+    coast:    { name:'Küste',   icon:'🌊', eco:70, hap:65, budget:220, turns:80, ecoMult:1.2, costMult:1.0,
+                cellEmpty:'#c8e8f0', cellEmptyHov:'#a8d8e8', cellFilled:'#eaf5f8', gridBg:'#88c8dc',
+                hasRiver:true,  hasMountains:false,
+                desc:'Hafen & Fischmarkt günstiger · Mehr Ökologie' },
+    mountain: { name:'Gebirge', icon:'⛰️', eco:75, hap:55, budget:240, turns:55, ecoMult:1.3, costMult:1.4,
+                cellEmpty:'#c8dab0', cellEmptyHov:'#b8cc9a', cellFilled:'#e8f0d8', gridBg:'#8aaa6a',
+                hasRiver:true,  hasMountains:true,
+                desc:'Windkraft +50% mehr · 40% teurer · Bergfelder unpassierbar' },
+  };
+
+  let spRiver   = [];
+  let spMountains = []; // blocked mountain cells
+
+  function spGenRiver(){
+    spRiver=[];
+    const map=SP_MAPS[spCurrentMap];
+    if(!map.hasRiver) return; // Wüste hat keinen Fluss
+    let col = 1 + Math.floor(Math.random()*(GRID_SZ-2));
+    for(let row=0; row<GRID_SZ; row++){
+      spRiver.push(row*GRID_SZ + col);
+      if(Math.random()<0.4 && col>0)          spRiver.push(row*GRID_SZ + col-1);
+      if(Math.random()<0.4 && col<GRID_SZ-1) spRiver.push(row*GRID_SZ + col+1);
+      const shift = Math.floor(Math.random()*3)-1;
+      col = Math.max(1, Math.min(GRID_SZ-2, col+shift));
+    }
+    spRiver = [...new Set(spRiver)];
+  }
+
+  function spGenMountains(){
+    spMountains=[];
+    if(!SP_MAPS[spCurrentMap].hasMountains) return;
+    // Scatter ~18% of cells as mountain peaks, avoid river cells
+    const total = GRID_SZ*GRID_SZ;
+    const count = Math.floor(total * 0.18);
+    const all   = [...Array(total).keys()].filter(i=>!spRiver.includes(i));
+    // Shuffle and pick
+    for(let i=all.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [all[i],all[j]]=[all[j],all[i]]; }
+    spMountains = all.slice(0, count);
+  }
+
+  function spSelectMap(id){
+    spCurrentMap = id;
+    document.querySelectorAll('[id^="map-btn-"]').forEach(b => { b.classList.remove('on'); b.style.background=''; b.style.color=''; });
+    const btn = document.getElementById('map-btn-'+id);
+    btn.classList.add('on'); btn.style.background='var(--leaf)'; btn.style.color='#fff';
+    initGame();
+  }
+
+  // RANDOM EVENTS
+  const SP_EVENTS = [
+    { icon:'🌪️', title:'Sturm!',            desc:'Ein heftiger Sturm trifft die Stadt.',          eco:-8,  hap:-10, budget:-20, type:'bad'  },
+    { icon:'☀️', title:'Rekordsommer!',      desc:'Extreme Hitze – Solaranlagen auf Hochtouren.',  eco:-5,  hap:-8,  budget:+30, type:'mixed'},
+    { icon:'💸', title:'Wirtschaftsboom!',   desc:'Die Wirtschaft boomt – alle profitieren.',       eco:0,   hap:+10, budget:+40, type:'good' },
+    { icon:'🌧️', title:'Starkregen!',        desc:'Überflutungen beschädigen Gebäude.',            eco:+5,  hap:-12, budget:-25, type:'bad'  },
+    { icon:'🎉', title:'Stadtfest!',         desc:'Ein großes Fest steigert die Stimmung.',         eco:0,   hap:+15, budget:-15, type:'good' },
+    { icon:'🦠', title:'Krankheitswelle!',   desc:'Eine Grippewelle trifft die Einwohner.',         eco:0,   hap:-15, budget:-20, type:'bad'  },
+    { icon:'🌱', title:'Grüne Initiative!',  desc:'Bürger pflanzen Bäume – Ökologie steigt.',       eco:+12, hap:+5,  budget:0,   type:'good' },
+    { icon:'⚡', title:'Netzausfall!',       desc:'Das Stromnetz bricht kurz zusammen.',            eco:0,   hap:-8,  budget:-15, type:'bad'  },
+    { icon:'🏆', title:'Öko-Auszeichnung!',  desc:'Die Stadt erhält einen Umweltpreis!',            eco:+8,  hap:+12, budget:+25, type:'good' },
+    { icon:'🔥', title:'Waldbrand!',         desc:'Ein Brand in der Nähe schadet der Natur.',       eco:-15, hap:-8,  budget:-10, type:'bad'  },
+    { icon:'🚀', title:'Tech-Investition!',  desc:'Ein Investor bringt frisches Kapital.',           eco:0,   hap:+5,  budget:+50, type:'good' },
+    { icon:'🌊', title:'Überschwemmung!',    desc:'Der Fluss tritt über die Ufer.',                 eco:+8,  hap:-12, budget:-30, type:'bad'  },
+  ];
+  let spEventCooldown = 0;
+
+  function spTriggerEvent(){
+    if(spEventCooldown>0){ spEventCooldown--; return; }
+    if(Math.random()>0.35) return; // 35% Chance per turn
+    spEventCooldown = 4; // min 4 turns between events
+    const ev = SP_EVENTS[Math.floor(Math.random()*SP_EVENTS.length)];
+    // Apply effects
+    spEco    = spClamp(spEco    + (ev.eco||0));
+    spHap    = spClamp(spHap    + (ev.hap||0));
+    spBudget = Math.max(0, spBudget + (ev.budget||0));
+    // Show overlay
+    const ov = document.getElementById('sp-event-overlay');
+    document.getElementById('sp-ev-icon').textContent  = ev.icon;
+    document.getElementById('sp-ev-title').textContent = ev.title;
+    document.getElementById('sp-ev-desc').textContent  = ev.desc;
+    const parts=[];
+    if(ev.eco)    parts.push('🌿'+(ev.eco>0?'+':'')+ev.eco);
+    if(ev.hap)    parts.push('😊'+(ev.hap>0?'+':'')+ev.hap);
+    if(ev.budget) parts.push('💰'+(ev.budget>0?'+':'')+ev.budget);
+    document.getElementById('sp-ev-effect').textContent = parts.join('  ');
+    ov.style.display='flex';
+    spUpdateStats();
+  }
+
+  function spCloseEvent(){
+    document.getElementById('sp-event-overlay').style.display='none';
+    spCheckEnd();
+  }
 
   function spNextTurn(){
     if(spTurns>0){
       const inc=spIncome(); spBudget+=inc; spTurns--;
       const {surplus}=spPower(); let penMsg='';
       if(surplus<0){ const pen=Math.abs(surplus)*0.3; spHap=spClamp(spHap-pen); penMsg=' ⚠️ Stromausfall! 😊-'+Math.round(pen); }
-      spUpdateStats(); spLog('⏭️ Runde übersprungen.'+(inc!==0?' 💰'+(inc>0?'+':'')+inc:'')+penMsg); spCheckEnd();
+      spUpdateStats(); spLog('⏭️ Runde übersprungen.'+(inc!==0?' 💰'+(inc>0?'+':'')+inc:'')+penMsg);
+      spTriggerEvent();
+      if(document.getElementById('sp-event-overlay').style.display==='none') spCheckEnd();
     }
   }
 
@@ -1965,7 +2196,7 @@
     else { ps.textContent='🔴 Stromausfall! Fabriken & Märkte produzieren kein Geld – bau mehr Kraftwerke!'; ps.className='power-warn power-warn-red'; }
   }
 
-  function spCheckEnd(){ if(spTurns<=0||spGrid.every((c,i)=>c!==null||spRiver.includes(i))) spEndGame(); }
+  function spCheckEnd(){ if(spTurns<=0||spGrid.every((c,i)=>c!==null||spRiver.includes(i)||spMountains.includes(i))) spEndGame(); }
 
   function spEndGame(){
     document.getElementById('sp-game').style.display='none';
@@ -2188,6 +2419,7 @@
     document.getElementById('oz-end-emoji').textContent=emoji;
     document.getElementById('oz-end-title').textContent=title;
     document.getElementById('oz-end-sub').textContent=sub;
+    if(typeof hsAdd==='function') hsAdd('🤿 Ozean-Taucher', ozScore2*5, ozScore2+' Plastikteile gesammelt');
   }
   function ozShowMsg2(t){const e=document.getElementById('oz-msg');e.textContent=t;clearTimeout(ozMsgTimer2);ozMsgTimer2=setTimeout(()=>{if(!ozPaused2&&ozRunning2)e.textContent='';},2200);}
   function ozUpdateHUD2(){
@@ -2424,6 +2656,7 @@
       document.getElementById('mg-ei').textContent=icon;
       document.getElementById('mg-et').textContent=title;
       document.getElementById('mg-es').textContent=sub;
+      if(typeof hsAdd==='function') hsAdd('🚛 Müllauto', score*3, score+' Teile · '+(died?'abgestürzt':timeLeft+'s übrig'));
     }
 
     function mgKd(k){mgKeys[k]=true;const b=document.getElementById('ctrl-'+k);if(b)b.classList.add('pressed');}
@@ -2445,6 +2678,166 @@
     mgDrawOverlay('🚛 Müllsammel-Express','▶ Start drücken');
     window.addEventListener('resize',()=>{if(!running)mgResize();});
   })();
+
+  // LÄNDER-QUIZ
+  const QZ_QUESTIONS = [
+    { q:'Welches Land hat den höchsten CO₂-Ausstoß weltweit?', a:'China', opts:['China','USA','Indien','Russland'], fact:'China ist der weltgrößte CO₂-Emittent mit über 30% der globalen Emissionen.' },
+    { q:'Welches Land erzeugt fast 100% seines Stroms aus erneuerbaren Energien?', a:'Norwegen', opts:['Schweden','Norwegen','Dänemark','Island'], fact:'Norwegen erzeugt über 98% seines Stroms aus Wasserkraft.' },
+    { q:'Welches Land hat den größten Regenwald der Welt?', a:'Brasilien', opts:['Kongo','Indonesien','Brasilien','Peru'], fact:'Der Amazonas in Brasilien ist mit 5,5 Mio. km² der größte Regenwald der Erde.' },
+    { q:'Welches Land hat als erstes den vollständigen Kohleausstieg geschafft?', a:'Belgien', opts:['Deutschland','Belgien','Österreich','Schweiz'], fact:'Belgien schloss sein letztes Kohlekraftwerk bereits 2016.' },
+    { q:'Welches Land hat pro Kopf den höchsten Plastikverbrauch?', a:'USA', opts:['Deutschland','China','USA','Japan'], fact:'US-Bürger verbrauchen durchschnittlich über 130 kg Plastik pro Jahr.' },
+    { q:'In welchem Land steht der größte Solarpark der Welt (2024)?', a:'Indien', opts:['China','Saudi-Arabien','Indien','USA'], fact:'Der Bhadla Solar Park in Indien ist mit 2.245 MW der größte Solarpark weltweit.' },
+    { q:'Welches Land hat die meisten Elektroautos pro Kopf?', a:'Norwegen', opts:['Deutschland','China','USA','Norwegen'], fact:'In Norwegen sind über 80% aller Neuzulassungen Elektroautos.' },
+    { q:'Wo schmelzen die Gletscher am schnellsten?', a:'Arktis', opts:['Antarktis','Himalaya','Arktis','Alpen'], fact:'Die Arktis erwärmt sich 4× schneller als der Rest der Welt.' },
+    { q:'Welches Land verbietet als erstes Einwegplastik vollständig?', a:'Kenia', opts:['Deutschland','Kenia','Schweden','Japan'], fact:'Kenia hat bereits 2017 eines der strengsten Plastikverbote der Welt eingeführt.' },
+    { q:'Welches Land betreibt die meisten Offshore-Windparks?', a:'Großbritannien', opts:['Dänemark','Deutschland','Großbritannien','Niederlande'], fact:'Großbritannien hat mit über 14 GW die meiste installierte Offshore-Windkapazität.' },
+    { q:'Wie viel Prozent der Erdoberfläche ist mit Wald bedeckt?', a:'31%', opts:['18%','31%','42%','55%'], fact:'Weltweit sind ca. 4,06 Milliarden Hektar oder 31% der Landfläche mit Wald bedeckt.' },
+    { q:'Welches Gas ist der stärkste Treiber des Klimawandels?', a:'Kohlendioxid (CO₂)', opts:['Kohlendioxid (CO₂)','Methan (CH₄)','Lachgas (N₂O)','FCKW'], fact:'CO₂ macht über 75% der menschlichen Treibhausgasemissionen aus.' },
+    { q:'Wie viele Tier- und Pflanzenarten sterben täglich aus?', a:'Ca. 150', opts:['Ca. 5','Ca. 30','Ca. 150','Ca. 1000'], fact:'Wissenschaftler schätzen, dass täglich etwa 150 Arten dauerhaft verschwinden.' },
+    { q:'Welches Land hat die größte Windenergie-Kapazität?', a:'China', opts:['China','USA','Deutschland','Indien'], fact:'China hat mit über 400 GW mehr Windkapazität als der Rest der Welt zusammen.' },
+    { q:'Wann wurde das Pariser Klimaabkommen unterzeichnet?', a:'2015', opts:['2010','2012','2015','2018'], fact:'Das Pariser Abkommen wurde am 12. Dezember 2015 von 196 Ländern verabschiedet.' },
+  ];
+
+  let qzIndex=0, qzCorrect=0, qzWrong=0, qzOrder=[], qzAnswered=false;
+
+  function qzStart(){
+    qzCorrect=0; qzWrong=0; qzAnswered=false;
+    qzOrder = [...Array(Math.min(10,QZ_QUESTIONS.length)).keys()].sort(()=>Math.random()-0.5);
+    qzIndex=0;
+    document.getElementById('qz-end').style.display='none';
+    document.getElementById('qz-game').style.display='block';
+    qzUpdateHUD(); qzShow();
+  }
+
+  function qzShow(){
+    if(qzIndex>=qzOrder.length){ qzEnd(); return; }
+    qzAnswered=false;
+    const q=QZ_QUESTIONS[qzOrder[qzIndex]];
+    document.getElementById('qz-question').textContent=(qzIndex+1)+'. '+q.q;
+    document.getElementById('qz-feedback').textContent='';
+    document.getElementById('qz-prog').style.width=((qzIndex/qzOrder.length)*100)+'%';
+    const opts=document.getElementById('qz-options'); opts.innerHTML='';
+    [...q.opts].sort(()=>Math.random()-0.5).forEach(opt=>{
+      const b=document.createElement('button');
+      b.className='bin-btn bin-grau';
+      b.style.cssText='width:100%;padding:10px;font-size:13px;text-align:left;cursor:pointer;';
+      b.textContent=opt;
+      b.onclick=()=>qzAnswer(opt,q);
+      opts.appendChild(b);
+    });
+  }
+
+  function qzAnswer(chosen, q){
+    if(qzAnswered) return;
+    qzAnswered=true;
+    const correct=chosen===q.a;
+    if(correct){ qzCorrect++; } else { qzWrong++; }
+    document.querySelectorAll('#qz-options button').forEach(b=>{
+      b.disabled=true;
+      if(b.textContent===q.a) b.style.background='#16a34a'; b.style.color='#fff';
+      if(b.textContent===chosen&&!correct){ b.style.background='#ef4444'; b.style.color='#fff'; }
+    });
+    document.getElementById('qz-feedback').textContent=(correct?'✅ Richtig! ':'❌ Falsch! ')+q.fact;
+    document.getElementById('qz-feedback').style.color=correct?'#16a34a':'#ef4444';
+    qzUpdateHUD();
+    setTimeout(()=>{ qzIndex++; qzShow(); }, 2200);
+  }
+
+  function qzUpdateHUD(){
+    document.getElementById('qz-correct').textContent=qzCorrect;
+    document.getElementById('qz-wrong').textContent=qzWrong;
+    document.getElementById('qz-q').textContent=qzIndex;
+  }
+
+  function qzEnd(){
+    document.getElementById('qz-game').style.display='none';
+    document.getElementById('qz-end').style.display='block';
+    document.getElementById('qz-prog').style.width='100%';
+    const pct=Math.round((qzCorrect/qzOrder.length)*100);
+    let icon,title,sub;
+    if(pct>=90){icon='🏆';title='Klima-Experte!';sub=`${qzCorrect}/${qzOrder.length} richtig – du weißt wirklich viel über Klimaschutz!`;}
+    else if(pct>=70){icon='🌍';title='Gut gemacht!';sub=`${qzCorrect}/${qzOrder.length} richtig – sehr solides Wissen!`;}
+    else if(pct>=50){icon='🌱';title='Guter Anfang!';sub=`${qzCorrect}/${qzOrder.length} richtig – noch etwas lernen!`;}
+    else{icon='📚';title='Weiter üben!';sub=`${qzCorrect}/${qzOrder.length} richtig – lies die Fakten genau durch!`;}
+    document.getElementById('qz-end-icon').textContent=icon;
+    document.getElementById('qz-end-title').textContent=title;
+    document.getElementById('qz-end-sub').textContent=sub;
+    hsAdd('🌍 Länder-Quiz', qzCorrect*10, qzCorrect+'/'+qzOrder.length+' richtig');
+  }
+
+  qzStart();
+
+  // HIGHSCORE SYSTEM
+  // HIGHSCORE SYSTEM mit Name-Eingabe
+  function hsLoad(){ try{ return JSON.parse(localStorage.getItem('freiday-hs')||'[]'); }catch(e){ return []; } }
+  function hsSave(d){ try{ localStorage.setItem('freiday-hs', JSON.stringify(d)); }catch(e){} }
+
+  let hsPending = null; // { game, score, detail } wartet auf Namen
+
+  function hsAdd(game, score, detail){
+    // Speichere Daten und zeige Name-Popup
+    hsPending = { game, score, detail };
+    const ov = document.getElementById('hs-name-overlay');
+    document.getElementById('hs-name-game').textContent = game;
+    document.getElementById('hs-name-score').textContent = detail;
+    document.getElementById('hs-name-input').value = localStorage.getItem('freiday-last-name')||'';
+    ov.style.display = 'flex';
+    setTimeout(()=>document.getElementById('hs-name-input').focus(), 100);
+  }
+
+  function hsSubmitName(){
+    const raw = document.getElementById('hs-name-input').value.trim();
+    const name = raw || 'Anonym';
+    localStorage.setItem('freiday-last-name', name);
+    document.getElementById('hs-name-overlay').style.display = 'none';
+    if(!hsPending) return;
+    const d = hsLoad();
+    d.push({ name, game: hsPending.game, score: hsPending.score, detail: hsPending.detail, date: new Date().toLocaleDateString('de-DE') });
+    d.sort((a,b)=>b.score-a.score);
+    hsSave(d.slice(0,50));
+    hsPending = null;
+    hsRender();
+  }
+
+  function hsSkip(){
+    document.getElementById('hs-name-overlay').style.display = 'none';
+    hsPending = null;
+  }
+
+  function hsClear(){ if(confirm('Alle Highscores löschen?')){ localStorage.removeItem('freiday-hs'); hsRender(); } }
+
+  function hsRender(){
+    const board = document.getElementById('hs-board');
+    if(!board) return;
+    const d = hsLoad();
+    if(!d.length){
+      board.innerHTML='<div style="text-align:center;color:#888;font-family:\'Space Mono\',monospace;font-size:12px;padding:1rem;">Noch keine Einträge – spiel ein Spiel!</div>';
+      return;
+    }
+    const byGame = {};
+    d.forEach(e=>{ if(!byGame[e.game]) byGame[e.game]=[]; byGame[e.game].push(e); });
+    board.innerHTML = Object.entries(byGame).map(([game,entries])=>`
+      <div style="border:1.5px solid #ccc8b8;border-radius:6px;overflow:hidden;margin-bottom:8px;">
+        <div style="background:var(--leaf);color:#fff;padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;">${game}</div>
+        ${entries.slice(0,5).map((e,i)=>`
+          <div style="display:grid;grid-template-columns:1.5rem 1fr auto;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid #eee8d8;font-size:12px;background:${i===0?'#f0fdf4':'var(--paper)'}">
+            <span style="font-size:16px">${['🥇','🥈','🥉','4️⃣','5️⃣'][i]||'–'}</span>
+            <span><strong>${e.name||'Anonym'}</strong> <span style="color:#888;font-size:11px">· ${e.detail}</span></span>
+            <span style="font-family:'Space Mono',monospace;color:#aaa;font-size:10px;white-space:nowrap">${e.date}</span>
+          </div>`).join('')}
+      </div>`).join('');
+  }
+
+  // Hook highscores into existing games
+  const _origSpEndGame = spEndGame;
+  spEndGame = function(){
+    _origSpEndGame();
+    const score = Math.round((spEco+spHap+Math.min(spPop,100))/3);
+    const map = SP_MAPS[spCurrentMap];
+    hsAdd('🏙️ Stadtplaner ('+map.name+')', score, 'Score '+score+'/100 · '+spPop+' 👥 · '+spBudget+'💰');
+  };
+
+  hsRender();
 
   // DARK MODE
   function toggleDark() {
