@@ -2283,7 +2283,7 @@
   }
 
   function spLog(msg){ document.getElementById('sp-log').textContent=msg; }
-  initGame();
+  let spInitialized = false; // lazy init — erst wenn Spiel geöffnet wird
 
   // SDG ZIELE
   const SDG_DATA = {
@@ -2518,9 +2518,16 @@
       const body=document.getElementById('body-'+g);
       const btn=document.getElementById('pick-'+g);
       const open = g===id && body.style.display==='none';
-      body.style.display = (g===id && open) ? 'block' : g===id ? 'none' : 'none';
+      body.style.display = (g===id && open) ? 'block' : 'none';
       if(btn) btn.classList.toggle('active', g===id && open);
-      if(g===id && open) setTimeout(()=>body.scrollIntoView({behavior:'smooth',block:'start'}),50);
+      if(g===id && open){
+        // Stadtplaner: lazy init + re-render grid after display so sizes are correct
+        if(g==='stadt'){
+          if(!spInitialized){ spInitialized=true; initGame(); }
+          else { setTimeout(()=>spRenderGrid(), 50); }
+        }
+        setTimeout(()=>body.scrollIntoView({behavior:'smooth',block:'start'}),50);
+      }
     });
   }
 
