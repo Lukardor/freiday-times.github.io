@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -930,7 +930,6 @@
   <div class="header-bar">
     <nav>
       <a href="#section-was-ist">Nachhaltigkeit</a>
-      <a href="#section-ausgabe">Ausgabe</a>
       <a href="#section-karte">Weltkarte</a>
       <a href="#cat-spiele">🎮 Spiele</a>
       <a href="#cat-quiz">🧠 Quiz</a>
@@ -1011,11 +1010,6 @@
 </div>
 
 
-<!-- NEUE AUSGABE -->
-
-  <!-- TIMER -->
-  
-
 <!-- KATEGORIE: SPIELE -->
 <div id="cat-spiele" class="cat-banner">
   <div class="cat-banner-inner"><span>🎮</span> Spiele</div>
@@ -1046,10 +1040,6 @@
 
 <div id="game-area-spiele">
 <!-- STADTPLANER SPIEL -->
-
-  <h3>Bau deine Stadt</h3>
-  <span class="section-toggle open" id="toggle-stadt">▼</span>
-</div>
 <div id="body-stadt" style="display:none">
 
 <div class="game-outer">
@@ -1439,9 +1429,17 @@
   <div class="game-wrap fade-in" style="max-width:680px;">
     <div class="game-header">
       <div class="game-title">🏆 Hall of Fame</div>
-      <div class="game-sub">Die besten Ergebnisse aller Spiele – gespeichert im Browser</div>
+      <div class="game-sub">Deine besten Ergebnisse – lokal im Browser gespeichert</div>
+    </div>
+    <div style="background:var(--cream);border:1.5px solid #ccc8b8;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:11px;font-family:'Space Mono',monospace;color:#888;line-height:1.7;">
+      ℹ️ Die Highscores werden nur in deinem Browser gespeichert. Mit dem <strong>📋 Kopieren</strong>-Button kannst du deine Ergebnisse als Text teilen — z.B. in der Klasse rumschicken!
     </div>
     <div id="hs-board" style="display:grid;gap:8px;"></div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <button onclick="hsCopy()" style="background:var(--leaf);color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-family:'Space Mono',monospace;font-size:11px;">📋 Ergebnisse kopieren</button>
+      <button onclick="hsClear()" style="background:var(--cream);color:#888;border:1.5px solid #ccc8b8;padding:8px 16px;border-radius:4px;cursor:pointer;font-family:'Space Mono',monospace;font-size:11px;">🗑️ Löschen</button>
+    </div>
+    <div id="hs-copy-msg" style="font-size:11px;font-family:'Space Mono',monospace;color:var(--leaf);margin-top:6px;min-height:18px;"></div>
   </div>
 </div>
 </div>
@@ -1477,28 +1475,6 @@
 
 <script>
   // COUNTDOWN TIMER
-  const ctTarget = new Date('2026-04-15T08:00:00');
-  const ctStart  = new Date('2026-04-14T16:52:00');
-  const ctTotal  = ctTarget - ctStart;
-
-  function ctPad(n) { return String(n).padStart(2, '0'); }
-
-  function ctTick() {
-    const now  = new Date();
-    const diff = ctTarget - now;
-    if (diff <= 0) {
-      document.getElementById('timer-wrap').style.display = 'none';
-      document.getElementById('done-msg-main').style.display = 'block';
-      return;
-    }
-    document.getElementById('ct-days').textContent  = ctPad(Math.floor(diff / 86400000));
-    document.getElementById('ct-hours').textContent = ctPad(Math.floor((diff % 86400000) / 3600000));
-    document.getElementById('ct-mins').textContent  = ctPad(Math.floor((diff % 3600000) / 60000));
-    document.getElementById('ct-secs').textContent  = ctPad(Math.floor((diff % 60000) / 1000));
-    const pct = Math.min(100, Math.round(((now - ctStart) / ctTotal) * 100));
-    document.getElementById('ct-fill').style.width = pct + '%';
-    document.getElementById('ct-pct').textContent  = pct + '%';
-  }
   // GAME
   const gItems = [
     { icon:'🍌', name:'Bananenschale',        bin:'braun'   },
@@ -2223,9 +2199,6 @@
     ozDiver2.ty=((e.touches[0].clientY-r.top)/r.height)*100;
   },{passive:false});
 
-  ctTick();
-  setInterval(ctTick, 1000);
-
   // GAME PICKER
   function openGame(id){
     ['stadt','karte','ozean','muellauto'].forEach(g=>{
@@ -2617,6 +2590,31 @@
   }
 
   function hsClear(){ if(confirm('Alle Highscores löschen?')){ localStorage.removeItem('freiday-hs'); hsRender(); } }
+
+  function hsCopy(){
+    const d = hsLoad();
+    if(!d.length){ document.getElementById('hs-copy-msg').textContent='Noch keine Einträge zum Kopieren!'; return; }
+    const byGame = {};
+    d.forEach(e=>{ if(!byGame[e.game]) byGame[e.game]=[]; byGame[e.game].push(e); });
+    const lines = ['🏆 freiday Times – Hall of Fame', '─'.repeat(35)];
+    Object.entries(byGame).forEach(([game, entries])=>{
+      lines.push('\n'+game);
+      entries.slice(0,5).forEach((e,i)=>{
+        const medal = ['🥇','🥈','🥉','4.','5.'][i];
+        lines.push(`  ${medal} ${e.name||'Anonym'} – ${e.detail} (${e.date})`);
+      });
+    });
+    lines.push('\n─'.repeat(35));
+    lines.push('freiday-times.de · Schülerzeitung für Nachhaltigkeit');
+    const text = lines.join('\n');
+    navigator.clipboard.writeText(text).then(()=>{
+      const msg = document.getElementById('hs-copy-msg');
+      msg.textContent = '✅ In Zwischenablage kopiert – einfach einfügen!';
+      setTimeout(()=>msg.textContent='', 3000);
+    }).catch(()=>{
+      prompt('Kopiere diesen Text:', text);
+    });
+  }
 
   function hsRender(){
     const board = document.getElementById('hs-board');
